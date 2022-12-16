@@ -1,45 +1,64 @@
 const AuthOwner = require("../models/mOwner.js");
 
-exports.createOwnerWithEmail = (req, res) => {
-  AuthOwner.exists({ email: req.body.email }).then((isEmail) => {
-    if (isEmail) {
-      res.status(404).json({
-        message:
-          "The email address you have provided is already in use. Please provide a different one or log in instead.",
-      });
-    } else {
-      AuthOwner.create(req.body)
-        .then((Owner) => {
-          res.json({
-            message: "Cheers!! You have successfully added Owner",
-            Owner,
-          });
-        })
-        .catch((err) => {
-          res.status(404).json({
-            message: "Sorry your Owner list cannot be added",
-            error: err.message,
-          });
-        });
-    }
-  });
+createOwnerWithEmail = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  // Check if user already exists
+  const userExists = await AuthOwner.findOne({ email });
+
+  if (userExists) {
+    res.status(400);
+    return next(new Error("User already exists"));
+  }
+
+  try {
+    const user = await AuthOwner.create({
+      email,
+      password,
+    });
+    const token = generateToken(user, 201, res);
+
+    res.cookie("token", token, {
+      // httpOnly: true,
+      secure: true,
+    });
+
+    res.cookie("role", "owner", {
+      // httpOnly: true,
+      secure: true,
+    });
+
+    res.status(201).json({
+      success: true,
+      token,
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
-exports.updateOwner = (req, res) => {
-  const filter = { email: req.body.email };
+updateOwner = async (req, res) => {
+  const filter = { _id: req.user["_id"] };
   const update = { ...req.body };
 
-  AuthOwner.findOneAndUpdate(filter, update)
-    .then((Owner) => {
-      res.json({
-        message: "Cheers!! You have successfully updated Owner",
-        Owner,
-      });
-    })
-    .catch((err) => {
-      res.status(404).json({
-        message: "Sorry your Owner list cannot be updated",
-        error: err.message,
-      });
+  try {
+    await AuthOwner.findOneAndUpdate(filter, update);
+
+    res.status(201).json({
+      success: true,
+      message: "Profile Update Success",
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const generateToken = (user, statusCode, res) => {
+  return user.getSignedToken();
+};
+
+module.exports = {
+  createOwnerWithEmail,
+  updateOwner,
+  logout,
 };

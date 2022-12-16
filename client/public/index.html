@@ -32,6 +32,10 @@
       rel="stylesheet"
       type="text/css"
     />
+    <script>
+      initMap = function () {};
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB3zhcWhQh_reibqWWsEXc6yl6ZI26enO8&callback=initMap&libraries=geometry,drawing,places"></script>
 
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -59,15 +63,5 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-    <p>
-      First lets understand an important concept how we use tokens to understand
-      more about cookies. Normally what we do is when a user makes an api call
-      to backend, we need a way to authenticate the user accessing the data is
-      authenticated. For this to happen the hashed cookie is decrypted and then
-      the id is checked if it is present in the db. Now we all know that db
-      calls are expensive and what if there was a way to check if the id is of
-      an authenticated user before we make further db queries. Interesting
-      right.
-    </p>
   </body>
 </html>

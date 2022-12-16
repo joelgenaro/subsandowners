@@ -1,18 +1,21 @@
 import React, { Suspense } from "react";
-import { authRoutes, subcontractorRoutes, ownerRoutes } from "./allRoutes";
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import { publicRoutes, authRoutes, privateRoutes } from "./allRoutes";
+import {
+  Route,
+  Redirect,
+  Switch,
+  BrowserRouter as Router,
+} from "react-router-dom";
+import { useSelector } from "react-redux";
 
 /* Layout */
 import CommonLayout from "../Layout/CommonLayout/index";
-import OwnerLayout from "../Layout/OwnerLayout/index";
 import AuthLayout from "../Layout/AuthLayout";
+import PrivateRoute from "./ProtectedRoute";
 
 const Index = () => {
   const availableAuthRoutesPath = authRoutes.map((r) => r["path"]);
-  const availableOwnerRoutesPath = ownerRoutes.map((r) => r["path"]);
-  const availableSubcontractorRoutesPath = subcontractorRoutes.map(
-    (r) => r["path"]
-  );
+  const availablePublicRoutesPaths = publicRoutes.map((r) => r["path"]);
 
   const Loader = () => {
     return (
@@ -49,22 +52,9 @@ const Index = () => {
               </AuthLayout>
             </Route>
 
-            <Route path={availableOwnerRoutesPath}>
-              <OwnerLayout>
-                {ownerRoutes.map((route, idx) => (
-                  <Route
-                    path={route.path}
-                    component={route.component}
-                    key={idx}
-                    exact={true}
-                  />
-                ))}
-              </OwnerLayout>
-            </Route>
-
-            <Route path={availableSubcontractorRoutesPath}>
+            <Route path={availablePublicRoutesPaths}>
               <CommonLayout>
-                {subcontractorRoutes.map((route, idx) => (
+                {publicRoutes.map((route, idx) => (
                   <Route
                     path={route.path}
                     component={route.component}

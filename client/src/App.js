@@ -1,5 +1,8 @@
 import React from "react";
 import Routes from "./Routes/index";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import { CookiesProvider } from "react-cookie";
 
 //import Custom Style scss
 import "./assets/scss/themes.scss";
@@ -7,7 +10,10 @@ import "./assets/scss/themes.scss";
 function App() {
   return (
     <React.Fragment>
-      <Routes />
+      <CookiesProvider>
+        <Routes />
+      </CookiesProvider>
+      <ToastContainer />
     </React.Fragment>
   );
 }

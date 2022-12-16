@@ -1,46 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Container, Card, Col, Input, Row, CardBody } from "reactstrap";
 import MetaTags from "react-meta-tags";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import {
-  NotificationContainer,
-  NotificationManager,
-} from "react-notifications";
-import "react-notifications/lib/notifications.css";
-
-import { subcontractorService } from "../../../services/Auth/subcontractor";
-import { useDispatch } from "react-redux";
-
+import { toast } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
+import { authRegister, authReset } from "../../../redux/authSlice";
 import lightLogo from "../../../assets/images/logo-light.png";
 import darkLogo from "../../../assets/images/logo-dark.png";
 import signUpImage from "../../../assets/images/auth/sign-up.png";
 
 const SignUpForSub = () => {
-  //Use for all the dispatch actions
-  const dispatch = useDispatch();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const { isSuccess, isError, message } = useSelector((state) => state.auth);
 
-  function onSubmit(data) {
-    // create account with gmail
-    const { email, password } = data;
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    } else if (isSuccess) {
+      toast.success("User Registered Successfully");
+      history.push("/registerForSub");
+    }
+    dispatch(authReset());
+  }, [isSuccess, isError, message, history, dispatch]);
 
-    return subcontractorService
-      .createAccountGmail({
-        email: email,
-        password: password,
-        isComplete: false,
-      })
-      .then((res) => {
-        dispatch({ type: "CREATE_WITH_GMAIL", payload: email });
-        history.push("/registerForSub");
-      })
-      .catch((err) => {
-        NotificationManager.warning(err.response.data.message);
-      });
-  }
+  const onSubmit = (data) => {
+    const userData = { ...data, identifier: "sub" };
+    dispatch(authRegister(userData));
+  };
 
   // form validation rules
   const validationSchema = Yup.object().shape({
@@ -62,11 +52,10 @@ const SignUpForSub = () => {
   const formOptions = { resolver: yupResolver(validationSchema) };
   const { register, handleSubmit, formState } = useForm(formOptions);
   const { errors } = formState;
-  // form enc validation
+  // form end validation
 
   return (
     <React.Fragment>
-      <NotificationContainer />
       <div>
         <div className="main-content">
           <div className="page-content">

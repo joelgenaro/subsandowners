@@ -7,12 +7,12 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Input,  
+  Input,
   Modal,
-  ModalBody,  
+  ModalBody,
   Form,
   FormGroup,
-  Label
+  Label,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
@@ -55,10 +55,10 @@ const TopBar = () => {
   const [modal, setModal] = useState(false);
 
   const openModal = () => setModal(!modal);
-  
+
   return (
     <React.Fragment>
-      <div className="top-bar" style={{zIndex: 1030}}>
+      <div className="top-bar" style={{ zIndex: 1030 }}>
         <Container fluid className="custom-container">
           <Row className="g-0 align-items-center">
             <Col md={7}>
@@ -66,10 +66,7 @@ const TopBar = () => {
                 <li className="list-inline-item">
                   <p className="fs-13 mb-0">
                     {" "}
-                    <i className="mdi mdi-map-marker"></i> Your Location:{" "}
-                    <Link to="#" className="text-dark">
-                      New Caledonia
-                    </Link>
+                    <i className="mdi mdi-map-marker"></i>
                   </p>
                 </li>
                 <li className="list-inline-item">
@@ -95,141 +92,21 @@ const TopBar = () => {
                     className="text-dark fw-medium fs-13"
                   >
                     <i className="uil uil-lock"></i>
-                    Sign Up
                   </span>
-                  <Modal isOpen={modal} toggle={openModal} role="dialog" centered>
-                
-                  <ModalBody className="p-5">
-                    <div className="position-absolute end-0 top-0 p-3">
-                      <button
-                        type="button"
-                        className="btn-close"
-                        onClick={openModal}                        
-                      ></button>
-                    </div>
-                    <div className="auth-content">
-                      <div className="w-100">
-                        <div className="text-center mb-4">
-                          <h5>Sign Up</h5>
-                          <p className="text-muted">
-                            Sign Up and get access to all the features of Jobcy
-                          </p>
-                        </div>
-                        <Form action="#" className="auth-form">
-                        
-                          <FormGroup className="mb-3">
-                            <Label
-                              htmlFor="usernameInput"
-                              className="form-label"
-                            >
-                              Username
-                            </Label>
-                            <Input
-                              type="text"
-                              className="form-control"
-                              id="usernameInput"
-                              placeholder="Enter your username"
-                            />
-                          </FormGroup>
-                          <FormGroup className="mb-3">
-                            <Label
-                              htmlFor="emailInput"
-                              className="form-label"
-                            >
-                              Email
-                            </Label>
-                            <Input
-                              type="email"
-                              className="form-control"
-                              id="emailInput"
-                              placeholder="Enter your email"
-                            />
-                          </FormGroup>
-                          <FormGroup className="mb-3">
-                            <label htmlFor="passwordInput" className="form-label">
-                              Password
-                            </label>
-                            <Input
-                              type="password"
-                              className="form-control"
-                              id="passwordInput"
-                              placeholder="Password"
-                            />
-                          </FormGroup>
-                          <FormGroup className="mb-4">
-                            <div className="form-check">
-                              <Input
-                                className="form-check-input"
-                                type="checkbox"
-                                id="flexCheckDefault"
-                              />
-                              <Label
-                                className="form-check-label"
-                                htmlFor="flexCheckDefault"
-                              >
-                                I agree to the{" "}
-                                <Link
-                                  to="/"
-                                  className="text-primary form-text text-decoration-underline"
-                                >
-                                  Terms and conditions
-                                </Link>
-                              </Label>
-                            </div>
-                          </FormGroup>
-                          <div className="text-center">
-                            <button
-                              type="submit"
-                              className="btn btn-primary w-100"
-                            >
-                              Sign Up
-                            </button>
-                          </div>
-                        </Form>
-                        <div className="mt-3 text-center">
-                          <p className="mb-0">
-                            Already a member ?{" "}
-                            <Link
-                              to="/signin"
-                              className="form-text text-primary text-decoration-underline"
-                            >
-                              {" "}
-                              Sign-in{" "}
-                            </Link>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </ModalBody>
-                </Modal>
                 </li>
                 <li className="list-inline-item align-middle">
                   <Dropdown
                     isOpen={dropdownOpen}
                     toggle={toggle}
                     className="d-inline-block language-switch"
-                    
                   >
-                    <DropdownToggle tag="button" type="button" className="btn">
-                      <img                        
-                        src={flagUs}
-                        alt=""
-                        height="16"
-                      />
-                    </DropdownToggle>
-
                     <DropdownMenu className="dropdown-menu-end" end>
                       <DropdownItem
                         to="/"
                         className="dropdown-item notify-item language"
                         data-lang="eng"
                       >
-                        <img
-                          src={flagUs}
-                          alt=""
-                          className="me-1"
-                          height="12"
-                        />
+                        <img src={flagUs} alt="" className="me-1" height="12" />
                         <span className="align-middle">English</span>
                       </DropdownItem>
                       <DropdownItem
@@ -237,12 +114,7 @@ const TopBar = () => {
                         className="dropdown-item notify-item language"
                         data-lang="sp"
                       >
-                        <img
-                          src={flagSp}
-                          alt=""
-                          className="me-1"
-                          height="12"
-                        />
+                        <img src={flagSp} alt="" className="me-1" height="12" />
                         <span className="align-middle">Spanish</span>
                       </DropdownItem>
                       <DropdownItem
@@ -250,12 +122,7 @@ const TopBar = () => {
                         className="dropdown-item notify-item language"
                         data-lang="gr"
                       >
-                        <img
-                          src={flagGr}
-                          alt=""
-                          className="me-1"
-                          height="12"
-                        />
+                        <img src={flagGr} alt="" className="me-1" height="12" />
                         <span className="align-middle">German</span>
                       </DropdownItem>
                       <DropdownItem
@@ -263,12 +130,7 @@ const TopBar = () => {
                         className="dropdown-item notify-item language"
                         data-lang="it"
                       >
-                        <img
-                          src={flagIt}
-                          alt=""
-                          className="me-1"
-                          height="12"
-                        />
+                        <img src={flagIt} alt="" className="me-1" height="12" />
                         <span className="align-middle">Italian</span>
                       </DropdownItem>
                       <DropdownItem
@@ -276,12 +138,7 @@ const TopBar = () => {
                         className="dropdown-item notify-item language"
                         data-lang="ru"
                       >
-                        <img
-                          src={flagRu}
-                          alt=""
-                          className="me-1"
-                          height="12"
-                        />
+                        <img src={flagRu} alt="" className="me-1" height="12" />
                         <span className="align-middle">Russian</span>
                       </DropdownItem>
                     </DropdownMenu>

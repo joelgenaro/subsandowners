@@ -1,45 +1,173 @@
 const AuthSubcontractor = require("../models/mSubcontractors.js");
+const AuthOwner = require("../models/mOwner.js");
+const crypto = require("crypto");
+const sendEmail = require("../utils/sendEmail");
 
-exports.createSubcontractorWithEmail = (req, res) => {
-  AuthSubcontractor.exists({ email: req.body.email }).then((isEmail) => {
-    if (isEmail) {
-      res.status(404).json({
-        message:
-          "The email address you have provided is already in use. Please provide a different one or log in instead.",
-      });
-    } else {
-      AuthSubcontractor.create(req.body)
-        .then((subcontractor) => {
-          res.json({
-            message: "Cheers!! You have successfully added subcontractor",
-            subcontractor,
-          });
-        })
-        .catch((err) => {
-          res.status(404).json({
-            message: "Sorry your subcontractor list cannot be added",
-            error: err.message,
-          });
-        });
+const createSubcontractorWithEmail = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  // Check if user already exists
+  const userExists = await AuthSubcontractor.findOne({ email });
+
+  if (userExists) {
+    res.status(400);
+    return next(new Error("User already exists"));
+  }
+
+  try {
+    const user = await AuthSubcontractor.create({
+      email,
+      password,
+    });
+    const token = generateToken(user, 201, res);
+
+    res.cookie("token", token, {
+      // httpOnly: true,
+      secure: true,
+    });
+
+    res.cookie("role", "sub", {
+      // httpOnly: true,
+      secure: true,
+    });
+
+    res.status(201).json({
+      success: true,
+      token,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const login = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  // Check if user exists
+  const Owner = await AuthOwner.findOne({ email }).select("+password");
+  const Subcontractor = await AuthSubcontractor.findOne({ email }).select(
+    "+password"
+  );
+
+  if (!Owner && !Subcontractor) {
+    res.status(400);
+    return next(new Error("User does not exists"));
+  }
+
+  const user = Owner ? Owner : Subcontractor;
+  const role = Owner ? "owner" : "subcontractor";
+
+  try {
+    const isMatch = await user.matchPasswords(password);
+
+    if (!isMatch) {
+      res.status(400);
+      return next(new Error("User password does not match"));
     }
+
+    const token = generateToken(user, 200, res);
+
+    res.cookie("token", token, {
+      // httpOnly: true,
+      secure: true,
+    });
+    res.cookie("role", role, {
+      // httpOnly: true,
+      secure: true,
+    });
+
+    res.status(200).json({
+      success: true,
+      role,
+      token,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updateSubcontractor = async (req, res, next) => {
+  const filter = { _id: req.user["_id"] };
+  const update = { ...req.body };
+
+  try {
+    await AuthSubcontractor.findOneAndUpdate(filter, update);
+
+    res.status(201).json({
+      success: true,
+      message: "Profile Update Success",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const forgotPassword = async (req, res, next) => {
+  const { email } = req.body;
+
+  // Check if user exists
+  const Owner = await AuthOwner.findOne({ email });
+  const Subcontractor = await AuthSubcontractor.findOne({ email });
+
+  if (!Owner && !Subcontractor) {
+    res.status(400);
+    return next(new Error("User does not exists"));
+  }
+
+  const user = Owner ? Owner : Subcontractor;
+  const role = Owner ? "owner" : "subcontractor";
+
+  try {
+    const resetToken = user.getResetPasswordToken();
+    await user.save();
+
+    const resetUrl = `http://localhost:3000/passwordreset/${resetToken}`;
+    const message = `
+    <h1>You have requested a password reset</h1>
+    <p>Please go to this link to reset your password</p>
+    <a href=${resetUrl} clicktracking=off>${resetUrl}</a>
+    `;
+
+    try {
+      await sendEmail({
+        to: user.email,
+        subject: "Password Reset Request",
+        html: message,
+      });
+      return res.status(200).json({
+        success: true,
+        message: "Email was sent!",
+      });
+    } catch (error) {
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpire = undefined;
+      res.status(500);
+      return next(new Error("Email could not be sent"));
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Logout user   =>
+logout = async (req, res, next) => {
+  res.clearCookie("token");
+  res.clearCookie("role");
+
+  res.status(200).json({
+    success: true,
+    message: "Logged out",
   });
 };
 
-exports.updateSubcontractor = (req, res) => {
-  const filter = { email: req.body.email };
-  const update = { ...req.body };
+const generateToken = (user, statusCode, res) => {
+  return user.getSignedToken();
+};
 
-  AuthSubcontractor.findOneAndUpdate(filter, update)
-    .then((subcontractor) => {
-      res.json({
-        message: "Cheers!! You have successfully updated subcontractor",
-        subcontractor,
-      });
-    })
-    .catch((err) => {
-      res.status(404).json({
-        message: "Sorry your subcontractor list cannot be updated",
-        error: err.message,
-      });
-    });
+module.exports = {
+  login,
+  createSubcontractorWithEmail,
+  updateSubcontractor,
+  logout,
+  forgotPassword,
 };

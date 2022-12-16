@@ -1,7 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import $ from "jquery";
-import { ownerService } from "../../../services/Auth/owner";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Col,
   Row,
@@ -12,25 +11,22 @@ import {
   Container,
   Label,
 } from "reactstrap";
-
+import { Link } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import { profileUpdate, authReset } from "../../../redux/authSlice";
 import MetaTags from "react-meta-tags";
 //Images Import
 import userImage2 from "../../../assets/images/featured-job/img-01.png";
-import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
-import {
-  NotificationContainer,
-  NotificationManager,
-} from "react-notifications";
-import "react-notifications/lib/notifications.css";
 
 const RegisterForOwner = () => {
   //Get the whole state from currentAuth
-  const currentLoggedSub = useSelector((state) => state.currentAuth);
   const imageRef = useRef();
-
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { isSuccess, isError, message } = useSelector((state) => state.auth);
   const [owner, setOwner] = useState({
-    email: currentLoggedSub.email,
+    identifier: "owner",
     companyName: "",
     ownerName: "",
     profile: "",
@@ -41,7 +37,15 @@ const RegisterForOwner = () => {
     avatar: null,
   });
 
-  const history = useHistory();
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    } else if (isSuccess) {
+      toast.success("Profile Registered Successfully");
+      history.push("/joblist");
+    }
+    dispatch(authReset());
+  }, [isSuccess, isError, message, history, dispatch]);
 
   // declare Owner's country
   // useEffect(() => {
@@ -61,6 +65,12 @@ const RegisterForOwner = () => {
     setOwner((data) => ({ ...data, [e.target.name]: e.target.value }));
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    dispatch(profileUpdate(owner));
+  };
+
   const toBase64 = (file) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -78,21 +88,6 @@ const RegisterForOwner = () => {
     setOwner((data) => ({ ...data, avatar: basecode }));
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    return ownerService
-      .updateOwner({
-        ...owner,
-      })
-      .then((res) => {
-        history.push("/letsStart");
-      })
-      .catch((err) => {
-        NotificationManager.warning(err.response.data.message);
-      });
-  }
-
   const ownerRegisterButtons = {
     display: "flex",
     justifyContent: "space-between",
@@ -100,7 +95,6 @@ const RegisterForOwner = () => {
 
   return (
     <React.Fragment>
-      <NotificationContainer />
       <div>
         <div className="main-content">
           <div className="page-content">

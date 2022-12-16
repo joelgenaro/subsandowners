@@ -6,7 +6,6 @@ import Section from './Section';
 import Pagination from '../../Jobs/JobList2/Pagination';
 import MetaTags from "react-meta-tags";
 
-
 const CandidateList = () => {
     return (
         <React.Fragment>

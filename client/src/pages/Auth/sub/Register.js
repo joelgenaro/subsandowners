@@ -1,39 +1,41 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Col, Row, Card, Input, CardBody, Container, Label } from "reactstrap";
 import { Form } from "react-bootstrap";
-import $ from "jquery";
-import { subcontractorService } from "../../../services/Auth/subcontractor";
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
 import MetaTags from "react-meta-tags";
-//Images Import
 import userImage2 from "../../../assets/images/user/img-02.jpg";
-import { useHistory } from "react-router-dom";
-
-import {
-  NotificationContainer,
-  NotificationManager,
-} from "react-notifications";
-import "react-notifications/lib/notifications.css";
+import { useHistory, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import { profileUpdate, authReset } from "../../../redux/authSlice";
+import $ from "jquery";
 
 const RegisterForSub = () => {
   //Get the whole state from currentAuth
-  const currentLoggedSub = useSelector((state) => state.currentAuth);
   const imageRef = useRef();
-
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { isSuccess, isError, message } = useSelector((state) => state.auth);
   const [subcontractor, setSubcontractor] = useState({
-    email: currentLoggedSub.email,
+    identifier: "sub",
     firstName: "",
     lastName: "",
     profile: "",
     phone: "",
     salary: "",
     location: "",
-    country: "Indonesia",
+    country: "indonesia",
     avatar: null,
   });
 
-  const history = useHistory();
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    } else if (isSuccess) {
+      toast.success("Profile Registered Successfully");
+      history.push("/joblist");
+    }
+    dispatch(authReset());
+  }, [isSuccess, isError, message, history, dispatch]);
 
   // declare subcontractor's country
   // useEffect(() => {
@@ -49,10 +51,17 @@ const RegisterForSub = () => {
   //   });
   // }, []);
 
-  function handleChange(e) {
+  const handleChange = (e) => {
     setSubcontractor((data) => ({ ...data, [e.target.name]: e.target.value }));
-  }
+  };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    dispatch(profileUpdate(subcontractor));
+  };
+
+  // avatar upload
   const toBase64 = (file) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -61,33 +70,17 @@ const RegisterForSub = () => {
       reader.onerror = (error) => reject(error);
     });
 
-  async function handlePhoto(e) {
+  const handlePhoto = async (e) => {
     const file = e.target.files[0];
     const basecode = await toBase64(file);
 
     imageRef.current.src = basecode;
 
     setSubcontractor((data) => ({ ...data, avatar: basecode }));
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    return subcontractorService
-      .updateSubcontractor({
-        ...subcontractor,
-      })
-      .then((res) => {
-        history.push("/joblist");
-      })
-      .catch((err) => {
-        NotificationManager.warning(err.response.data.message);
-      });
-  }
+  };
 
   return (
     <React.Fragment>
-      <NotificationContainer />
       <div>
         <div className="main-content">
           <div className="page-content">

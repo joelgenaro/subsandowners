@@ -1,22 +1,19 @@
 import React from "react";
 /** Add Route Component */
-//Home Section
-const Layout1 = React.lazy(() => import("../pages/Home/Layout1/Layout1"));
+
+//Public Section
 const Layout2 = React.lazy(() => import("../pages/Home/Layout2/Layout2"));
-const Layout3 = React.lazy(() => import("../pages/Home/Layout3/Layout3"));
 
-/** Owner */
-// Project Section
-const JobPost = React.lazy(() => import("../pages/Owner/Project/Post"));
+// SubcontractorLayout Section
 
-// Candidate Section
+// OwnerLayout Section
+const JobPost = React.lazy(() => import("../pages/Jobs/JobPost/MyProfile"));
 const CandidateList = React.lazy(() =>
-  import("../pages/Owner/Candidate/CandidateList")
+  import("../pages/Candidate/CandidateList")
 );
+const JobList = React.lazy(() => import("../pages/Jobs/JobList/JobList"));
 
-/** Subcontractor */
-
-// Auth Section
+// AuthLayout Section
 const ChooseOption = React.lazy(() => import("../pages/Auth/ChooseOption"));
 const SignIn = React.lazy(() => import("../pages/Auth/SignIn"));
 const SignUpForSub = React.lazy(() => import("../pages/Auth/sub/SignUp"));
@@ -31,19 +28,17 @@ const ResetPassword = React.lazy(() => import("../pages/Auth/ResetPassword"));
 const ComingSoon = React.lazy(() => import("../pages/ExtraPages/ComingSoon"));
 const Error404 = React.lazy(() => import("../pages/ExtraPages/Error404"));
 
-const subcontractorRoutes = [
-  //Jobs Section
-
-  //Home Section
-  { path: "/layout3", component: Layout3 },
-  { path: "/", component: Layout2 },
-  { path: "/layout2", component: Layout1 },
-];
-
-const ownerRoutes = [
-  //Candidate Section
+// Routes
+const publicRoutes = [
   { path: "/candidatelist", component: CandidateList },
+  { path: "/joblist", component: JobList },
+  { path: "/jobpost", component: JobPost },
+  { path: "/", component: Layout2 },
 ];
+
+const ownerRoutes = [];
+
+const subRoutes = [];
 
 const authRoutes = [
   { path: "/error404", component: Error404 },
@@ -56,7 +51,6 @@ const authRoutes = [
   { path: "/signupForOwner", component: SignUpForOwner },
   { path: "/registerForOwner", component: RegisterForOwner },
   { path: "/letsStart", component: LetsStart },
-  { path: "/jobpost", component: JobPost },
   { path: "/chooseOption", component: ChooseOption },
 ];
-export { authRoutes, subcontractorRoutes, ownerRoutes };
+export { authRoutes, publicRoutes, ownerRoutes, subRoutes };
