@@ -1,11 +1,7 @@
 const mongoose = require("mongoose");
-// const config=require('config');
-// require('dotenv').config()
-
-// const db=config.get('mongoURI');
-
-//**PROTECT CREDS WITH THIS .ENV INSTEAD OF BRADS' DEFAULTJSON
 const db = process.env.MY_MONGO_URI;
+
+mongoose.set("strictQuery", false);
 
 const connectDB = async () => {
   try {
