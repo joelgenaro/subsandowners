@@ -1,16 +1,20 @@
 const mongoose = require("mongoose");
-const db = process.env.MY_MONGO_URI;
 
-mongoose.set("strictQuery", false);
+require("dotenv").config();
 
-const connectDB = async () => {
+const dbURL = process.env.MONGO_DB_URL;
+
+const configDatabase = async () => {
   try {
-    await mongoose.connect(db);
-    console.log("MongoDB is Connected...");
+    await mongoose.connect(dbURL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log("Database connected");
   } catch (err) {
-    console.error(err.message);
-    console.log("Check Your ENV VAR");
+    console.log(err);
     process.exit(1);
   }
 };
-module.exports = connectDB;
+
+module.exports = configDatabase;
