@@ -1,20 +1,20 @@
 const mongoose = require("mongoose");
+// const config=require('config');
+// require('dotenv').config()
 
-require("dotenv").config();
+// const db=config.get('mongoURI');
 
-const dbURL = process.env.MONGO_DB_URL;
+//**PROTECT CREDS WITH THIS .ENV INSTEAD OF BRADS' DEFAULTJSON
+const db = process.env.MY_MONGO_URI;
 
-const configDatabase = async () => {
+const connectDB = async () => {
   try {
-    await mongoose.connect(dbURL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log("Database connected");
+    await mongoose.connect(db);
+    console.log("MongoDB is Connected...");
   } catch (err) {
-    console.log(err);
+    console.error(err.message);
+    console.log("Check Your ENV VAR");
     process.exit(1);
   }
 };
-
-module.exports = configDatabase;
+module.exports = connectDB;
