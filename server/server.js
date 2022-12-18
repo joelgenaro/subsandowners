@@ -26,7 +26,6 @@ app.use(express.json());
 app.use(express.static("./uploads"));
 app.use(cookieParser());
 
-// app.get("/", (req, res) => res.send("Welcome Subsandowners!"));
 app.use("/api/authSubcontractor", authSubcontractor);
 app.use("/api/authOwner", authOwner);
 app.use("/api/project", project);
