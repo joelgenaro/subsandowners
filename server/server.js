@@ -3,6 +3,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const configDatabase = require("./config/database.js");
 const { errorHandler } = require("./middlewares/error");
+const path = require("path");
 
 // routes
 const authSubcontractor = require("./routes/authSubcontractor.route.js");
