@@ -9,7 +9,7 @@
     "client": "yarn start --prefix client",
     "clientinstall": "yarn install --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "render-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --prefix client && npm run build -- prefix client"
+    "render-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --prefix client && yarn build -- prefix client"
   },
   "keywords": [],
   "author": "",
