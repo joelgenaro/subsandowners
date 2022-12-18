@@ -54,7 +54,7 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "build": "babel src -d lib",
+    "build": "webpack",
     "test": "jest"
   },
   "eslintConfig": {
