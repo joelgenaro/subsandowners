@@ -54,10 +54,8 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "yarn start",
-    "build": "yarn run build",
-    "test": "yarn test",
-    "eject": "yarn eject"
+    "build": "babel src -d lib",
+    "test": "jest"
   },
   "eslintConfig": {
     "extends": [
