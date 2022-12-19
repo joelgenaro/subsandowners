@@ -6,14 +6,11 @@
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
-    "client": "cd client && yarn start",
+    "client": "cd ../client && yarn start",
+    "clientinstall": "cd client && npm install",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "cd client && yarn install && yarn build"
-  },
-  "engines": {
-     "node": "16.x",
-    "yarn":"1.22.19"
+    "render-postbuild": "cd client && yarn install && yarn build"
   },
   "keywords": [],
   "author": "",
@@ -34,5 +31,9 @@
     "nodemailer": "^6.8.0",
     "nodemon": "^2.0.20",
     "uuid": "^9.0.0"
+  },
+  "engines": {
+    "node": "16.x",
+    "yarn":"1.22.19"
   }
 }
