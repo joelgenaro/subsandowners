@@ -11,9 +11,10 @@ const configDatabase = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log("Database connected");
+    res.send("Database connected");
   } catch (err) {
-    console.log(err);
+    res.send(err);
+
     process.exit(1);
   }
 };
