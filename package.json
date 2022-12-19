@@ -9,7 +9,7 @@
     "client": "cd client && yarn start",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "cd client && npm install && yarn build"
+    "heroku-postbuild": "cd client && yarn install && yarn build"
   },
   "engines": {
      "node": "16.x"
