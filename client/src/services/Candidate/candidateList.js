@@ -2,12 +2,15 @@ import axios from "axios";
 
 function getData(page, size) {
   return axios.get(
-    `http://localhost:5000/api/candidate/getData?page=${page}&size=${size}`
+    `https://scheduleasub.onrender.com/api/candidate/getData?page=${page}&size=${size}`
   );
 }
 
 function filter(params) {
-  return axios.post("http://localhost:5000/api/candidate/filter", params);
+  return axios.post(
+    "https://scheduleasub.onrender.com/api/candidate/filter",
+    params
+  );
 }
 
 export const candidateListService = {

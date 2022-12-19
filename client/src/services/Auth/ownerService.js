@@ -2,7 +2,7 @@ import axios from "axios";
 
 axios.defaults.withCredentials = true;
 
-const API_URL = "https://subsandowners.onrender.com/api/authOwner";
+const API_URL = "https://scheduleasub.onrender.com/api/authOwner";
 const config = {
   headers: {
     "Content-Type": "application/json",
