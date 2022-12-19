@@ -15,7 +15,7 @@ const jobList = require("./routes/jobList.route.js");
 const dotenv = require("dotenv");
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 5000;
 
 //connecting to the mongodb database
 configDatabase();
@@ -34,12 +34,11 @@ app.use("/api/jobList", jobList);
 
 app.use(errorHandler);
 
-app.use(express.static(path.join(__dirname, "client", "build")));
+app.use(express.static("client/build"));
 
-// Right before your app.listen(), add this:
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-});
+app.get("*", (req, res) =>
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+);
 
 // listen
 app.listen(PORT, () =>

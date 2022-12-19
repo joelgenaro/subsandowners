@@ -3,11 +3,7 @@ node_modules
 package-lock.json
 *.log
 *.gz
-.DS_Store
-.env
-*.orig
-.idea/
-.vscode/
+
 # Coveralls
 .nyc_output
 coverage
