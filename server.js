@@ -15,7 +15,7 @@ const jobList = require("./routes/jobList.route.js");
 const dotenv = require("dotenv");
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 
 //connecting to the mongodb database
 configDatabase();
