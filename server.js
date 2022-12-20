@@ -6,11 +6,8 @@ const { errorHandler } = require("./middlewares/error");
 const bodyParser = require("body-parser");
 const path = require("path");
 const corsOpts = {
-  origin: "*",
+  origin: "https://subs-i4pe.onrender.com",
   credentials: true,
-  methods: ["GET", "POST", "HEAD", "PUT", "PATCH", "DELETE"],
-  allowedHeaders: ["Content-Type"],
-  exposedHeaders: ["Content-Type"],
 };
 
 // routes
