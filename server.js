@@ -21,7 +21,25 @@ const PORT = process.env.PORT || 5000;
 //connecting to the mongodb database
 configDatabase();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
+app.use((req, res, next) => {
+  res.setHeader("Acess-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Acess-Control-Allow-Headers",
+    "Origin, X-Requested-width, Content-Type, Accept"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET,HEAD,PUT,PATCH,POST,DELETE"
+  );
+
+  next();
+});
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
