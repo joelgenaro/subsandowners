@@ -9,7 +9,6 @@ const configDatabase = async () => {
   try {
     await mongoose.connect(dbURL, {
       useNewUrlParser: true,
-      useFindAndModify: false,
       useUnifiedTopology: true,
     });
     console.log("database connected");
