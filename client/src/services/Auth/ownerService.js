@@ -5,7 +5,6 @@ axios.defaults.withCredentials = true;
 const API_URL = "https://subsandowners.onrender.com/api/authOwner";
 const config = {
   headers: {
-    "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",
   },
 };
