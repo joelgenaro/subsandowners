@@ -13,7 +13,7 @@ const configDatabase = async () => {
     });
     res.send("Database connected");
   } catch (err) {
-    res.send(err);
+    res.send(dbURL, err);
 
     process.exit(1);
   }
