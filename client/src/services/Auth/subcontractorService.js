@@ -1,15 +1,12 @@
 import axios from "axios";
 
+axios.defaults.withCredentials = true;
+
 const API_URL = "https://subsandowners.onrender.com/api/authSubcontractor";
-const config = {
-  headers: {
-    "Content-Type": "application/json",
-  },
-};
 
 // Login User
 const login = async (userData) => {
-  const response = await axios.post(`${API_URL}/login`, userData, config);
+  const response = await axios.post(`${API_URL}/login`, userData);
   return response.data;
 };
 
