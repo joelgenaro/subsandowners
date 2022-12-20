@@ -3,6 +3,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const configDatabase = require("./config/database.js");
 const { errorHandler } = require("./middlewares/error");
+const bodyParser = require("body-parser");
 const path = require("path");
 
 // routes
@@ -21,7 +22,8 @@ const PORT = process.env.PORT || 5000;
 configDatabase();
 
 app.use(cors({ origin: true, credentials: true }));
-app.use(express.urlencoded());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.static("./uploads"));
 app.use(cookieParser());
