@@ -1,11 +1,8 @@
 import axios from "axios";
 
-axios.defaults.withCredentials = true;
-
 const API_URL = "https://subsandowners.onrender.com/api/authSubcontractor";
 const config = {
   headers: {
-    "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",
   },
 };
