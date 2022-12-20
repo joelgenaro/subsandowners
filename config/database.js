@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 const dbURL = process.env.MONGO_DB_URL;
-mongoose.set("strictQuery", false);
 
 const configDatabase = async () => {
   try {
@@ -13,7 +12,7 @@ const configDatabase = async () => {
     });
     console.log("database connected");
   } catch (err) {
-    console.log("database issue=====>", dbURL, err);
+    console.log("database issue=====>", err, "------------end----------------");
 
     process.exit(1);
   }
