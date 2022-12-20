@@ -12,10 +12,8 @@ const configDatabase = async () => {
       useUnifiedTopology: true,
     });
     console.log("database connected");
-    res.send("Database connected");
   } catch (err) {
     console.log("database issue=====>", dbURL, err);
-    res.send(dbURL, err);
 
     process.exit(1);
   }
