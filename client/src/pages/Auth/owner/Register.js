@@ -48,18 +48,18 @@ const RegisterForOwner = () => {
   }, [isSuccess, isError, message, history, dispatch]);
 
   // declare Owner's country
-  // useEffect(() => {
-  //   $.ajax({
-  //     url: "http://ip-api.com/json",
-  //     type: "GET",
-  //     success: function (json) {
-  //       setOwner((data) => ({ ...data, country: json.country }));
-  //     },
-  //     error: function (err) {
-  //       console.log("Request failed, error= " + err);
-  //     },
-  //   });
-  // }, []);
+  useEffect(() => {
+    $.ajax({
+      url: "http://ip-api.com/json",
+      type: "GET",
+      success: function (json) {
+        setOwner((data) => ({ ...data, country: json.country }));
+      },
+      error: function (err) {
+        console.log("Request failed, error= " + err);
+      },
+    });
+  }, []);
 
   function handleChange(e) {
     setOwner((data) => ({ ...data, [e.target.name]: e.target.value }));
