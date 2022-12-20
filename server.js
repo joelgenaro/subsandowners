@@ -5,10 +5,6 @@ const configDatabase = require("./config/database.js");
 const { errorHandler } = require("./middlewares/error");
 const bodyParser = require("body-parser");
 const path = require("path");
-const corsOpts = {
-  origin: "https://subs-i4pe.onrender.com",
-  credentials: true,
-};
 
 // routes
 const authSubcontractor = require("./routes/authSubcontractor.route.js");
@@ -25,7 +21,13 @@ const PORT = process.env.PORT || 5000;
 //connecting to the mongodb database
 configDatabase();
 
-app.use(cors(corsOpts));
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  })
+);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
