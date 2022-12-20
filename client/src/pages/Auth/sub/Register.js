@@ -23,7 +23,7 @@ const RegisterForSub = () => {
     phone: "",
     salary: "",
     location: "",
-    country: "indonesia",
+    country: "",
     avatar: null,
   });
 
@@ -40,7 +40,7 @@ const RegisterForSub = () => {
   // declare subcontractor's country
   useEffect(() => {
     $.ajax({
-      url: "http://ip-api.com/json",
+      url: "https://ip-api.com/json",
       type: "GET",
       success: function (json) {
         setSubcontractor((data) => ({ ...data, country: json.country }));

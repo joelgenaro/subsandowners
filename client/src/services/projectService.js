@@ -5,6 +5,7 @@ axios.defaults.withCredentials = true;
 const API_URL = "https://subsandowners.onrender.com/api/project";
 const config = {
   headers: {
+    "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",
     "Content-type": "multipart/form-data",
   },

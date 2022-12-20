@@ -33,7 +33,7 @@ const RegisterForOwner = () => {
     phone: "",
     location: "",
     website: "",
-    country: "Indonesia",
+    country: "",
     avatar: null,
   });
 
@@ -50,7 +50,7 @@ const RegisterForOwner = () => {
   // declare Owner's country
   useEffect(() => {
     $.ajax({
-      url: "http://ip-api.com/json",
+      url: "https://ip-api.com/json",
       type: "GET",
       success: function (json) {
         setOwner((data) => ({ ...data, country: json.country }));

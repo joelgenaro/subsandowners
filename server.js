@@ -5,6 +5,13 @@ const configDatabase = require("./config/database.js");
 const { errorHandler } = require("./middlewares/error");
 const bodyParser = require("body-parser");
 const path = require("path");
+const corsOpts = {
+  origin: "*",
+  credentials: true,
+  methods: ["GET", "POST", "HEAD", "PUT", "PATCH", "DELETE"],
+  allowedHeaders: ["Content-Type"],
+  exposedHeaders: ["Content-Type"],
+};
 
 // routes
 const authSubcontractor = require("./routes/authSubcontractor.route.js");
@@ -21,7 +28,7 @@ const PORT = process.env.PORT || 5000;
 //connecting to the mongodb database
 configDatabase();
 
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors(corsOpts));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
