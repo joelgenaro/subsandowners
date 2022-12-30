@@ -79,5 +79,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000/"
+  "proxy": "https://subsandowners.onrender.com"
 }
