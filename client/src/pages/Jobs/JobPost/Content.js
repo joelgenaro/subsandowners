@@ -141,6 +141,7 @@ const RightSideContent = () => {
     data.append("location", project.location);
     data.append("note", project.note);
     data.append("deadline", project.deadline);
+    data.append("budget", project.budget);
     data.append("attachments", project.attachments);
     data.append("materialCategory", project.materialCategory);
     data.append("materialStyle", project.materialStyle);
@@ -173,8 +174,8 @@ const RightSideContent = () => {
                       <Input
                         type="text"
                         defaultValue={project.name}
-                        onChange={handleChange}
                         required
+                        onChange={handleChange}
                         className="form-control"
                         id="name"
                         name="name"
@@ -194,9 +195,9 @@ const RightSideContent = () => {
                       <textarea
                         id="note"
                         name="note"
+                        required
                         defaultValue={project.note}
                         onChange={handleChange}
-                        required
                         className="form-control"
                         rows="5"
                       ></textarea>
@@ -211,8 +212,8 @@ const RightSideContent = () => {
 
                       <Input
                         className="form-control"
-                        name="location"
                         required
+                        name="location"
                         defaultValue={project.location}
                         id="pac-input"
                         type="text"
@@ -246,12 +247,13 @@ const RightSideContent = () => {
                       <Input
                         className="form-control"
                         name="budget"
-                        required
                         placeholder="$"
+                        required
                         defaultValue={project.budget}
                         onChange={handleChange}
                         id="budget"
-                        type="text"
+                        min={1}
+                        type="number"
                       />
                     </div>
                   </Col>
