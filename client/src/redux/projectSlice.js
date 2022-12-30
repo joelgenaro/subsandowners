@@ -13,7 +13,7 @@ const errorMessageHandler = (error) => {
   return message;
 };
 
-// Update profile
+// Get all Projects
 export const createProject = createAsyncThunk(
   "project/create",
   async (data, thunkAPI) => {

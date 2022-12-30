@@ -4,9 +4,8 @@ const protect = require("../middlewares/auth");
 
 // fileuploader
 
-const { getData, filter } = require("../controllers/cJobList.js");
+const { getData } = require("../controllers/cJobList.js");
 
-router.get(`/getData`, protect, getData);
-router.post(`/filter`, protect, filter);
+router.post(`/getData`, protect, getData);
 
 module.exports = router;

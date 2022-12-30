@@ -25,6 +25,10 @@ const projectSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    budget: {
+      type: String,
+      default: "",
+    },
     attachments: {
       type: [[String]],
       default: "",
@@ -62,7 +66,7 @@ const projectSchema = new mongoose.Schema(
     collection: "projects",
   }
 );
-
+// add pagination library
 projectSchema.plugin(mongoosePaginate);
 
 const project = mongoose.model("project", projectSchema);

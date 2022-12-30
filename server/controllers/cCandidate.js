@@ -13,28 +13,30 @@ const myCustomLabels = {
   meta: "paginator",
 };
 
-exports.getData = async (req, res) => {
+const getData = async (req, res, next) => {
   const options = {
     page: req.query.page,
     limit: req.query.size,
     customLabels: myCustomLabels,
+    allowDiskUse: true,
   };
 
-  Subcontractor.paginate({}, options)
-    .then((data) => {
-      res.send({
-        data,
-      });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "error",
-        error: err.message,
-      });
+  try {
+    const data = await Subcontractor.paginate({}, options);
+    const itemsList = data.itemsList;
+    const paginator = data.paginator;
+
+    res.status(201).json({
+      success: true,
+      itemsList,
+      paginator,
     });
+  } catch (error) {
+    next(error);
+  }
 };
 
-exports.filter = (req, res) => {
+const filter = async (req, res, next) => {
   const filter = req.body.filter;
   const options = {
     page: 1,
@@ -50,17 +52,22 @@ exports.filter = (req, res) => {
     ],
   };
 
-  Subcontractor.paginate(query, options)
-    .then((data) => {
-      console.log(data);
-      res.send({
-        data,
-      });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "error",
-        error: err.message,
-      });
+  try {
+    const data = await Subcontractor.paginate(query, options);
+    const itemsList = data.itemsList;
+    const paginator = data.paginator;
+
+    res.status(201).json({
+      success: true,
+      itemsList,
+      paginator,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  getData,
+  filter,
 };

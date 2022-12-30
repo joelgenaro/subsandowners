@@ -1,74 +1,97 @@
-import React, { useEffect, useState } from "react";
-import { Col, Container, Row } from "reactstrap";
-import CandidateDetails from "./CandidateDetails";
-import JobFilters from "./JobFilters";
-import Section from "./Section";
-import Pagination from "./Pagination";
-import MetaTags from "react-meta-tags";
+import React, { memo, useEffect } from "react";
+import { Col, Row } from "reactstrap";
+import CandidateCard from "./CandidateCard";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import {
-  NotificationContainer,
-  NotificationManager,
-} from "react-notifications";
-import "react-notifications/lib/notifications.css";
-import "./index.css";
-import { candidateListService } from "../../services/Candidate/candidateList";
+  getData,
+  candidateListReset,
+  setSize,
+} from "../../redux/candidateListSlice";
 
 const CandidateList = () => {
-  const [size, setSize] = useState(5);
-  const [data, setData] = useState(null);
-  const [paginator, setPaginator] = useState(null);
+  const dispatch = useDispatch();
+  const { isSuccess, isError, isLoading, message, size, paginator, data } =
+    useSelector((state) => state.candidateList);
 
-  // get initial data
+  // Get Data
   useEffect(() => {
-    return candidateListService
-      .getData(1, size)
-      .then((res) => {
-        setData(res.data.data.itemsList);
-        setPaginator(res.data.data.paginator);
-      })
-      .catch((err) => {
-        NotificationManager.warning(
-          err?.response?.data?.message ? err?.response?.data?.message : "error"
-        );
-      });
-  }, []);
+    dispatch(getData({ page: 1, size: size }));
+  }, [size]);
+
+  // Message
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    } else if (isSuccess) {
+    }
+    dispatch(candidateListReset());
+  }, [isSuccess, isError, message, dispatch]);
+
+  // Get Size
+  const itemsPerPage = (e) => {
+    dispatch(setSize(e.target.value));
+  };
 
   return (
     <React.Fragment>
-      <NotificationContainer />
-      <MetaTags>
-        <title>Candidate List</title>
-      </MetaTags>
-      <Section />
-      <section className="section">
-        <Container>
-          <JobFilters
-            setData={setData}
-            size={size}
-            setPaginator={setPaginator}
-          />
-          <Row>
-            <Col lg={12}>
-              <CandidateDetails
-                size={size}
-                setSize={setSize}
-                data={data}
-                paginator={paginator}
-                setData={setData}
-                setPaginator={setPaginator}
-              />
-            </Col>
-          </Row>
-          <Pagination
-            size={size}
-            paginator={paginator}
-            setPaginator={setPaginator}
-            setData={setData}
-          />
-        </Container>
-      </section>
+      <Row className="align-items-center">
+        <Col lg={8}>
+          <div className="mb-3 mb-lg-0">
+            {paginator ? (
+              <h6 className="fs-16 mb-0">
+                {" "}
+                m Showing {paginator.slNo} –{" "}
+                {paginator.currentPage * paginator.perPage > paginator.itemCount
+                  ? paginator.itemCount
+                  : paginator.perPage * paginator.currentPage}{" "}
+                of {paginator.itemCount} results{" "}
+              </h6>
+            ) : (
+              ""
+            )}
+          </div>
+        </Col>
+
+        <Col lg={4}>
+          <div className="candidate-list-widgets">
+            <Row>
+              <Col lg={6}>
+                <div className="selection-widget mt-2 mt-lg-0">
+                  <select
+                    className="form-select"
+                    data-trigger
+                    name="choices-candidate-page"
+                    id="choices-candidate-page"
+                    aria-label="Default select example"
+                    onChange={itemsPerPage}
+                  >
+                    <option value="5">5 </option>
+                    <option value="10">10 </option>
+                    <option value="20">20 </option>
+                    <option value="50">50 </option>
+                  </select>
+                </div>
+              </Col>
+            </Row>
+          </div>
+        </Col>
+      </Row>
+      <div className="candidate-list">
+        {!isLoading ? (
+          data ? (
+            data.map((subcontractor, key) => (
+              <CandidateCard key={key} subcontractor={subcontractor} />
+            ))
+          ) : (
+            "No results matched your search"
+          )
+        ) : (
+          <div className="spinner-border text-primary m-1" role="status"></div>
+        )}
+      </div>
     </React.Fragment>
   );
 };
 
-export default CandidateList;
+export default memo(CandidateList);

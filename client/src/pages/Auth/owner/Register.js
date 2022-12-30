@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import $ from "jquery";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Col,
@@ -12,12 +11,12 @@ import {
   Label,
 } from "reactstrap";
 import { Link } from "react-router-dom";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { profileUpdate, authReset } from "../../../redux/authSlice";
 import MetaTags from "react-meta-tags";
-//Images Import
 import userImage2 from "../../../assets/images/featured-job/img-01.png";
+import useGeoLocation from "react-ipgeolocation";
 
 const RegisterForOwner = () => {
   //Get the whole state from currentAuth
@@ -25,6 +24,7 @@ const RegisterForOwner = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { isSuccess, isError, message } = useSelector((state) => state.auth);
+  const geo = useGeoLocation();
   const [owner, setOwner] = useState({
     identifier: "owner",
     companyName: "",
@@ -33,7 +33,7 @@ const RegisterForOwner = () => {
     phone: "",
     location: "",
     website: "",
-    country: "",
+    country: "Indonesia",
     avatar: null,
   });
 
@@ -47,20 +47,6 @@ const RegisterForOwner = () => {
     dispatch(authReset());
   }, [isSuccess, isError, message, history, dispatch]);
 
-  // declare Owner's country
-  useEffect(() => {
-    $.ajax({
-      url: "https://ip-api.com/json",
-      type: "GET",
-      success: function (json) {
-        setOwner((data) => ({ ...data, country: json.country }));
-      },
-      error: function (err) {
-        console.log("Request failed, error= " + err);
-      },
-    });
-  }, []);
-
   function handleChange(e) {
     setOwner((data) => ({ ...data, [e.target.name]: e.target.value }));
   }
@@ -71,6 +57,7 @@ const RegisterForOwner = () => {
     dispatch(profileUpdate(owner));
   };
 
+  // Convert avatar to baseCode
   const toBase64 = (file) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -267,11 +254,11 @@ const RegisterForOwner = () => {
                                       </Label>
                                       <Input
                                         type="text"
-                                        className="form-control"
                                         id="country"
                                         name="country"
                                         disabled
-                                        value={owner.country}
+                                        onChange={handleChange}
+                                        defaultValue={geo.country}
                                       />
                                     </div>
                                   </Col>

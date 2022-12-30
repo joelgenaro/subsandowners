@@ -1,17 +1,10 @@
 import React, { Suspense } from "react";
-import { publicRoutes, authRoutes, privateRoutes } from "./allRoutes";
-import {
-  Route,
-  Redirect,
-  Switch,
-  BrowserRouter as Router,
-} from "react-router-dom";
-import { useSelector } from "react-redux";
+import { publicRoutes, authRoutes } from "./allRoutes";
+import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 
 /* Layout */
 import CommonLayout from "../Layout/CommonLayout/index";
 import AuthLayout from "../Layout/AuthLayout";
-import PrivateRoute from "./ProtectedRoute";
 
 const Index = () => {
   const availableAuthRoutesPath = authRoutes.map((r) => r["path"]);
@@ -43,10 +36,10 @@ const Index = () => {
               <AuthLayout>
                 {authRoutes.map((route, idx) => (
                   <Route
+                    exact={true}
                     path={route.path}
                     component={route.component}
                     key={idx}
-                    exact={true}
                   />
                 ))}
               </AuthLayout>
@@ -56,10 +49,10 @@ const Index = () => {
               <CommonLayout>
                 {publicRoutes.map((route, idx) => (
                   <Route
+                    exact={true}
                     path={route.path}
                     component={route.component}
                     key={idx}
-                    exact={true}
                   />
                 ))}
               </CommonLayout>

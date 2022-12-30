@@ -1,6 +1,6 @@
 const Project = require("../models/mProject.js");
 
-// paginator lables
+// Paginator lables
 const myCustomLabels = {
   totalDocs: "itemCount",
   docs: "itemsList",
@@ -13,53 +13,78 @@ const myCustomLabels = {
   meta: "paginator",
 };
 
-exports.getData = async (req, res) => {
-  const options = {
-    page: req.query.page,
-    limit: req.query.size,
-    customLabels: myCustomLabels,
-  };
-  Project.paginate({}, options)
-    .then((data) => {
-      res.send({
-        data,
-      });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "error",
-        error: err.message,
-      });
-    });
-};
+// TextSearch Controller
+const getData = async (req, res, next) => {
+  const filterOptions = req.body.filterOptions;
 
-exports.filter = (req, res) => {
-  const filter = req.body.filter;
   const options = {
-    page: 1,
+    page: req.body.page,
     limit: req.body.size,
     customLabels: myCustomLabels,
+    allowDiskUse: true,
   };
+
+  // Query regarding filter options.
   const query = {
-    $or: [
-      { firstName: { $regex: filter, $options: "i" } },
-      { lastName: { $regex: filter, $options: "i" } },
-      { salary: { $regex: filter, $options: "i" } },
-      { location: { $regex: filter, $options: "i" } },
+    $and: [
+      {
+        $or: [
+          { name: { $regex: filterOptions.text, $options: "i" } },
+          { location: { $regex: filterOptions.text, $options: "i" } },
+          { note: { $regex: filterOptions.text, $options: "i" } },
+          { deadline: { $regex: filterOptions.text, $options: "i" } },
+          { materialCategory: { $regex: filterOptions.text, $options: "i" } },
+          { materialStyle: { $regex: filterOptions.text, $options: "i" } },
+          { materialColor: { $regex: filterOptions.text, $options: "i" } },
+          { materialHeight: { $regex: filterOptions.text, $options: "i" } },
+          { removalCategory: { $regex: filterOptions.text, $options: "i" } },
+          { removalAmount: { $regex: filterOptions.text, $options: "i" } },
+        ],
+      },
+      {
+        ...(filterOptions.location && {
+          location: { $regex: filterOptions.location, $options: "i" },
+        }),
+      },
+      {
+        ...(filterOptions.minPrice && {
+          budget: { $gte: filterOptions.minPrice },
+        }),
+      },
+      {
+        ...(filterOptions.maxPrice && {
+          budget: { $lte: filterOptions.maxPrice },
+        }),
+      },
+      {
+        ...(filterOptions.category.length > 0 && {
+          materialCategory: { $in: filterOptions.category },
+        }),
+      },
+      {
+        ...(filterOptions.isRemoval == "removalYes" && {
+          removalCategory: { $ne: "" },
+        }),
+        ...(filterOptions.isRemoval == "removalNo" && { removalCategory: "" }),
+      },
     ],
   };
 
-  Project.paginate(query, options)
-    .then((data) => {
-      console.log(data);
-      res.send({
-        data,
-      });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "error",
-        error: err.message,
-      });
+  try {
+    const data = await Project.paginate(query, options);
+    const itemsList = data.itemsList;
+    const paginator = data.paginator;
+
+    res.status(201).json({
+      success: true,
+      itemsList,
+      paginator,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = {
+  getData,
 };

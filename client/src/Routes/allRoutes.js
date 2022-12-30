@@ -7,10 +7,8 @@ const Layout2 = React.lazy(() => import("../pages/Home/Layout2/Layout2"));
 // SubcontractorLayout Section
 
 // OwnerLayout Section
-const JobPost = React.lazy(() => import("../pages/Jobs/JobPost/MyProfile"));
-const CandidateList = React.lazy(() =>
-  import("../pages/Candidate/CandidateList")
-);
+const JobPost = React.lazy(() => import("../pages/Jobs/JobPost/JobPost"));
+const CandidateList = React.lazy(() => import("../pages/Candidate/Candidate"));
 const JobList = React.lazy(() => import("../pages/Jobs/JobList/JobList"));
 
 // AuthLayout Section

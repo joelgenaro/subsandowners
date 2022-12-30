@@ -37,6 +37,7 @@ createOwnerWithEmail = async (req, res, next) => {
   }
 };
 
+// Update owner profile
 updateOwner = async (req, res) => {
   const filter = { _id: req.user["_id"] };
   const update = { ...req.body };

@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { subcontractorService } from "../services/Auth/subcontractorService";
-import { ownerService } from "../services/Auth/ownerService";
+import { subcontractorAuthService } from "../services/subcontractorAuthService";
+import { ownerAuthService } from "../services/ownerAuthService";
 
 const initialState = {
   authToken: null,
@@ -22,7 +22,7 @@ export const forgotPassword = createAsyncThunk(
   "auth/forgotPassword",
   async (email, thunkAPI) => {
     try {
-      return await subcontractorService.forgotPassword(email);
+      return await subcontractorAuthService.forgotPassword(email);
     } catch (error) {
       const message = errorMessageHandler(error);
       return thunkAPI.rejectWithValue(message);
@@ -35,7 +35,7 @@ export const authLogin = createAsyncThunk(
   "auth/authLogin",
   async (userData, thunkAPI) => {
     try {
-      return await subcontractorService.login(userData);
+      return await subcontractorAuthService.login(userData);
     } catch (error) {
       const message = errorMessageHandler(error);
       return thunkAPI.rejectWithValue(message);
@@ -49,8 +49,8 @@ export const authRegister = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       return await (userData.identifier == "sub"
-        ? subcontractorService.createAccountGmail(userData)
-        : ownerService.createAccountGmail(userData));
+        ? subcontractorAuthService.createAccountGmail(userData)
+        : ownerAuthService.createAccountGmail(userData));
     } catch (error) {
       const message = errorMessageHandler(error);
       return thunkAPI.rejectWithValue(message);
@@ -64,8 +64,8 @@ export const profileUpdate = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       return await (userData.identifier == "sub"
-        ? subcontractorService.updateProfile(userData)
-        : ownerService.updateProfile(userData));
+        ? subcontractorAuthService.updateProfile(userData)
+        : ownerAuthService.updateProfile(userData));
     } catch (error) {
       const message = errorMessageHandler(error);
       return thunkAPI.rejectWithValue(message);
@@ -78,7 +78,7 @@ export const logoutUser = createAsyncThunk(
   "auth/logoutUser",
   async (thunkAPI) => {
     try {
-      return await subcontractorService.logout();
+      return await subcontractorAuthService.logout();
     } catch (error) {
       const message = errorMessageHandler(error);
       return thunkAPI.rejectWithValue(message);

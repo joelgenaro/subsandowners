@@ -1,30 +1,16 @@
 import React, { memo } from "react";
-import { Link } from "react-router-dom";
 import { Col, Row } from "reactstrap";
 import Pagination from "react-js-pagination";
-import { candidateListService } from "../../services/Candidate/candidateList";
-import {
-  NotificationContainer,
-  NotificationManager,
-} from "react-notifications";
-import "react-notifications/lib/notifications.css";
-import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { getData } from "../../redux/candidateListSlice";
 
 const PaginationForSub = (props) => {
-  const { size, setData, paginator, setPaginator } = { ...props };
+  const dispatch = useDispatch();
+  const { size, paginator } = useSelector((state) => state.candidateList);
 
+  // Initial Data
   const fetchData = (pageNumber) => {
-    return candidateListService
-      .getData(pageNumber, size)
-      .then((res) => {
-        setData(res.data.data.itemsList);
-        setPaginator(res.data.data.paginator);
-      })
-      .catch((err) => {
-        NotificationManager.warning(
-          err?.response?.data?.message ? err?.response?.data?.message : "error"
-        );
-      });
+    dispatch(getData({ page: pageNumber, size: size }));
   };
 
   return (

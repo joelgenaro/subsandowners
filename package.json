@@ -5,7 +5,10 @@
     "main": "./server/server.js",
     "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1",
-      "start": "cd ./server && node server.js"
+      "start": "cd ./server && node server.js",
+      "server": "cd ./server && nodemon server.js",
+      "client": "cd ./client && yarn start",
+      "dev": "concurrently \"npm run server\" \"npm run client\""
     },
     "engines": {
       "node": "16.x",
@@ -15,6 +18,8 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+      "nodemon": "^2.0.20",
+      "concurrently": "^7.6.0",
       "argon2": "^0.28.4",
       "cors": "^2.8.5",
       "dotenv": "^16.0.0",

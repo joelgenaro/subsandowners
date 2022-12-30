@@ -1,5 +1,6 @@
 const Project = require("../models/mProject.js");
 
+// CreateProjectController
 createProject = async (req, res, next) => {
   let data = {
     ...req.body,
@@ -19,6 +20,7 @@ createProject = async (req, res, next) => {
     next(error);
   }
 };
+
 module.exports = {
   createProject,
 };

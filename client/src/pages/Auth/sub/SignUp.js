@@ -13,6 +13,7 @@ import darkLogo from "../../../assets/images/logo-dark.png";
 import signUpImage from "../../../assets/images/auth/sign-up.png";
 
 const SignUpForSub = () => {
+  // Dispatch
   const history = useHistory();
   const dispatch = useDispatch();
   const { isSuccess, isError, message } = useSelector((state) => state.auth);

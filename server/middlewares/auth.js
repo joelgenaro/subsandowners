@@ -18,12 +18,13 @@ const protect = async (req, res, next) => {
     res.clearCookie("token");
     res.clearCookie("role");
     res.status(401);
-    throw new Error("Not authorized");
+
+    return next(new Error("Not authorized, your token is expired!"));
   }
 
   if (!token) {
     res.status(401);
-    throw new Error("Not authorized, no token");
+    return next(new Error("Not authorized, no token!"));
   }
 };
 

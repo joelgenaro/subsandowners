@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Container,
-  Collapse,
-  NavbarToggler,
-  NavItem,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-} from "reactstrap";
+import { Container, Collapse, NavbarToggler, NavItem } from "reactstrap";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { logoutUser, authReset } from "../../redux/authSlice";
@@ -16,11 +8,6 @@ import { useCookies } from "react-cookie";
 import { Link, withRouter, useHistory } from "react-router-dom";
 import darkLogo from "../../assets/images/logo-dark.png";
 import lightLogo from "../../assets/images/logo-light.png";
-import userImage2 from "../../assets/images/user/img-02.jpg";
-import jobImage4 from "../../assets/images/featured-job/img-04.png";
-import userImage1 from "../../assets/images/user/img-01.jpg";
-import jobImage from "../../assets/images/featured-job/img-01.png";
-import profileImage from "../../assets/images/profile.jpg";
 
 const NavBar = (props) => {
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
@@ -199,7 +186,11 @@ const NavBar = (props) => {
             {Token ? (
               <>
                 <NavItem>
-                  <Link className="nav-link" onClick={logoutHandler} to="/">
+                  <Link
+                    className="nav-link"
+                    onClick={logoutHandler}
+                    to="signin"
+                  >
                     log out
                   </Link>
                 </NavItem>

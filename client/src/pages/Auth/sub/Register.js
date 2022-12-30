@@ -4,10 +4,10 @@ import { Form } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import MetaTags from "react-meta-tags";
 import userImage2 from "../../../assets/images/user/img-02.jpg";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { profileUpdate, authReset } from "../../../redux/authSlice";
-import $ from "jquery";
+import useGeoLocation from "react-ipgeolocation";
 
 const RegisterForSub = () => {
   //Get the whole state from currentAuth
@@ -15,6 +15,7 @@ const RegisterForSub = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { isSuccess, isError, message } = useSelector((state) => state.auth);
+  const geo = useGeoLocation();
   const [subcontractor, setSubcontractor] = useState({
     identifier: "sub",
     firstName: "",
@@ -37,19 +38,23 @@ const RegisterForSub = () => {
     dispatch(authReset());
   }, [isSuccess, isError, message, history, dispatch]);
 
-  // declare subcontractor's country
   useEffect(() => {
-    $.ajax({
-      url: "https://ip-api.com/json",
-      type: "GET",
-      success: function (json) {
-        setSubcontractor((data) => ({ ...data, country: json.country }));
-      },
-      error: function (err) {
-        console.log("Request failed, error= " + err);
-      },
-    });
+    initAutocomplete();
   }, []);
+
+  // Location Autocomplete
+  const initAutocomplete = () => {
+    let input = document.getElementById("pac-input");
+
+    let searchBox = new window.google.maps.places.SearchBox(input);
+
+    searchBox.addListener("places_changed", function () {
+      setSubcontractor((data) => ({
+        ...data,
+        location: document.getElementById("pac-input").value,
+      }));
+    });
+  };
 
   const handleChange = (e) => {
     setSubcontractor((data) => ({ ...data, [e.target.name]: e.target.value }));
@@ -237,12 +242,12 @@ const RegisterForSub = () => {
                                         Location (*)
                                       </label>
                                       <Input
-                                        type="text"
-                                        id="location"
+                                        className="form-control"
                                         name="location"
                                         required
-                                        value={subcontractor.location}
-                                        onChange={handleChange}
+                                        defaultValue={subcontractor.location}
+                                        id="pac-input"
+                                        type="text"
                                       />
                                     </div>
                                   </Col>
@@ -259,7 +264,8 @@ const RegisterForSub = () => {
                                         id="country"
                                         name="country"
                                         disabled
-                                        value={subcontractor.country}
+                                        onChange={handleChange}
+                                        defaultValue={geo.country}
                                       />
                                     </div>
                                   </Col>

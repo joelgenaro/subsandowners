@@ -1,19 +1,20 @@
 import axios from "axios";
 
-function getData(page, size) {
-  return axios.get(
-    `https://subsandowners.onrender.com/api/jobList/getData?page=${page}&size=${size}`
-  );
-}
+axios.defaults.withCredentials = true;
 
-function filter(params) {
-  return axios.post(
-    "https://subsandowners.onrender.com/api/jobList/filter",
-    params
-  );
-}
+const API_URL = `http://localhost:5000/api/jobList`;
+const config = {
+  headers: {
+    "Content-Type": "application/json",
+  },
+};
+
+// Filter jobs with Text
+const getData = async (data) => {
+  const response = await axios.post(`${API_URL}/getData`, data, config);
+  return response.data;
+};
 
 export const jobListService = {
   getData,
-  filter,
 };
