@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import { publicRoutes, authRoutes } from "./allRoutes";
+// import PrivateRoute from "./ProtectedRoute";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 
 /* Layout */

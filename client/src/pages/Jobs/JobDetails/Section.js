@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Col, Container, Row } from "reactstrap";
 
 const Section = () => {
@@ -9,7 +10,7 @@ const Section = () => {
           <Row className="justify-content-center">
             <Col md={6}>
               <div className="text-center text-white">
-                <h3 className="mb-4">Jobs you might like</h3>
+                <h3 className="mb-4">Job Details</h3>
               </div>
             </Col>
           </Row>

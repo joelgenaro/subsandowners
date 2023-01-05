@@ -30,7 +30,7 @@ const projectSchema = new mongoose.Schema(
       default: "",
     },
     attachments: {
-      type: [[String]],
+      type: [],
       default: "",
     },
     materialCategory: {

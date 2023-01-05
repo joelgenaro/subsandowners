@@ -6,6 +6,7 @@ const initialState = {
   isSuccess: false,
   isError: false,
   message: "",
+  details: null,
 };
 
 const errorMessageHandler = (error) => {
@@ -13,11 +14,11 @@ const errorMessageHandler = (error) => {
   return message;
 };
 
-export const createProject = createAsyncThunk(
-  "project/create",
-  async (data, thunkAPI) => {
+export const getData = createAsyncThunk(
+  "jobDetails/getData",
+  async (jobId, thunkAPI) => {
     try {
-      return await projectService.createProject(data);
+      return await projectService.getJobDetails(jobId);
     } catch (error) {
       const message = errorMessageHandler(error);
       return thunkAPI.rejectWithValue(message);
@@ -25,11 +26,11 @@ export const createProject = createAsyncThunk(
   }
 );
 
-export const projectSlice = createSlice({
-  name: "project",
+export const jobDetailsSlice = createSlice({
+  name: "jobDetails",
   initialState,
   reducers: {
-    projectReset: (state) => {
+    jobDetailsReset: (state) => {
       state.isLoading = false;
       state.isError = false;
       state.isSuccess = false;
@@ -37,22 +38,24 @@ export const projectSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(createProject.pending, (state) => {
+    builder.addCase(getData.pending, (state) => {
       state.isLoading = true;
     });
 
-    builder.addCase(createProject.fulfilled, (state, action) => {
+    builder.addCase(getData.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
+      state.details = action.payload.details;
     });
 
-    builder.addCase(createProject.rejected, (state, action) => {
+    builder.addCase(getData.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.message = action.payload;
+      state.details = null;
     });
   },
 });
 
-export const { projectReset } = projectSlice.actions;
-export default projectSlice.reducer;
+export const { jobDetailsReset } = jobDetailsSlice.actions;
+export default jobDetailsSlice.reducer;

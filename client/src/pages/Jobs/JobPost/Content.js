@@ -47,7 +47,7 @@ const RightSideContent = () => {
       toast.error(message);
     } else if (isSuccess) {
       toast.success("Project Registered Successfully");
-      history.push("/joblist");
+      // history.push("/joblist");
     }
     dispatch(projectReset());
   }, [isSuccess, isError, message, history, dispatch]);
@@ -168,15 +168,16 @@ const RightSideContent = () => {
                 <Row>
                   <Col lg={12}>
                     <div className="mb-3">
-                      <label htmlFor="name" className="form-label">
+                      <Label htmlFor="name" className="form-label">
                         Choose a name for your project
-                      </label>
+                      </Label>
                       <Input
-                        type="text"
-                        defaultValue={project.name}
-                        required
-                        onChange={handleChange}
                         className="form-control"
+                        placeholder=""
+                        type="text"
+                        required
+                        defaultValue={project.name}
+                        onChange={handleChange}
                         id="name"
                         name="name"
                       />
@@ -196,7 +197,7 @@ const RightSideContent = () => {
                         id="note"
                         name="note"
                         required
-                        defaultValue={project.note}
+                        value={project.note}
                         onChange={handleChange}
                         className="form-control"
                         rows="5"

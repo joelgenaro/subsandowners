@@ -1,33 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Col, Row, Modal, ModalBody, Input, Label } from "reactstrap";
-
-// Calculate time from date posted to current date
-const calculateTimePosted = (createdAt) => {
-  let seconds = Math.floor((new Date() - new Date(createdAt)) / 1000);
-  let interval = seconds / 31536000;
-
-  if (interval > 1) {
-    return Math.floor(interval) + " years ago";
-  }
-  interval = seconds / 2592000;
-  if (interval > 1) {
-    return Math.floor(interval) + " months ago";
-  }
-  interval = seconds / 86400;
-  if (interval > 1) {
-    return Math.floor(interval) + " days ago";
-  }
-  interval = seconds / 3600;
-  if (interval > 1) {
-    return Math.floor(interval) + " hours ago";
-  }
-  interval = seconds / 60;
-  if (interval > 1) {
-    return Math.floor(interval) + " minutes ago";
-  }
-  return Math.floor(seconds) + " seconds ago";
-};
+import { Col, Row } from "reactstrap";
+import { calculateTimePosted } from "../../../helper/calculateTimePosted";
+import { capitalize } from "../../../helper/capitalize";
 
 const JobCard = ({ project }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
@@ -35,7 +10,7 @@ const JobCard = ({ project }) => {
 
   useEffect(() => {
     project.note.length > 300 ? setIsMore(true) : setIsMore(false);
-  }, []);
+  }, [project.note.length]);
 
   // more and less
   const description = showFullDescription
@@ -58,7 +33,7 @@ const JobCard = ({ project }) => {
               <div className="mt-3 mt-lg-0">
                 <h5 className="fs-17 mb-1">
                   <Link to="/jobdetails" className="text-dark">
-                    {project.name}
+                    {capitalize(project.name)}
                   </Link>{" "}
                 </h5>
                 <ul className="list-inline mt-4 mb-3">
@@ -137,7 +112,11 @@ const JobCard = ({ project }) => {
             </Col>
             <Col lg={2} md={3}>
               <div>
-                <Link to="#applyNow" className="primary-link">
+                <Link
+                  to={"/jobs/" + project["_id"]}
+                  target="_blank"
+                  className="primary-link"
+                >
                   Apply Now <i className="mdi mdi-chevron-double-right"></i>
                 </Link>
               </div>

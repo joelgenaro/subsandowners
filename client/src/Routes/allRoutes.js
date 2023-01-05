@@ -1,13 +1,11 @@
 import React from "react";
 /** Add Route Component */
 
-//Public Section
 const Layout2 = React.lazy(() => import("../pages/Home/Layout2/Layout2"));
-
-// SubcontractorLayout Section
-
-// OwnerLayout Section
 const JobPost = React.lazy(() => import("../pages/Jobs/JobPost/JobPost"));
+const JobDetails = React.lazy(() =>
+  import("../pages/Jobs/JobDetails/JobDetails")
+);
 const CandidateList = React.lazy(() => import("../pages/Candidate/Candidate"));
 const JobList = React.lazy(() => import("../pages/Jobs/JobList/JobList"));
 
@@ -26,17 +24,13 @@ const ResetPassword = React.lazy(() => import("../pages/Auth/ResetPassword"));
 const ComingSoon = React.lazy(() => import("../pages/ExtraPages/ComingSoon"));
 const Error404 = React.lazy(() => import("../pages/ExtraPages/Error404"));
 
-// Routes
 const publicRoutes = [
   { path: "/candidatelist", component: CandidateList },
   { path: "/joblist", component: JobList },
   { path: "/jobpost", component: JobPost },
+  { path: "/jobs/:jobId", component: JobDetails },
   { path: "/", component: Layout2 },
 ];
-
-const ownerRoutes = [];
-
-const subRoutes = [];
 
 const authRoutes = [
   { path: "/error404", component: Error404 },
@@ -51,4 +45,4 @@ const authRoutes = [
   { path: "/letsStart", component: LetsStart },
   { path: "/chooseOption", component: ChooseOption },
 ];
-export { authRoutes, publicRoutes, ownerRoutes, subRoutes };
+export { authRoutes, publicRoutes };

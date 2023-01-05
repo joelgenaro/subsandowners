@@ -24,6 +24,7 @@ createOwnerWithEmail = async (req, res, next) => {
     });
 
     res.cookie("role", "owner", {
+      // httpOnly: true,
       secure: true,
     });
 

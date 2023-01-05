@@ -6,7 +6,7 @@ const fileInArray = [];
 // FileUpload Multer
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "./public/uploads");
+    cb(null, "../client/public/uploads");
   },
   filename: (req, file, cb) => {
     let filePath = [];
@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
 
     const ext = path.extname(file.originalname);
     filePath = `${uniqueId}${ext}`;
-    fileInArray.push([filePath]);
+    fileInArray.push({ path: filePath, name: file.originalname });
 
     cb(null, filePath);
 
