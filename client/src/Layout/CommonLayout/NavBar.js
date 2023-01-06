@@ -281,7 +281,7 @@ const NavBar = (props) => {
               ) : (
                 ""
               )}
-              {Role === "subcontractor" ? (
+              {Role === "sub" ? (
                 <>
                   <NavItem className="dropdown dropdown-hover">
                     <NavLink
