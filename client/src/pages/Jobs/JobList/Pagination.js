@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react";
+import React, { memo } from "react";
 import { Col, Row } from "reactstrap";
 import Pagination from "react-js-pagination";
 import { useSelector, useDispatch } from "react-redux";

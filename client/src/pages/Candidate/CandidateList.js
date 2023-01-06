@@ -17,7 +17,7 @@ const CandidateList = () => {
   // Get Data
   useEffect(() => {
     dispatch(getData({ page: 1, size: size }));
-  }, [size]);
+  }, [size, dispatch]);
 
   // Message
   useEffect(() => {

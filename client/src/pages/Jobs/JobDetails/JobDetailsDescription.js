@@ -113,7 +113,7 @@ const JobDetailsDescription = ({ data }) => {
                   {data.attachments.map((ele, key) => (
                     <li key={key}>
                       <i className="uil uil-circle"></i>
-                      <a className="downloadLink" href={"/uploads/" + ele.path}>
+                      <a className="downloadLink" href={ele.path}>
                         {ele.name}
                       </a>
                     </li>

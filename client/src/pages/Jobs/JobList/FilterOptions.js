@@ -59,7 +59,7 @@ const FilterOptions = () => {
   };
 
   const checkNullForLocation = (e) => {
-    if (e.target.value == "") {
+    if (e.target.value === "") {
       dispatch(
         setFilterOptions({
           ...filterOptions,

@@ -21,7 +21,7 @@ const JobVacancyList = () => {
   // Get Data
   useEffect(() => {
     dispatch(getData({ page: 1, size: size, filterOptions: filterOptions }));
-  }, [size, filterOptions]);
+  }, [size, filterOptions, dispatch]);
 
   // Message
   useEffect(() => {

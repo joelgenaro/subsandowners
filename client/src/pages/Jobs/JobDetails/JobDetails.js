@@ -33,7 +33,7 @@ const JobDetails = ({ match }) => {
   // Get data
   useEffect(() => {
     dispatch(getData({ id: jobId }));
-  }, [jobId]);
+  }, [jobId, dispatch]);
 
   return (
     <React.Fragment>

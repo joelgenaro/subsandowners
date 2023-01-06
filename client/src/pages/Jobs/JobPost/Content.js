@@ -15,6 +15,8 @@ import {
   vinylOptions,
   colorOptions,
 } from "../../../helper/materials";
+import { ref, uploadBytesResumable, getDownloadURL } from "@firebase/storage";
+import { storage } from "../../../config/firebase";
 
 const RightSideContent = () => {
   const history = useHistory();
@@ -36,10 +38,10 @@ const RightSideContent = () => {
     removalAmount: "",
     identifier: "owner",
   });
-
+  const [files, setFiles] = useState([]);
   const [isShowRadioForRemoval, setIsShowRadioForRemoval] = useState("no");
-
   const [styleOptions, setStyleOptions] = useState([]);
+  const [isFileUploadLoading, setIsFileUploadLoading] = useState(false);
 
   // Check message
   useEffect(() => {
@@ -69,19 +71,16 @@ const RightSideContent = () => {
     initAutocomplete();
   }, []);
 
-  // form
   const handleChange = (e) => {
     setProject((data) => ({ ...data, [e.target.name]: e.target.value }));
   };
 
-  // Removal Category
   const setRemovalCategory = (e) => {
     if (e == null) return;
 
     setProject((data) => ({ ...data, removalCategory: e.value }));
   };
 
-  // Category
   const setCategory = (e) => {
     if (e == null) return;
 
@@ -111,13 +110,11 @@ const RightSideContent = () => {
     }
   };
 
-  // Style
   const setStyle = (e) => {
     if (e == null) return;
     setProject((data) => ({ ...data, materialStyle: e.value }));
   };
 
-  // Color
   const setColor = (e) => {
     if (e == null) return;
     setProject((data) => ({ ...data, materialColor: e.value }));
@@ -127,35 +124,53 @@ const RightSideContent = () => {
     setIsShowRadioForRemoval(e.target.value);
   };
 
-  // Attachments
   const setAttachments = (files) => {
-    setProject((data) => ({ ...data, attachments: files }));
+    setFiles(files);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const data = new FormData();
+    // File upload to Firebase
+    if (files.length > 0) {
+      setIsFileUploadLoading(true);
+      let tempFiles = [];
 
-    data.append("name", project.name);
-    data.append("location", project.location);
-    data.append("note", project.note);
-    data.append("deadline", project.deadline);
-    data.append("budget", project.budget);
-    data.append("attachments", project.attachments);
-    data.append("materialCategory", project.materialCategory);
-    data.append("materialStyle", project.materialStyle);
-    data.append("materialColor", project.materialColor);
-    data.append("materialHeight", project.materialHeight);
-    data.append("removalCategory", project.removalCategory);
-    data.append("removalAmount", project.removalAmount);
-    data.append("identifier", "owner");
+      // Upload files to Firebase
+      await Promise.all(
+        files.map(async (item) => {
+          const encodedName =
+            item.preview.split("/")[3] + "." + item.name.split(".").pop();
 
-    for (var x = 0; x < project.attachments.length; x++) {
-      data.append("attachments", project.attachments[x]);
+          const fileRef = ref(
+            storage,
+            "scheduleasub/attachmentsForProject/" + encodedName
+          );
+
+          await uploadBytesResumable(fileRef, item)
+            .then((snapshot) => {
+              getDownloadURL(snapshot.ref).then(async (url) => {
+                tempFiles.push({ name: item.name, path: url });
+              });
+            })
+            .catch((error) => {
+              toast.error(error);
+            });
+        })
+      );
+
+      setProject((data) => ({ ...data, attachments: tempFiles }));
+
+      if (project.attachments.length > 1) {
+        setIsFileUploadLoading(false);
+      }
     }
+    // End fileUpload to Firebase
 
-    dispatch(createProject(data));
+    if (isFileUploadLoading == false) {
+      dispatch(createProject(project));
+    }
+    return true;
   };
 
   return (
@@ -175,7 +190,7 @@ const RightSideContent = () => {
                         className="form-control"
                         placeholder=""
                         type="text"
-                        required
+                        // required
                         defaultValue={project.name}
                         onChange={handleChange}
                         id="name"
@@ -196,7 +211,7 @@ const RightSideContent = () => {
                       <textarea
                         id="note"
                         name="note"
-                        required
+                        // required
                         value={project.note}
                         onChange={handleChange}
                         className="form-control"
@@ -213,7 +228,7 @@ const RightSideContent = () => {
 
                       <Input
                         className="form-control"
-                        required
+                        // required
                         name="location"
                         defaultValue={project.location}
                         id="pac-input"
@@ -232,7 +247,7 @@ const RightSideContent = () => {
                         className="form-control"
                         id="deadline"
                         name="deadline"
-                        required
+                        // required
                         defaultValue={project.deadline}
                         onChange={handleChange}
                       />
@@ -249,7 +264,7 @@ const RightSideContent = () => {
                         className="form-control"
                         name="budget"
                         placeholder="$"
-                        required
+                        // required
                         defaultValue={project.budget}
                         onChange={handleChange}
                         id="budget"

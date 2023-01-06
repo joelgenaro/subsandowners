@@ -1,9 +1,5 @@
 import React from "react";
 import { Card, CardBody } from "reactstrap";
-import { Link } from "react-router-dom";
-
-//Import Images
-import jobImages2 from "../../../assets/images/featured-job/img-02.png";
 
 const RightSideContent = () => {
   return (

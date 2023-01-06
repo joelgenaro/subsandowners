@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card, CardBody, Col, Container, Input, Row } from "reactstrap";
 import MetaTags from "react-meta-tags";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { authLogin, authReset } from "../../redux/authSlice";
 
@@ -17,9 +17,7 @@ import { Link } from "react-router-dom";
 const SignIn = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { isSuccess, isError, message, role } = useSelector(
-    (state) => state.auth
-  );
+  const { isSuccess, isError, message } = useSelector((state) => state.auth);
   const [userData, setUserData] = useState({
     email: "",
     password: "",

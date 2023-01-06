@@ -48,7 +48,7 @@ export const authRegister = createAsyncThunk(
   "auth/authRegister",
   async (userData, thunkAPI) => {
     try {
-      return await (userData.identifier == "sub"
+      return await (userData.identifier === "sub"
         ? subcontractorAuthService.createAccountGmail(userData)
         : ownerAuthService.createAccountGmail(userData));
     } catch (error) {
@@ -63,7 +63,7 @@ export const profileUpdate = createAsyncThunk(
   "auth/profileUpdate",
   async (userData, thunkAPI) => {
     try {
-      return await (userData.identifier == "sub"
+      return await (userData.identifier === "sub"
         ? subcontractorAuthService.updateProfile(userData)
         : ownerAuthService.updateProfile(userData));
     } catch (error) {

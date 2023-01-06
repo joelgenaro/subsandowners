@@ -5,7 +5,6 @@ createProject = async (req, res, next) => {
   let data = {
     ...req.body,
     owner: req.user["_id"],
-    attachments: req.fileInArray,
   };
 
   try {

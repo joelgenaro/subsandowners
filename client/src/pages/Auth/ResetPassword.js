@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import { Form } from "react-bootstrap";
 
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { forgotPassword, authReset } from "../../redux/authSlice";
 
@@ -35,7 +35,7 @@ const ResetPassword = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (email == "") {
+    if (email === "") {
       toast.error("Please input your email");
     }
     dispatch(forgotPassword({ email }));
