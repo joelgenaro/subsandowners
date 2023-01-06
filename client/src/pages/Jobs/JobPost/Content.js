@@ -41,7 +41,6 @@ const RightSideContent = () => {
   const [files, setFiles] = useState([]);
   const [isShowRadioForRemoval, setIsShowRadioForRemoval] = useState("no");
   const [styleOptions, setStyleOptions] = useState([]);
-  const [isFileUploadLoading, setIsFileUploadLoading] = useState(false);
 
   // Check message
   useEffect(() => {
@@ -187,7 +186,7 @@ const RightSideContent = () => {
                         className="form-control"
                         placeholder=""
                         type="text"
-                        // required
+                        required
                         defaultValue={project.name}
                         onChange={handleChange}
                         id="name"
@@ -208,7 +207,7 @@ const RightSideContent = () => {
                       <textarea
                         id="note"
                         name="note"
-                        // required
+                        required
                         value={project.note}
                         onChange={handleChange}
                         className="form-control"
@@ -225,7 +224,7 @@ const RightSideContent = () => {
 
                       <Input
                         className="form-control"
-                        // required
+                        required
                         name="location"
                         defaultValue={project.location}
                         id="pac-input"
@@ -244,7 +243,7 @@ const RightSideContent = () => {
                         className="form-control"
                         id="deadline"
                         name="deadline"
-                        // required
+                        required
                         defaultValue={project.deadline}
                         onChange={handleChange}
                       />
@@ -261,7 +260,7 @@ const RightSideContent = () => {
                         className="form-control"
                         name="budget"
                         placeholder="$"
-                        // required
+                        required
                         defaultValue={project.budget}
                         onChange={handleChange}
                         id="budget"
