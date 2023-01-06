@@ -54,6 +54,12 @@ const RightSideContent = () => {
     dispatch(projectReset());
   }, [isSuccess, isError, message, history, dispatch]);
 
+  useEffect(() => {
+    if (project.name) {
+      dispatch(createProject(project));
+    }
+  }, [project.attachments]);
+
   // Google map Input
   useEffect(() => {
     const initAutocomplete = () => {
@@ -131,11 +137,10 @@ const RightSideContent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    let tempFiles = [];
+
     // File upload to Firebase
     if (files.length > 0) {
-      setIsFileUploadLoading(true);
-      let tempFiles = [];
-
       // Upload files to Firebase
       await Promise.all(
         files.map(async (item) => {
@@ -158,18 +163,10 @@ const RightSideContent = () => {
             });
         })
       );
-
-      setProject((data) => ({ ...data, attachments: tempFiles }));
-
-      if (project.attachments.length > 1) {
-        setIsFileUploadLoading(false);
-      }
     }
-    // End fileUpload to Firebase
 
-    if (isFileUploadLoading == false) {
-      dispatch(createProject(project));
-    }
+    setProject((data) => ({ ...data, attachments: tempFiles }));
+
     return true;
   };
 
@@ -190,7 +187,7 @@ const RightSideContent = () => {
                         className="form-control"
                         placeholder=""
                         type="text"
-                        required
+                        // required
                         defaultValue={project.name}
                         onChange={handleChange}
                         id="name"
@@ -211,7 +208,7 @@ const RightSideContent = () => {
                       <textarea
                         id="note"
                         name="note"
-                        required
+                        // required
                         value={project.note}
                         onChange={handleChange}
                         className="form-control"
@@ -228,7 +225,7 @@ const RightSideContent = () => {
 
                       <Input
                         className="form-control"
-                        required
+                        // required
                         name="location"
                         defaultValue={project.location}
                         id="pac-input"
@@ -247,7 +244,7 @@ const RightSideContent = () => {
                         className="form-control"
                         id="deadline"
                         name="deadline"
-                        required
+                        // required
                         defaultValue={project.deadline}
                         onChange={handleChange}
                       />
@@ -264,7 +261,7 @@ const RightSideContent = () => {
                         className="form-control"
                         name="budget"
                         placeholder="$"
-                        required
+                        // required
                         defaultValue={project.budget}
                         onChange={handleChange}
                         id="budget"
