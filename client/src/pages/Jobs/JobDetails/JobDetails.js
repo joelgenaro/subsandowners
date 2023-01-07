@@ -50,7 +50,7 @@ const JobDetails = ({ match }) => {
                   <JobDetailsDescription data={details} />
                 </Col>
                 <Col lg={4} className="mt-4 mt-lg-0">
-                  <RightSideContent />
+                  <RightSideContent data={details} />
                 </Col>
               </Row>
             ) : (
