@@ -7,6 +7,8 @@ createProject = async (req, res, next) => {
     owner: req.user["_id"],
   };
 
+  console.log(req.body);
+
   try {
     const user = await Project.create({
       ...data,

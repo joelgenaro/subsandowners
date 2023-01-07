@@ -55,7 +55,7 @@ const login = async (req, res, next) => {
   }
 
   const user = Owner ? Owner : Subcontractor;
-  const role = Owner ? "owner" : "subcontractor";
+  const role = Owner ? "owner" : "sub";
 
   try {
     const isMatch = await user.matchPasswords(password);
@@ -115,7 +115,7 @@ const forgotPassword = async (req, res, next) => {
   }
 
   const user = Owner ? Owner : Subcontractor;
-  const role = Owner ? "owner" : "subcontractor";
+  const role = Owner ? "owner" : "sub";
 
   try {
     const resetToken = user.getResetPasswordToken();
