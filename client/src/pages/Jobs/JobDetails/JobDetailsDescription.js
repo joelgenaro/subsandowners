@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardBody, Col, Row } from "reactstrap";
+import { Card, CardBody, Col, Row, Input } from "reactstrap";
 import { Link } from "react-router-dom";
 import { calculateTimePosted } from "../../../helper/calculateTimePosted";
 import { capitalize } from "../../../helper/capitalize";
@@ -122,6 +122,70 @@ const JobDetailsDescription = ({ data }) => {
               </div>
             </div>
           ) : null}
+        </CardBody>
+      </Card>
+      <Card className="job-detail overflow-hidden mt-4">
+        <CardBody className="p-4">
+          <div>
+            <Row>
+              <Col md={8}>
+                <h5 className="mb-1">Place a Bid on this Project</h5>
+              </Col>
+            </Row>
+          </div>
+
+          <div className="mt-4">
+            <p className="text-muted mb-3">
+              You will be able to edit your bid until the project is awarded to
+              someone
+            </p>
+            <Row>
+              <Col lg={6}>
+                <div className="mb-3">
+                  <label htmlFor="inputemail" className="form-label">
+                    Bid Amount
+                  </label>
+                  <Input
+                    type="number"
+                    className="form-control"
+                    id="inputemail"
+                    placeholder="$"
+                  />
+                </div>
+              </Col>
+              <Col lg={6}>
+                <div className="mb-3">
+                  <label htmlFor="inputsubject" className="form-label">
+                    The project will be delivered in
+                  </label>
+                  <Input
+                    type="number"
+                    className="form-control"
+                    id="inputsubject"
+                    placeholder="Days"
+                  />
+                </div>
+              </Col>
+              <Col lg={12}>
+                <div className="mb-3">
+                  <label htmlFor="inputcoment" className="form-label">
+                    Describe your proposal
+                  </label>
+                  <textarea
+                    className="form-control"
+                    id="inputcoment"
+                    rows="5"
+                    placeholder="What makes you the best candidate for this project?"
+                  ></textarea>
+                </div>
+              </Col>
+            </Row>
+            <div className="text-end">
+              <button type="submit" className="btn btn-primary btn-hover">
+                Place Bid
+              </button>
+            </div>
+          </div>
         </CardBody>
       </Card>
     </React.Fragment>
