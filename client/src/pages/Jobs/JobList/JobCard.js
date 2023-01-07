@@ -112,13 +112,13 @@ const JobCard = ({ project }) => {
             </Col>
             <Col lg={2} md={3}>
               <div>
-                <Link
-                  to={"/jobs/" + project["_id"]}
+                <a
+                  href={"/jobs/" + project["_id"]}
                   target="_blank"
                   className="primary-link"
                 >
                   Apply Now <i className="mdi mdi-chevron-double-right"></i>
-                </Link>
+                </a>
               </div>
             </Col>
           </Row>
