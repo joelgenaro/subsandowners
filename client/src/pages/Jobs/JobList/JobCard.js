@@ -2,20 +2,20 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Col, Row } from "reactstrap";
 import { calculateTimePosted } from "../../../helper/calculateTimePosted";
-import { capitalize } from "../../../helper/capitalize";
+import capitalize from "../../../helper/capitalize";
 
 const JobCard = ({ project }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [isMore, setIsMore] = useState(false);
 
   useEffect(() => {
-    project.note.length > 300 ? setIsMore(true) : setIsMore(false);
-  }, [project.note.length]);
+    project.description.length > 300 ? setIsMore(true) : setIsMore(false);
+  }, [project.description.length]);
 
   // more and less
   const description = showFullDescription
-    ? project.note
-    : project.note.slice(0, 300) + (isMore ? "..." : "");
+    ? project.description
+    : project.description.slice(0, 300) + (isMore ? "..." : "");
 
   const showHandler = (e) => {
     e.stopPropagation();
@@ -33,7 +33,7 @@ const JobCard = ({ project }) => {
               <div className="mt-3 mt-lg-0">
                 <h5 className="fs-17 mb-1">
                   <Link to="/jobdetails" className="text-dark">
-                    {capitalize(project.name)}
+                    {capitalize(project.title)}
                   </Link>{" "}
                 </h5>
                 <ul className="list-inline mt-4 mb-3">
@@ -51,7 +51,7 @@ const JobCard = ({ project }) => {
                   </li>
                   <li className="list-inline-item">
                     <p className="text-muted fs-14 mb-0">
-                      - Posted {calculateTimePosted(project.Date)}
+                      - Posted {calculateTimePosted(project.date_created)}
                     </p>
                   </li>
                 </ul>

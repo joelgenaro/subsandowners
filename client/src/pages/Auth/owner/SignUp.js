@@ -16,17 +16,24 @@ import signUpImage from "../../../assets/images/auth/sign-up.png";
 const SignUpForOwner = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { isSuccess, isError, message } = useSelector((state) => state.auth);
+  const { isSuccess, isError, message, both } = useSelector(
+    (state) => state.auth
+  );
 
   useEffect(() => {
     if (isError) {
       toast.error(message);
     } else if (isSuccess) {
-      toast.success("User Registered Successfully");
-      history.push("/registerForOwner");
+      if (both == true) {
+        toast.success("Owner account created Successfully");
+        history.push("/letsStart");
+      } else {
+        toast.success("User Registered Successfully");
+        history.push("/registerForOwner");
+      }
     }
     dispatch(authReset());
-  }, [isSuccess, isError, message, history, dispatch]);
+  }, [isSuccess, isError, message, both, history, dispatch]);
 
   const onSubmit = (data) => {
     const userData = { ...data, identifier: "owner" };

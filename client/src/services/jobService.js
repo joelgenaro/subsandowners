@@ -2,14 +2,14 @@ import axios from "axios";
 
 axios.defaults.withCredentials = true;
 
-const API_URL = `https://subsandowners.onrender.com/api/project`;
+const API_URL = `https://subsandowners.onrender.com/api/job`;
 const config = {
   headers: {
     "Content-Type": "application/json",
   },
 };
 
-const createProject = async (data) => {
+const createJob = async (data) => {
   const response = await axios.post(`${API_URL}/create`, data, config);
   return response.data;
 };
@@ -19,7 +19,13 @@ const getJobDetails = async (data) => {
   return response.data;
 };
 
-export const projectService = {
-  createProject,
+const getAllJobs = async (data) => {
+  const response = await axios.post(`${API_URL}/getAllJobs`, data, config);
+  return response.data;
+};
+
+export const jobService = {
+  createJob,
   getJobDetails,
+  getAllJobs,
 };

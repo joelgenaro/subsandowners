@@ -28,12 +28,13 @@ import { useCookies } from "react-cookie";
 
 const NavBar = (props) => {
   // Auth
-  const [cookies] = useCookies(["token"]);
+  const [cookies, setCookie] = useCookies();
   const { isLogoutSuccess, isError, message } = useSelector(
     (state) => state.auth
   );
-  const Token = cookies.token;
-  const Role = cookies.role;
+  let Token = cookies.token;
+  let Role = cookies.role;
+  let both = cookies.both;
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -41,7 +42,6 @@ const NavBar = (props) => {
   // NavItems
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
-
   const [jobs, setJobs] = useState(false);
   const [candidates, setCandidates] = useState(false);
   const [ownerReports, setOwnerReports] = useState(false);
@@ -74,20 +74,6 @@ const NavBar = (props) => {
     dispatch(authReset());
   }, [isLogoutSuccess, isError, message, history, dispatch]);
 
-  // Logout
-  const logoutHandler = (e) => {
-    dispatch(logoutUser());
-  };
-
-  function scrollNavigation() {
-    var scrollup = window.pageYOffset;
-    if (scrollup > 0) {
-      setnavClass("nav-sticky");
-    } else {
-      setnavClass("");
-    }
-  }
-
   //menu activation
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -106,6 +92,27 @@ const NavBar = (props) => {
       activateParentDropdown(matchingMenuItem);
     }
   });
+
+  const switchAccount = () => {
+    const accountToSwitch = Role === "sub" ? "owner" : "sub";
+    setCookie("role", accountToSwitch);
+
+    Role === "sub" ? history.push("joblist") : history.push("jobpost");
+  };
+
+  const logoutHandler = (e) => {
+    dispatch(logoutUser());
+  };
+
+  const scrollNavigation = () => {
+    var scrollup = window.pageYOffset;
+    if (scrollup > 0) {
+      setnavClass("nav-sticky");
+    } else {
+      setnavClass("");
+    }
+  };
+
   const removeActivation = (items) => {
     for (var i = 0; i < items.length; ++i) {
       var item = items[i];
@@ -121,7 +128,7 @@ const NavBar = (props) => {
     }
   };
 
-  function activateParentDropdown(item) {
+  const activateParentDropdown = (item) => {
     item.classList.add("active");
     const parent = item.parentElement.parentElement.parentElement;
 
@@ -147,7 +154,7 @@ const NavBar = (props) => {
       }
     }
     return false;
-  }
+  };
 
   return (
     <React.Fragment>
@@ -377,27 +384,6 @@ const NavBar = (props) => {
               ) : (
                 ""
               )}
-              {/* {!Role ? (
-                <>
-                  <NavItem>
-                    <Link to="/candidatelist" className="nav-link">
-                      Find Talent
-                    </Link>
-                  </NavItem>
-                  <NavItem>
-                    <Link to="/joblist" className="nav-link">
-                      Find Work
-                    </Link>
-                  </NavItem>
-                  <NavItem>
-                    <Link to="#" className="nav-link">
-                      Why Scheduleasub
-                    </Link>
-                  </NavItem>
-                </>
-              ) : (
-                ""
-              )} */}
             </ul>
           </Collapse>
 
@@ -581,6 +567,34 @@ const NavBar = (props) => {
                       My Profile
                     </Link>
                   </li>
+                  {both === "true" && Role == "sub" ? (
+                    <li>
+                      <Link
+                        className="dropdown-item"
+                        to="#"
+                        name="owner"
+                        onClick={switchAccount}
+                      >
+                        Owner
+                      </Link>
+                    </li>
+                  ) : (
+                    ""
+                  )}
+                  {both === "true" && Role == "owner" ? (
+                    <li>
+                      <Link
+                        className="dropdown-item"
+                        to="#"
+                        name="sub"
+                        onClick={switchAccount}
+                      >
+                        SubContractor
+                      </Link>
+                    </li>
+                  ) : (
+                    ""
+                  )}
                   <li>
                     <Link
                       className="dropdown-item"

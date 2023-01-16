@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Col, Row } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { getData, jobListReset, setSize } from "../../../redux/jobListSlice";
+import { getAllJobs, jobReset, setSize } from "../../../redux/jobSlice";
 import JobCard from "./JobCard";
 
 const JobVacancyList = () => {
@@ -16,11 +16,11 @@ const JobVacancyList = () => {
     paginator,
     data,
     filterOptions,
-  } = useSelector((state) => state.jobList);
+  } = useSelector((state) => state.job);
 
   // Get Data
   useEffect(() => {
-    dispatch(getData({ page: 1, size: size, filterOptions: filterOptions }));
+    dispatch(getAllJobs({ page: 1, size: size, filterOptions: filterOptions }));
   }, [size, filterOptions, dispatch]);
 
   // Message
@@ -29,7 +29,7 @@ const JobVacancyList = () => {
       toast.error(message);
     } else if (isSuccess) {
     }
-    dispatch(jobListReset());
+    dispatch(jobReset());
   }, [isSuccess, isError, message, dispatch]);
 
   // Get Size

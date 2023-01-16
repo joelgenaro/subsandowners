@@ -2,7 +2,6 @@ import React from "react";
 import { Card, CardBody } from "reactstrap";
 
 const RightSideContent = ({ data }) => {
-  console.log(data);
   return (
     <React.Fragment>
       <div className="side-bar ms-lg-4">

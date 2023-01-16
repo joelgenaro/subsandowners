@@ -1,4 +1,4 @@
-const Subcontractor = require("../models/mSubcontractors.js");
+const User = require("../models/mUser");
 
 // paginator lables
 const myCustomLabels = {
@@ -22,7 +22,7 @@ const getData = async (req, res, next) => {
   };
 
   try {
-    const data = await Subcontractor.paginate({}, options);
+    const data = await User.paginate({}, options);
     const itemsList = data.itemsList;
     const paginator = data.paginator;
 
@@ -53,7 +53,7 @@ const filter = async (req, res, next) => {
   };
 
   try {
-    const data = await Subcontractor.paginate(query, options);
+    const data = await User.paginate(query, options);
     const itemsList = data.itemsList;
     const paginator = data.paginator;
 

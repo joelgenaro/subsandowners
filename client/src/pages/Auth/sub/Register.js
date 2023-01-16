@@ -8,6 +8,8 @@ import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { profileUpdate, authReset } from "../../../redux/authSlice";
 import useGeoLocation from "react-ipgeolocation";
+import toBase64 from "../../../helper/toBase64";
+import countries from "../../../helper/countries";
 
 const RegisterForSub = () => {
   //Get the whole state from currentAuth
@@ -16,15 +18,16 @@ const RegisterForSub = () => {
   const dispatch = useDispatch();
   const { isSuccess, isError, message } = useSelector((state) => state.auth);
   const geo = useGeoLocation();
+
   const [subcontractor, setSubcontractor] = useState({
-    identifier: "sub",
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     profile: "",
     phone: "",
     salary: "",
-    location: "",
     country: "",
+    city: "",
+    address: "",
     avatar: null,
   });
 
@@ -40,18 +43,43 @@ const RegisterForSub = () => {
 
   useEffect(() => {
     initAutocomplete();
-  }, []);
+    setSubcontractor((data) => ({ ...data, country: countries[geo.country] }));
+  }, [geo.country]);
 
   // Location Autocomplete
   const initAutocomplete = () => {
-    let input = document.getElementById("pac-input");
+    const cityOption = {
+      types: ["(cities)"],
+      componentRestrictions: { country: geo.country },
+    };
+    const addressOption = {
+      types: ["address"],
+      componentRestrictions: { country: geo.country },
+    };
 
-    let searchBox = new window.google.maps.places.SearchBox(input);
+    let addressInput = document.getElementById("address");
+    let cityInput = document.getElementById("city");
 
-    searchBox.addListener("places_changed", function () {
+    let searchBoxCity = new window.google.maps.places.Autocomplete(
+      cityInput,
+      cityOption
+    );
+    let searchBoxAddress = new window.google.maps.places.Autocomplete(
+      addressInput,
+      addressOption
+    );
+
+    searchBoxCity.addListener("place_changed", function () {
       setSubcontractor((data) => ({
         ...data,
-        location: document.getElementById("pac-input").value,
+        city: document.getElementById("city").value,
+      }));
+    });
+
+    searchBoxAddress.addListener("place_changed", function () {
+      setSubcontractor((data) => ({
+        ...data,
+        address: document.getElementById("address").value,
       }));
     });
   };
@@ -62,18 +90,8 @@ const RegisterForSub = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     dispatch(profileUpdate(subcontractor));
   };
-
-  // avatar upload
-  const toBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
 
   const handlePhoto = async (e) => {
     const file = e.target.files[0];
@@ -134,17 +152,17 @@ const RegisterForSub = () => {
                                   <Col lg={6}>
                                     <div className="mb-3">
                                       <label
-                                        htmlFor="firstName"
+                                        htmlFor="first_name"
                                         className="form-label"
                                       >
-                                        First Name (*)
+                                        First Name
                                       </label>
                                       <Input
                                         type="text"
-                                        id="firstName"
-                                        name="firstName"
+                                        id="first_name"
+                                        name="first_name"
                                         required
-                                        value={subcontractor.firstName}
+                                        value={subcontractor.first_name}
                                         onChange={handleChange}
                                       />
                                     </div>
@@ -152,17 +170,17 @@ const RegisterForSub = () => {
                                   <Col lg={6}>
                                     <div className="mb-3">
                                       <Label
-                                        htmlFor="lastName"
+                                        htmlFor="last_name"
                                         className="form-label"
                                       >
-                                        Last Name (*)
+                                        Last Name
                                       </Label>
                                       <Input
                                         type="text"
-                                        id="lastName"
-                                        name="lastName"
+                                        id="last_name"
+                                        name="last_name"
                                         required
-                                        value={subcontractor.lastName}
+                                        value={subcontractor.last_name}
                                         onChange={handleChange}
                                       />
                                     </div>
@@ -172,7 +190,7 @@ const RegisterForSub = () => {
 
                               <div className="mt-4">
                                 <h5 className="fs-17 fw-semibold mb-3">
-                                  Profile (*)
+                                  Profile
                                 </h5>
                                 <Row>
                                   <Col lg={12}>
@@ -227,34 +245,25 @@ const RegisterForSub = () => {
                                         type="text"
                                         className="form-control"
                                         id="salary"
+                                        required
                                         name="salary"
                                         value={subcontractor.salary}
                                         onChange={handleChange}
                                       />
                                     </div>
                                   </Col>
+                                </Row>
+                              </div>
+
+                              <div className="mt-4">
+                                <h5 className="fs-17 fw-semibold mb-3">
+                                  Where are you located?
+                                </h5>
+                                <Row>
                                   <Col lg={6}>
                                     <div className="mb-3">
                                       <label
-                                        htmlFor="location"
-                                        className="form-label"
-                                      >
-                                        Location (*)
-                                      </label>
-                                      <Input
-                                        className="form-control"
-                                        name="location"
-                                        required
-                                        defaultValue={subcontractor.location}
-                                        id="pac-input"
-                                        type="text"
-                                      />
-                                    </div>
-                                  </Col>
-                                  <Col lg={6}>
-                                    <div className="mb-3">
-                                      <label
-                                        htmlFor="location"
+                                        htmlFor="country"
                                         className="form-label"
                                       >
                                         Country
@@ -265,7 +274,44 @@ const RegisterForSub = () => {
                                         name="country"
                                         disabled
                                         onChange={handleChange}
-                                        defaultValue={geo.country}
+                                        value={subcontractor.country}
+                                      />
+                                    </div>
+                                  </Col>
+                                  <Col lg={6}>
+                                    <div className="mb-3">
+                                      <label
+                                        htmlFor="city"
+                                        className="form-label"
+                                      >
+                                        City
+                                      </label>
+                                      <Input
+                                        className="form-control"
+                                        name="city"
+                                        required
+                                        defaultValue={subcontractor.city}
+                                        id="city"
+                                        type="search"
+                                      />
+                                    </div>
+                                  </Col>
+
+                                  <Col lg={12}>
+                                    <div className="mb-3">
+                                      <label
+                                        htmlFor="address"
+                                        className="form-label"
+                                      >
+                                        Street Address
+                                      </label>
+                                      <Input
+                                        className="form-control"
+                                        id="address"
+                                        name="address"
+                                        required
+                                        defaultValue={subcontractor.address}
+                                        type="search"
                                       />
                                     </div>
                                   </Col>

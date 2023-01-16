@@ -4,16 +4,16 @@ const protect = require("../middlewares/auth");
 
 const {
   login,
-  createSubcontractorWithEmail,
-  updateSubcontractor,
+  create,
+  update,
   logout,
   forgotPassword,
-} = require("../controllers/cAuthSubcontractor.js");
+} = require("../controllers/cAuth.js");
 
 router.post("/login", login);
 router.post("/forgotPassword", forgotPassword);
-router.post("/add", createSubcontractorWithEmail);
-router.post("/update", protect, updateSubcontractor);
+router.post("/add", create);
+router.post("/update", protect, update);
 router.get("/logout", logout);
 
 module.exports = router;

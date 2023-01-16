@@ -1,4 +1,5 @@
-const Project = require("../models/mProject.js");
+const User = require("../models/mUser");
+const Job = require("../models/mJob");
 
 // Paginator lables
 const myCustomLabels = {
@@ -13,8 +14,44 @@ const myCustomLabels = {
   meta: "paginator",
 };
 
-// TextSearch Controller
-const getData = async (req, res, next) => {
+const createJob = async (req, res, next) => {
+  const filter = { _id: req.user["_id"] };
+  const data = {
+    ...req.body,
+    owner_id: req.user["_id"],
+  };
+
+  try {
+    await Job.create({ ...data });
+
+    await User.findOneAndUpdate(filter, {
+      $push: { jobs: { ...req.body } },
+    });
+
+    res.status(201).json({
+      success: true,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getJobDetails = async (req, res, next) => {
+  const jobId = req.body.id;
+
+  try {
+    const details = await Job.findById(jobId).exec();
+
+    res.status(201).json({
+      success: true,
+      details,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getAllJobs = async (req, res, next) => {
   const filterOptions = req.body.filterOptions;
 
   const options = {
@@ -23,15 +60,14 @@ const getData = async (req, res, next) => {
     customLabels: myCustomLabels,
     allowDiskUse: true,
   };
-
   // Query regarding filter options.
   const query = {
     $and: [
       {
         $or: [
-          { name: { $regex: filterOptions.text, $options: "i" } },
+          { title: { $regex: filterOptions.text, $options: "i" } },
           { location: { $regex: filterOptions.text, $options: "i" } },
-          { note: { $regex: filterOptions.text, $options: "i" } },
+          { description: { $regex: filterOptions.text, $options: "i" } },
           { deadline: { $regex: filterOptions.text, $options: "i" } },
           { materialCategory: { $regex: filterOptions.text, $options: "i" } },
           { materialStyle: { $regex: filterOptions.text, $options: "i" } },
@@ -71,7 +107,7 @@ const getData = async (req, res, next) => {
   };
 
   try {
-    const data = await Project.paginate(query, options);
+    const data = await Job.paginate(query, options);
     const itemsList = data.itemsList;
     const paginator = data.paginator;
 
@@ -86,5 +122,7 @@ const getData = async (req, res, next) => {
 };
 
 module.exports = {
-  getData,
+  createJob,
+  getJobDetails,
+  getAllJobs,
 };

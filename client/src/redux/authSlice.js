@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { subcontractorAuthService } from "../services/subcontractorAuthService";
-import { ownerAuthService } from "../services/ownerAuthService";
+import { authService } from "../services/authService";
 
 const initialState = {
   authToken: null,
+  role: null,
+  both: false,
   isLoading: false,
   isSuccess: false,
   isLogoutSuccess: false,
   isError: false,
-  role: "",
   message: "",
 };
 
@@ -22,7 +22,7 @@ export const forgotPassword = createAsyncThunk(
   "auth/forgotPassword",
   async (email, thunkAPI) => {
     try {
-      return await subcontractorAuthService.forgotPassword(email);
+      return await authService.forgotPassword(email);
     } catch (error) {
       const message = errorMessageHandler(error);
       return thunkAPI.rejectWithValue(message);
@@ -35,7 +35,7 @@ export const authLogin = createAsyncThunk(
   "auth/authLogin",
   async (userData, thunkAPI) => {
     try {
-      return await subcontractorAuthService.login(userData);
+      return await authService.login(userData);
     } catch (error) {
       const message = errorMessageHandler(error);
       return thunkAPI.rejectWithValue(message);
@@ -48,9 +48,7 @@ export const authRegister = createAsyncThunk(
   "auth/authRegister",
   async (userData, thunkAPI) => {
     try {
-      return await (userData.identifier === "sub"
-        ? subcontractorAuthService.createAccountGmail(userData)
-        : ownerAuthService.createAccountGmail(userData));
+      return await authService.createAccountGmail(userData);
     } catch (error) {
       const message = errorMessageHandler(error);
       return thunkAPI.rejectWithValue(message);
@@ -63,9 +61,7 @@ export const profileUpdate = createAsyncThunk(
   "auth/profileUpdate",
   async (userData, thunkAPI) => {
     try {
-      return await (userData.identifier === "sub"
-        ? subcontractorAuthService.updateProfile(userData)
-        : ownerAuthService.updateProfile(userData));
+      return await authService.updateProfile(userData);
     } catch (error) {
       const message = errorMessageHandler(error);
       return thunkAPI.rejectWithValue(message);
@@ -78,7 +74,7 @@ export const logoutUser = createAsyncThunk(
   "auth/logoutUser",
   async (thunkAPI) => {
     try {
-      return await subcontractorAuthService.logout();
+      return await authService.logout();
     } catch (error) {
       const message = errorMessageHandler(error);
       return thunkAPI.rejectWithValue(message);
@@ -107,6 +103,8 @@ export const authSlice = createSlice({
       state.isLoading = false;
       state.isSuccess = true;
       state.authToken = action.payload.token;
+      state.role = action.payload.idenifier;
+      state.both = action.payload.both;
     });
 
     builder.addCase(authRegister.rejected, (state, action) => {
@@ -114,6 +112,8 @@ export const authSlice = createSlice({
       state.isError = true;
       state.message = action.payload;
       state.authToken = null;
+      state.role = null;
+      state.both = false;
     });
     builder.addCase(authLogin.pending, (state) => {
       state.isLoading = true;
@@ -122,8 +122,9 @@ export const authSlice = createSlice({
     builder.addCase(authLogin.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
-      state.role = action.payload.role;
       state.authToken = action.payload.token;
+      state.role = action.payload.role;
+      state.both = action.payload.both;
     });
 
     builder.addCase(authLogin.rejected, (state, action) => {
@@ -131,7 +132,8 @@ export const authSlice = createSlice({
       state.isError = true;
       state.message = action.payload;
       state.authToken = null;
-      state.role = "";
+      state.role = null;
+      state.both = false;
     });
 
     builder.addCase(forgotPassword.pending, (state) => {
@@ -168,6 +170,8 @@ export const authSlice = createSlice({
     builder.addCase(logoutUser.fulfilled, (state, action) => {
       state.isLoading = false;
       state.authToken = null;
+      state.role = null;
+      state.both = false;
       state.isLogoutSuccess = true;
       state.message = action.payload;
     });

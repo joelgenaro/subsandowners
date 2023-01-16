@@ -7,11 +7,9 @@ const bodyParser = require("body-parser");
 const path = require("path");
 
 // routes
-const authSubcontractor = require("./routes/authSubcontractor.route.js");
-const authOwner = require("./routes/authOwner.route.js");
-const project = require("./routes/project.route.js");
+const auth = require("./routes/auth.route.js");
+const job = require("./routes/job.route.js");
 const candidate = require("./routes/candidate.route.js");
-const jobList = require("./routes/jobList.route.js");
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -27,17 +25,14 @@ app.use(
     credentials: true,
   })
 );
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(express.json());
-app.use(express.static("./uploads"));
 app.use(cookieParser());
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/api/authSubcontractor", authSubcontractor);
-app.use("/api/authOwner", authOwner);
-app.use("/api/project", project);
+app.use("/api/auth", auth);
+app.use("/api/job", job);
 app.use("/api/candidate", candidate);
-app.use("/api/jobList", jobList);
 
 app.use(errorHandler);
 

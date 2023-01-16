@@ -4,7 +4,7 @@ import DropZone from "../../../helper/fileUploader";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import { createProject, projectReset } from "../../../redux/projectSlice";
+import { createJob, jobReset } from "../../../redux/jobSlice";
 import Select from "react-select";
 import {
   categoryOptions,
@@ -21,12 +21,12 @@ import { storage } from "../../../config/firebase";
 const RightSideContent = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { isSuccess, isError, message } = useSelector((state) => state.project);
+  const { isSuccess, isError, message } = useSelector((state) => state.job);
 
   const [project, setProject] = useState({
-    name: "",
+    title: "",
     location: "",
-    note: "",
+    description: "",
     deadline: "",
     budget: "",
     attachments: [],
@@ -36,7 +36,6 @@ const RightSideContent = () => {
     materialHeight: "",
     removalCategory: "",
     removalAmount: "",
-    identifier: "owner",
   });
   const [files, setFiles] = useState([]);
   const [isShowRadioForRemoval, setIsShowRadioForRemoval] = useState("no");
@@ -50,13 +49,13 @@ const RightSideContent = () => {
       toast.success("Project Registered Successfully");
       // history.push("/joblist");
     }
-    dispatch(projectReset());
+    dispatch(jobReset());
   }, [isSuccess, isError, message, history, dispatch]);
 
   useEffect(() => {
     setTimeout(() => {
-      if (project.name) {
-        dispatch(createProject(project));
+      if (project.title) {
+        dispatch(createJob(project));
       }
     }, 1000);
   }, [project.attachments]);
@@ -166,8 +165,6 @@ const RightSideContent = () => {
       );
     }
     setProject((data) => ({ ...data, attachments: tempFiles }));
-
-    return true;
   };
 
   return (
@@ -180,18 +177,18 @@ const RightSideContent = () => {
                 <Row>
                   <Col lg={12}>
                     <div className="mb-3">
-                      <Label htmlFor="name" className="form-label">
+                      <Label htmlFor="title" className="form-label">
                         Choose a name for your project
                       </Label>
                       <Input
                         className="form-control"
                         placeholder=""
                         type="text"
-                        // required
-                        defaultValue={project.name}
+                        required
+                        defaultValue={project.title}
                         onChange={handleChange}
-                        id="name"
-                        name="name"
+                        id="title"
+                        name="title"
                       />
                     </div>
                   </Col>
@@ -202,14 +199,14 @@ const RightSideContent = () => {
                 <Row>
                   <Col lg={12}>
                     <div className="mb-3">
-                      <Label htmlFor="note" className="form-label">
+                      <Label htmlFor="description" className="form-label">
                         Tell us more about your project
                       </Label>
                       <textarea
-                        id="note"
-                        name="note"
-                        // required
-                        value={project.note}
+                        id="description"
+                        name="description"
+                        required
+                        value={project.description}
                         onChange={handleChange}
                         className="form-control"
                         rows="5"
@@ -225,7 +222,7 @@ const RightSideContent = () => {
 
                       <Input
                         className="form-control"
-                        // required
+                        required
                         name="location"
                         defaultValue={project.location}
                         id="pac-input"
@@ -244,7 +241,7 @@ const RightSideContent = () => {
                         className="form-control"
                         id="deadline"
                         name="deadline"
-                        // required
+                        required
                         defaultValue={project.deadline}
                         onChange={handleChange}
                       />
@@ -261,7 +258,7 @@ const RightSideContent = () => {
                         className="form-control"
                         name="budget"
                         placeholder="$"
-                        // required
+                        required
                         defaultValue={project.budget}
                         onChange={handleChange}
                         id="budget"

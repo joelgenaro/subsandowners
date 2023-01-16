@@ -2,7 +2,7 @@ import axios from "axios";
 
 axios.defaults.withCredentials = true;
 
-const API_URL = `https://subsandowners.onrender.com/api/authSubcontractor`;
+const API_URL = `https://subsandowners.onrender.com/api/auth`;
 const config = {
   headers: {
     "Content-Type": "application/json",
@@ -39,7 +39,7 @@ const logout = async () => {
   return response.data;
 };
 
-export const subcontractorAuthService = {
+export const authService = {
   createAccountGmail,
   updateProfile,
   logout,

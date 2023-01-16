@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardBody, Col, Row, Input } from "reactstrap";
 import { Link } from "react-router-dom";
 import { calculateTimePosted } from "../../../helper/calculateTimePosted";
-import { capitalize } from "../../../helper/capitalize";
+import capitalize from "../../../helper/capitalize";
 
 const JobDetailsDescription = ({ data }) => {
   return (
@@ -12,7 +12,7 @@ const JobDetailsDescription = ({ data }) => {
           <div>
             <Row>
               <Col md={8}>
-                <h4 className="mb-1">{capitalize(data.name)}</h4>
+                <h4 className="mb-1">{capitalize(data.title)}</h4>
               </Col>
               <Col lg={4}>
                 <ul className="list-inline mb-0 text-lg-end mt-3 mt-lg-0">
@@ -52,7 +52,7 @@ const JobDetailsDescription = ({ data }) => {
                 <div className="border p-3">
                   <p className="text-muted fs-13 mb-0">Date Posted</p>
                   <p className="fw-medium mb-0">
-                    {calculateTimePosted(data.Date)}
+                    {calculateTimePosted(data.date_created)}
                   </p>
                 </div>
               </Col>
@@ -61,7 +61,7 @@ const JobDetailsDescription = ({ data }) => {
 
           <div className="mt-4">
             <div className="job-detail-desc">
-              <p className="text-muted mb-0">{data.note}</p>
+              <p className="text-muted mb-0">{data.description}</p>
             </div>
           </div>
 

@@ -35,7 +35,7 @@ const CandidateCard = ({ subcontractor }) => {
               <div className="candidate-list-content mt-3 mt-lg-0">
                 <h5 className="fs-19 mb-0">
                   <p className="primary-link">
-                    {subcontractor.firstName + " " + subcontractor.lastName}
+                    {subcontractor.first_name + " " + subcontractor.last_name}
                   </p>
                 </h5>
                 <p className="text-muted mb-2"> </p>

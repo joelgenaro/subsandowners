@@ -1,22 +1,20 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Col, Row, Card, Input, CardBody, Container, Label } from "reactstrap";
+import { Form } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  Col,
-  Row,
-  Card,
-  Input,
-  Form,
-  CardBody,
-  Container,
-  Label,
-} from "reactstrap";
-import { Link } from "react-router-dom";
+import MetaTags from "react-meta-tags";
+import userImage2 from "../../../assets/images/user/img-02.jpg";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { profileUpdate, authReset } from "../../../redux/authSlice";
-import MetaTags from "react-meta-tags";
-import userImage2 from "../../../assets/images/featured-job/img-01.png";
 import useGeoLocation from "react-ipgeolocation";
+import toBase64 from "../../../helper/toBase64";
+import countries from "../../../helper/countries";
+
+const ownerRegisterButtons = {
+  display: "flex",
+  justifyContent: "space-between",
+};
 
 const RegisterForOwner = () => {
   //Get the whole state from currentAuth
@@ -25,15 +23,16 @@ const RegisterForOwner = () => {
   const dispatch = useDispatch();
   const { isSuccess, isError, message } = useSelector((state) => state.auth);
   const geo = useGeoLocation();
-  const [owner, setOwner] = useState({
-    identifier: "owner",
-    companyName: "",
-    ownerName: "",
+
+  const [subcontractor, setSubcontractor] = useState({
+    first_name: "",
+    last_name: "",
     profile: "",
     phone: "",
-    location: "",
-    website: "",
-    country: "Indonesia",
+    salary: "",
+    country: "",
+    city: "",
+    address: "",
     avatar: null,
   });
 
@@ -42,42 +41,71 @@ const RegisterForOwner = () => {
       toast.error(message);
     } else if (isSuccess) {
       toast.success("Profile Registered Successfully");
-      history.push("/joblist");
+      history.push("/letsStart");
     }
     dispatch(authReset());
   }, [isSuccess, isError, message, history, dispatch]);
 
-  function handleChange(e) {
-    setOwner((data) => ({ ...data, [e.target.name]: e.target.value }));
-  }
+  useEffect(() => {
+    initAutocomplete();
+    setSubcontractor((data) => ({ ...data, country: countries[geo.country] }));
+  }, [geo.country]);
+
+  // Location Autocomplete
+  const initAutocomplete = () => {
+    const cityOption = {
+      types: ["(cities)"],
+      componentRestrictions: { country: geo.country },
+    };
+    const addressOption = {
+      types: ["address"],
+      componentRestrictions: { country: geo.country },
+    };
+
+    let addressInput = document.getElementById("address");
+    let cityInput = document.getElementById("city");
+
+    let searchBoxCity = new window.google.maps.places.Autocomplete(
+      cityInput,
+      cityOption
+    );
+    let searchBoxAddress = new window.google.maps.places.Autocomplete(
+      addressInput,
+      addressOption
+    );
+
+    searchBoxCity.addListener("place_changed", function () {
+      setSubcontractor((data) => ({
+        ...data,
+        city: document.getElementById("city").value,
+      }));
+    });
+
+    searchBoxAddress.addListener("place_changed", function () {
+      setSubcontractor((data) => ({
+        ...data,
+        address: document.getElementById("address").value,
+      }));
+    });
+  };
+
+  const handleChange = (e) => {
+    setSubcontractor((data) => ({ ...data, [e.target.name]: e.target.value }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(profileUpdate(owner));
+    dispatch(profileUpdate(subcontractor));
   };
 
-  // Convert avatar to baseCode
-  const toBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-
-  async function handlePhoto(e) {
+  const handlePhoto = async (e) => {
     const file = e.target.files[0];
     const basecode = await toBase64(file);
 
     imageRef.current.src = basecode;
 
-    setOwner((data) => ({ ...data, avatar: basecode }));
-  }
-
-  const ownerRegisterButtons = {
-    display: "flex",
-    justifyContent: "space-between",
+    setSubcontractor((data) => ({ ...data, avatar: basecode }));
   };
 
   return (
@@ -115,7 +143,6 @@ const RegisterForOwner = () => {
                                         id="profile-img-file-input"
                                         type="file"
                                         className="profile-img-file-input"
-                                        name="avatar"
                                         onChange={handlePhoto}
                                       />
                                       <Label
@@ -131,17 +158,17 @@ const RegisterForOwner = () => {
                                   <Col lg={6}>
                                     <div className="mb-3">
                                       <label
-                                        htmlFor="companyName"
+                                        htmlFor="first_name"
                                         className="form-label"
                                       >
-                                        Company Name
+                                        First Name
                                       </label>
                                       <Input
                                         type="text"
-                                        className="form-control"
-                                        id="companyName"
-                                        name="companyName"
-                                        value={owner.companyName}
+                                        id="first_name"
+                                        name="first_name"
+                                        required
+                                        value={subcontractor.first_name}
                                         onChange={handleChange}
                                       />
                                     </div>
@@ -149,17 +176,17 @@ const RegisterForOwner = () => {
                                   <Col lg={6}>
                                     <div className="mb-3">
                                       <Label
-                                        htmlFor="ownerName"
+                                        htmlFor="last_name"
                                         className="form-label"
                                       >
-                                        Owner Name
+                                        Last Name
                                       </Label>
                                       <Input
                                         type="text"
-                                        className="form-control"
-                                        id="ownerName"
-                                        name="ownerName"
-                                        value={owner.ownerName}
+                                        id="last_name"
+                                        name="last_name"
+                                        required
+                                        value={subcontractor.last_name}
                                         onChange={handleChange}
                                       />
                                     </div>
@@ -169,7 +196,7 @@ const RegisterForOwner = () => {
 
                               <div className="mt-4">
                                 <h5 className="fs-17 fw-semibold mb-3">
-                                  About Company
+                                  Profile
                                 </h5>
                                 <Row>
                                   <Col lg={12}>
@@ -177,13 +204,17 @@ const RegisterForOwner = () => {
                                       <Label
                                         htmlFor="profile"
                                         className="form-label"
-                                      ></Label>
+                                      >
+                                        Introduce Yourself
+                                      </Label>
                                       <textarea
-                                        className="form-control"
-                                        rows="5"
                                         id="profile"
                                         name="profile"
-                                        value={owner.profile}
+                                        rows="5"
+                                        placeholder=""
+                                        required
+                                        className="form-control"
+                                        value={subcontractor.profile}
                                         onChange={handleChange}
                                       ></textarea>
                                     </div>
@@ -202,7 +233,7 @@ const RegisterForOwner = () => {
                                         className="form-control"
                                         id="phone"
                                         name="phone"
-                                        value={owner.phone}
+                                        value={subcontractor.phone}
                                         onChange={handleChange}
                                       />
                                     </div>
@@ -211,54 +242,82 @@ const RegisterForOwner = () => {
                                   <Col lg={6}>
                                     <div className="mb-3">
                                       <Label
-                                        htmlFor="location"
+                                        htmlFor="salary"
                                         className="form-label"
                                       >
-                                        Location
+                                        Salary
                                       </Label>
                                       <Input
                                         type="text"
                                         className="form-control"
-                                        id="location"
-                                        name="location"
-                                        value={owner.location}
+                                        id="salary"
+                                        required
+                                        name="salary"
+                                        value={subcontractor.salary}
                                         onChange={handleChange}
                                       />
                                     </div>
                                   </Col>
+                                </Row>
+                              </div>
 
+                              <div className="mt-4">
+                                <h5 className="fs-17 fw-semibold mb-3">
+                                  Where are you located?
+                                </h5>
+                                <Row>
                                   <Col lg={6}>
                                     <div className="mb-3">
-                                      <Label
-                                        htmlFor="website"
-                                        className="form-label"
-                                      >
-                                        Webstie
-                                      </Label>
-                                      <Input
-                                        type="text"
-                                        className="form-control"
-                                        id="website"
-                                        name="website"
-                                      />
-                                    </div>
-                                  </Col>
-
-                                  <Col lg={6}>
-                                    <div className="mb-3">
-                                      <Label
+                                      <label
                                         htmlFor="country"
                                         className="form-label"
                                       >
                                         Country
-                                      </Label>
+                                      </label>
                                       <Input
                                         type="text"
                                         id="country"
                                         name="country"
                                         disabled
                                         onChange={handleChange}
-                                        defaultValue={geo.country}
+                                        value={subcontractor.country}
+                                      />
+                                    </div>
+                                  </Col>
+                                  <Col lg={6}>
+                                    <div className="mb-3">
+                                      <label
+                                        htmlFor="city"
+                                        className="form-label"
+                                      >
+                                        City
+                                      </label>
+                                      <Input
+                                        className="form-control"
+                                        name="city"
+                                        required
+                                        defaultValue={subcontractor.city}
+                                        id="city"
+                                        type="search"
+                                      />
+                                    </div>
+                                  </Col>
+
+                                  <Col lg={12}>
+                                    <div className="mb-3">
+                                      <label
+                                        htmlFor="address"
+                                        className="form-label"
+                                      >
+                                        Street Address
+                                      </label>
+                                      <Input
+                                        className="form-control"
+                                        id="address"
+                                        name="address"
+                                        required
+                                        defaultValue={subcontractor.address}
+                                        type="search"
                                       />
                                     </div>
                                   </Col>
@@ -275,9 +334,9 @@ const RegisterForOwner = () => {
                                 >
                                   Submit
                                 </button>
-                                <Link to="/letsStart" className="btn btn-info">
+                                <a href="/letsStart" className="btn btn-info">
                                   Skip
-                                </Link>
+                                </a>
                               </div>
                             </Form>
                           </CardBody>

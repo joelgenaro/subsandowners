@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Collapse, Input, Label } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { setFilterOptions } from "../../../redux/jobListSlice";
+import { setFilterOptions } from "../../../redux/jobSlice";
 
 const FilterOptions = () => {
   const dispatch = useDispatch();
-  const { filterOptions } = useSelector((state) => state.jobList);
+  const { filterOptions } = useSelector((state) => state.job);
 
   // Parent state
   const [toggleFirst, setToggleFirst] = useState(true);

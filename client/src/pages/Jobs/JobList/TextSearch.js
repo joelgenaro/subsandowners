@@ -2,11 +2,11 @@ import React, { memo } from "react";
 import { Form } from "react-bootstrap";
 import { Col, Input, Row } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { setFilterOptions } from "../../../redux/jobListSlice";
+import { setFilterOptions } from "../../../redux/jobSlice";
 
 const TextSearch = () => {
   const dispatch = useDispatch();
-  const { filterOptions } = useSelector((state) => state.jobList);
+  const { filterOptions } = useSelector((state) => state.job);
 
   const filterChange = (e) => {
     e.preventDefault();

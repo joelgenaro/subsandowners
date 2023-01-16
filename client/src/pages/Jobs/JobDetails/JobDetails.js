@@ -7,7 +7,7 @@ import MetaTags from "react-meta-tags";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import { getData, jobDetailsReset } from "../../../redux/jobDetailsSlice";
+import { getJobDetails, jobReset } from "../../../redux/jobSlice";
 import "./index.css";
 
 const JobDetails = ({ match }) => {
@@ -18,7 +18,7 @@ const JobDetails = ({ match }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { isSuccess, isError, message, isLoading, details } = useSelector(
-    (state) => state.jobDetails
+    (state) => state.job
   );
 
   // Check message
@@ -27,12 +27,12 @@ const JobDetails = ({ match }) => {
       toast.error(message);
     } else if (isSuccess) {
     }
-    dispatch(jobDetailsReset());
+    dispatch(jobReset());
   }, [isSuccess, isError, message, history, dispatch]);
 
   // Get data
   useEffect(() => {
-    dispatch(getData({ id: jobId }));
+    dispatch(getJobDetails({ id: jobId }));
   }, [jobId, dispatch]);
 
   return (

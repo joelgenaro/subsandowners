@@ -2,12 +2,9 @@ const jwt = require("jsonwebtoken");
 
 const protect = async (req, res, next) => {
   let token = req.cookies.token;
-  let identifier = req.cookies.role;
 
-  let User =
-    identifier == "sub"
-      ? require("../models/mSubcontractors")
-      : require("../models/mOwner");
+  let User = require("../models/mUser");
+
   try {
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -16,7 +13,6 @@ const protect = async (req, res, next) => {
     next();
   } catch (error) {
     res.clearCookie("token");
-    res.clearCookie("role");
     res.status(401);
 
     return next(new Error("Not authorized, your token is expired!"));

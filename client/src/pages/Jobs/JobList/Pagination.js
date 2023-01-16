@@ -2,18 +2,16 @@ import React, { memo } from "react";
 import { Col, Row } from "reactstrap";
 import Pagination from "react-js-pagination";
 import { useSelector, useDispatch } from "react-redux";
-import { getData } from "../../../redux/jobListSlice";
+import { getAllJobs } from "../../../redux/jobSlice";
 
 const PaginationForSub = () => {
   const dispatch = useDispatch();
-  const { size, paginator, filterOptions } = useSelector(
-    (state) => state.jobList
-  );
+  const { size, paginator, filterOptions } = useSelector((state) => state.job);
 
   // Initial Data
   const fetchData = (pageNumber) => {
     dispatch(
-      getData({ page: pageNumber, size: size, filterOptions: filterOptions })
+      getAllJobs({ page: pageNumber, size: size, filterOptions: filterOptions })
     );
   };
 
