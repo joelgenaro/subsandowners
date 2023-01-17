@@ -91,7 +91,11 @@ const SignIn = () => {
                                   Sign in to continue to Jobcy.
                                 </p>
                               </div>
-                              <Form action="#" onSubmit={handleSubmit}>
+                              <Form
+                                action="#"
+                                className="auth-form"
+                                onSubmit={handleSubmit}
+                              >
                                 <div className="mb-3">
                                   <label
                                     htmlFor="usernameInput"

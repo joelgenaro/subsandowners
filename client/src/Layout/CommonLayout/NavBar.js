@@ -97,7 +97,7 @@ const NavBar = (props) => {
     const accountToSwitch = Role === "sub" ? "owner" : "sub";
     setCookie("role", accountToSwitch);
 
-    Role === "sub" ? history.push("joblist") : history.push("jobpost");
+    Role === "sub" ? history.push("/joblist") : history.push("/jobpost");
   };
 
   const logoutHandler = (e) => {

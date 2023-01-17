@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
 import { Col, Row } from "reactstrap";
+import { useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { getAllJobs, jobReset, setSize } from "../../../redux/jobSlice";
 import JobCard from "./JobCard";
 
 const JobVacancyList = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const {
     isSuccess,
@@ -27,6 +29,9 @@ const JobVacancyList = () => {
   useEffect(() => {
     if (isError) {
       toast.error(message);
+      if (message === "Not authorized!") {
+        history.push("/signin");
+      }
     } else if (isSuccess) {
     }
     dispatch(jobReset());

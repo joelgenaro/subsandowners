@@ -45,6 +45,9 @@ const RightSideContent = () => {
   useEffect(() => {
     if (isError) {
       toast.error(message);
+      if (message === "Not authorized!") {
+        history.push("/signin");
+      }
     } else if (isSuccess) {
       toast.success("Project Registered Successfully");
       // history.push("/joblist");

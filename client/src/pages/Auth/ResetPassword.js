@@ -26,6 +26,9 @@ const ResetPassword = () => {
   useEffect(() => {
     if (isError) {
       toast.error(message);
+      if (message === "Not authorized!") {
+        history.push("/signin");
+      }
     } else if (isSuccess) {
       toast.success(message);
       history.push("/");

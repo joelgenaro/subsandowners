@@ -1,5 +1,6 @@
 import React, { memo, useEffect } from "react";
 import { Col, Row } from "reactstrap";
+import { useHistory } from "react-router-dom";
 import CandidateCard from "./CandidateCard";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
@@ -10,6 +11,7 @@ import {
 } from "../../redux/candidateListSlice";
 
 const CandidateList = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const { isSuccess, isError, isLoading, message, size, paginator, data } =
     useSelector((state) => state.candidateList);
@@ -23,6 +25,9 @@ const CandidateList = () => {
   useEffect(() => {
     if (isError) {
       toast.error(message);
+      if (message === "Not authorized!") {
+        history.push("/signin");
+      }
     } else if (isSuccess) {
     }
     dispatch(candidateListReset());

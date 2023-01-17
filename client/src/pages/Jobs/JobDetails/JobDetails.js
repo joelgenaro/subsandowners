@@ -25,6 +25,9 @@ const JobDetails = ({ match }) => {
   useEffect(() => {
     if (isError) {
       toast.error(message);
+      if (message === "Not authorized!") {
+        history.push("/signin");
+      }
     } else if (isSuccess) {
     }
     dispatch(jobReset());

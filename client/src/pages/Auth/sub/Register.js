@@ -34,6 +34,9 @@ const RegisterForSub = () => {
   useEffect(() => {
     if (isError) {
       toast.error(message);
+      if (message === "Not authorized!") {
+        history.push("/signin");
+      }
     } else if (isSuccess) {
       toast.success("Profile Registered Successfully");
       history.push("/joblist");
