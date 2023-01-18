@@ -59,6 +59,7 @@ const Index = () => {
                 ))}
               </AuthLayout>
             </Route>
+
             <PrivateRoute path={availableAuthLayoutForPrivateRoutes}>
               <AuthLayout>
                 {authLayoutForPrivateRoutes.map((route, idx) => (

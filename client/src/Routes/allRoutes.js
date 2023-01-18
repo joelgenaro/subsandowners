@@ -38,21 +38,23 @@ const Error404 = React.lazy(() => import("../pages/ExtraPages/Error404"));
 const authLayoutForPublicRoutes = [
   { path: "/signin", component: SignIn },
   { path: "/chooseOption", component: ChooseOption },
+  { path: "/signupForOwner", component: SignUpForOwner },
+  { path: "/signupForSub", component: SignUpForSub },
   { path: "/signout", component: SignOut },
   { path: "/resetpassword", component: ResetPassword },
   { path: "/comingsoon", component: ComingSoon },
-  { path: "/error404", component: Error404 },
 ];
 
 const authLayoutForPrivateRoutes = [
-  { path: "/signupForSub", component: SignUpForSub },
   { path: "/registerForSub", component: RegisterForSub },
-  { path: "/signupForOwner", component: SignUpForOwner },
   { path: "/registerForOwner", component: RegisterForOwner },
   { path: "/letsStart", component: LetsStart },
 ];
 
-const commonLayoutForPublicRoutes = [{ path: "/", component: LandingPage }];
+const commonLayoutForPublicRoutes = [
+  { path: "/", component: LandingPage },
+  { path: "*", component: Error404 },
+];
 
 const commonLayoutForPrivateRoutes = [
   { path: "/joblist", component: JobList },
