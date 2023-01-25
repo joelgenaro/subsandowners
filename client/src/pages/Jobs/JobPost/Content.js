@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Col, Row, Card, Input, Form, CardBody, Label } from "reactstrap";
-import DropZone from "../../../helper/fileUploader";
+import DropZone from "../../../components/Uploader";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -54,14 +54,6 @@ const RightSideContent = () => {
     }
     dispatch(jobReset());
   }, [isSuccess, isError, message, history, dispatch]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      if (project.title) {
-        dispatch(createJob(project));
-      }
-    }, 1000);
-  }, [project.attachments]);
 
   // Google map Input
   useEffect(() => {
@@ -168,6 +160,10 @@ const RightSideContent = () => {
       );
     }
     setProject((data) => ({ ...data, attachments: tempFiles }));
+
+    setTimeout(() => {
+      dispatch(createJob(project));
+    }, 1000);
   };
 
   return (

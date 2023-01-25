@@ -53,6 +53,7 @@ const getJobDetails = async (req, res, next) => {
 
 const getAllJobs = async (req, res, next) => {
   const filterOptions = req.body.filterOptions;
+  const owner_id = req.user["_id"];
 
   const options = {
     page: req.body.page,
@@ -63,6 +64,9 @@ const getAllJobs = async (req, res, next) => {
   // Query regarding filter options.
   const query = {
     $and: [
+      {
+        owner_id: { $ne: owner_id },
+      },
       {
         $or: [
           { title: { $regex: filterOptions.text, $options: "i" } },
@@ -121,8 +125,25 @@ const getAllJobs = async (req, res, next) => {
   }
 };
 
+const placeBid = async (req, res, next) => {
+  const filter = { _id: req.user["_id"] };
+
+  try {
+    await User.findOneAndUpdate(filter, {
+      $push: { proposals: { ...req.body } },
+    });
+
+    res.status(201).json({
+      success: true,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   createJob,
   getJobDetails,
   getAllJobs,
+  placeBid,
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import { Link } from "react-router-dom";
 import { Col, Row } from "reactstrap";
 import { calculateTimePosted } from "../../../helper/calculateTimePosted";
@@ -128,4 +128,4 @@ const JobCard = ({ project }) => {
   );
 };
 
-export default JobCard;
+export default memo(JobCard);

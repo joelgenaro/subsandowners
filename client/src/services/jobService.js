@@ -24,8 +24,14 @@ const getAllJobs = async (data) => {
   return response.data;
 };
 
+const placeBid = async (data) => {
+  const response = await axios.post(`${API_URL}/placeBid`, data, config);
+  return response.data;
+};
+
 export const jobService = {
   createJob,
   getJobDetails,
   getAllJobs,
+  placeBid,
 };

@@ -61,6 +61,18 @@ export const getAllJobs = createAsyncThunk(
   }
 );
 
+export const placeBid = createAsyncThunk(
+  "job/placeBid",
+  async (data, thunkAPI) => {
+    try {
+      return await jobService.placeBid(data);
+    } catch (error) {
+      const message = errorMessageHandler(error);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const jobSlice = createSlice({
   name: "job",
   initialState,

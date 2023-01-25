@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, memo } from "react";
 import { Col, Container, Row } from "reactstrap";
 import JobDetailsDescription from "./JobDetailsDescription";
 import RightSideContent from "./RightSideContent";
@@ -8,6 +8,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getJobDetails, jobReset } from "../../../redux/jobSlice";
+import { setJobId } from "../../../redux/proposalSlice";
+import { getProposal } from "../../../redux/proposalSlice";
 import "./index.css";
 
 const JobDetails = ({ match }) => {
@@ -28,7 +30,6 @@ const JobDetails = ({ match }) => {
       if (message === "Not authorized!") {
         history.push("/signin");
       }
-    } else if (isSuccess) {
     }
     dispatch(jobReset());
   }, [isSuccess, isError, message, history, dispatch]);
@@ -36,6 +37,8 @@ const JobDetails = ({ match }) => {
   // Get data
   useEffect(() => {
     dispatch(getJobDetails({ id: jobId }));
+    dispatch(setJobId(jobId));
+    dispatch(getProposal({ id: jobId }));
   }, [jobId, dispatch]);
 
   return (
@@ -71,4 +74,4 @@ const JobDetails = ({ match }) => {
   );
 };
 
-export default JobDetails;
+export default memo(JobDetails);

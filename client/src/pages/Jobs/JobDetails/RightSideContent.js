@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Card, CardBody } from "reactstrap";
 
 const RightSideContent = ({ data }) => {
@@ -79,4 +79,4 @@ const RightSideContent = ({ data }) => {
   );
 };
 
-export default RightSideContent;
+export default memo(RightSideContent);

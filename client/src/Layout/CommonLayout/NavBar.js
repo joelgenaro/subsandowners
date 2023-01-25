@@ -77,10 +77,13 @@ const NavBar = (props) => {
   //menu activation
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+
     var matchingMenuItem = null;
     var ul = document.getElementById("navbarCollapse");
     var items = ul.getElementsByTagName("a");
+
     removeActivation(items);
+
     for (var i = 0; i < items.length; ++i) {
       if (props.location.pathname === items[i].pathname) {
         matchingMenuItem = items[i];
@@ -93,11 +96,14 @@ const NavBar = (props) => {
     }
   });
 
-  const switchAccount = () => {
-    const accountToSwitch = Role === "sub" ? "owner" : "sub";
+  const switchAccount = (e) => {
+    const accountToSwitch = e.target.name;
+
     setCookie("role", accountToSwitch);
 
-    Role === "sub" ? history.push("/joblist") : history.push("/jobpost");
+    accountToSwitch === "sub"
+      ? history.push("/joblist")
+      : history.push("/jobpost");
   };
 
   const logoutHandler = (e) => {

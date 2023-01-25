@@ -55,34 +55,18 @@ const RegisterForSub = () => {
       types: ["(cities)"],
       componentRestrictions: { country: geo.country },
     };
-    const addressOption = {
-      types: ["address"],
-      componentRestrictions: { country: geo.country },
-    };
 
-    let addressInput = document.getElementById("address");
     let cityInput = document.getElementById("city");
 
     let searchBoxCity = new window.google.maps.places.Autocomplete(
       cityInput,
       cityOption
     );
-    let searchBoxAddress = new window.google.maps.places.Autocomplete(
-      addressInput,
-      addressOption
-    );
 
     searchBoxCity.addListener("place_changed", function () {
       setSubcontractor((data) => ({
         ...data,
         city: document.getElementById("city").value,
-      }));
-    });
-
-    searchBoxAddress.addListener("place_changed", function () {
-      setSubcontractor((data) => ({
-        ...data,
-        address: document.getElementById("address").value,
       }));
     });
   };
@@ -313,6 +297,7 @@ const RegisterForSub = () => {
                                         id="address"
                                         name="address"
                                         required
+                                        onChange={handleChange}
                                         defaultValue={subcontractor.address}
                                         type="search"
                                       />
