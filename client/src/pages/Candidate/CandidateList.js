@@ -46,7 +46,7 @@ const CandidateList = () => {
             {paginator ? (
               <h6 className="fs-16 mb-0">
                 {" "}
-                m Showing {paginator.slNo} –{" "}
+                Showing {paginator.slNo} –{" "}
                 {paginator.currentPage * paginator.perPage > paginator.itemCount
                   ? paginator.itemCount
                   : paginator.perPage * paginator.currentPage}{" "}
