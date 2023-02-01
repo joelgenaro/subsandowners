@@ -37,7 +37,7 @@ const JobListing = () => {
       <Row>
         <Col lg={12}>
           {!isLoading ? (
-            data.length > 0 ? (
+            data ? (
               data.map((jobListingDetails, key) => (
                 <Card className="job-box card mt-4" key={key}>
                   <CardBody className="p-4">
