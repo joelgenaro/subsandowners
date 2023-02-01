@@ -58,7 +58,7 @@ const NavBar = (props) => {
   const dropDownuserprofile = () => setUserProfile((prevState) => !prevState);
 
   //scroll navbar
-  const [navClass, setnavClass] = useState("");
+  const [navClass, setnavClass] = useState(false);
 
   useEffect(() => {
     window.addEventListener("scroll", scrollNavigation, true);
@@ -102,8 +102,8 @@ const NavBar = (props) => {
     setCookie("role", accountToSwitch);
 
     accountToSwitch === "sub"
-      ? history.push("/joblist")
-      : history.push("/jobpost");
+      ? history.push("/job-list")
+      : history.push("/job-post");
   };
 
   const logoutHandler = (e) => {
@@ -112,6 +112,7 @@ const NavBar = (props) => {
 
   const scrollNavigation = () => {
     var scrollup = window.pageYOffset;
+
     if (scrollup > 0) {
       setnavClass("nav-sticky");
     } else {
@@ -209,7 +210,7 @@ const NavBar = (props) => {
                       aria-labelledby="ownerJobs"
                     >
                       <li>
-                        <Link className="dropdown-item" to="/jobpost">
+                        <Link className="dropdown-item" to="/job-post">
                           Post a Job
                         </Link>
                       </li>
@@ -219,7 +220,7 @@ const NavBar = (props) => {
                         </Link>
                       </li>
                       <li>
-                        <Link className="dropdown-item" to="#">
+                        <Link className="dropdown-item" to="/all-jobs">
                           All Job Posts
                         </Link>
                       </li>
@@ -249,7 +250,7 @@ const NavBar = (props) => {
                       aria-labelledby="ownerTalent"
                     >
                       <li>
-                        <Link className="dropdown-item" to="/candidatelist">
+                        <Link className="dropdown-item" to="/candidate-list">
                           Discover
                         </Link>
                       </li>
@@ -298,7 +299,7 @@ const NavBar = (props) => {
                 <>
                   <NavItem className="dropdown dropdown-hover">
                     <NavLink
-                      to="/joblist"
+                      to="/job-list"
                       id="subFindWork"
                       className="arrow-none"
                       onClick={() => setFindWork(!findWork)}
@@ -315,7 +316,7 @@ const NavBar = (props) => {
                       aria-labelledby="subFindWork"
                     >
                       <li>
-                        <Link className="dropdown-item" to="/joblist">
+                        <Link className="dropdown-item" to="/job-list">
                           Find Work
                         </Link>
                       </li>
@@ -325,7 +326,7 @@ const NavBar = (props) => {
                         </Link>
                       </li>
                       <li>
-                        <Link className="dropdown-item" to="#">
+                        <Link className="dropdown-item" to="/proposals">
                           Proposals
                         </Link>
                       </li>
@@ -621,7 +622,7 @@ const NavBar = (props) => {
                 </Link>
               </NavItem>
               <NavItem>
-                <Link className="nav-link" to="/chooseOption">
+                <Link className="nav-link" to="/choose-option">
                   Sign Up
                 </Link>
               </NavItem>

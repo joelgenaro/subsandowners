@@ -1,17 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { Col, Container, Row } from "reactstrap";
 
 const Section = () => {
   return (
     <React.Fragment>
       <section className="page-title-box">
-        <Container>
+        <Container className="container">
           <Row className="justify-content-center">
             <Col md={6}>
               <div className="text-center text-white">
-                <h3 className="mb-4">Candidate List</h3>
-                <div className="page-next"></div>
+                <h3 className="mb-4">My proposals</h3>
               </div>
             </Col>
           </Row>

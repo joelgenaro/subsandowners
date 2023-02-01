@@ -29,7 +29,7 @@ const SignUpForSub = () => {
         history.push("/joblist");
       } else {
         toast.success("User Registered Successfully");
-        history.push("/registerForSub");
+        history.push("/register-sub");
       }
     }
     dispatch(authReset());
@@ -68,9 +68,7 @@ const SignUpForSub = () => {
         <div className="main-content">
           <div className="page-content">
             <MetaTags>
-              <title>
-                Sign Up | Jobcy - Job Listing Template | Themesdesign
-              </title>
+              <title>User Sign Up | Scheduleasub</title>
             </MetaTags>
             <section className="bg-auth">
               <Container>

@@ -1,0 +1,9 @@
+.myProposal {
+  border-style: none;
+  border-bottom: 1px solid #eff0f2;
+  border-radius: 0px;
+}
+
+.moreLink:hover {
+  text-decoration: underline;
+}

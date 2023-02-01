@@ -1,0 +1,8 @@
+.proposalStatusBar {
+  display: flex;
+  justify-content: space-evenly;
+}
+.allJobShowing {
+  display: flex;
+  justify-content: end;
+}

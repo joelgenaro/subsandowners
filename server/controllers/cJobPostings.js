@@ -1,20 +1,23 @@
-const User = require("../models/mUser");
+const Job = require("../models/mJob");
 const myCustomLabels = require("../utils/paginationLabel");
 
 const getData = async (req, res, next) => {
   const owner_id = req.user["_id"];
+
   const options = {
     page: req.query.page,
-    limit: req.query.size,
+    limit: 5,
     customLabels: myCustomLabels,
     allowDiskUse: true,
   };
+
+  // Query regarding filter options.
   const query = {
-    _id: { $ne: owner_id },
+    owner_id: { $eq: owner_id },
   };
 
   try {
-    const data = await User.paginate(query, options);
+    const data = await Job.paginate(query, options);
     const itemsList = data.itemsList;
     const paginator = data.paginator;
 
@@ -32,20 +35,18 @@ const filter = async (req, res, next) => {
   const filter = req.body.filter;
   const options = {
     page: 1,
-    limit: req.body.size,
+    limit: 5,
     customLabels: myCustomLabels,
   };
   const query = {
-    $or: [
-      { firstName: { $regex: filter, $options: "i" } },
-      { lastName: { $regex: filter, $options: "i" } },
-      { salary: { $regex: filter, $options: "i" } },
-      { location: { $regex: filter, $options: "i" } },
+    $and: [
+      { title: { $regex: filter, $options: "i" } },
+      { owner_id: { $eq: req.user["_id"] } },
     ],
   };
 
   try {
-    const data = await User.paginate(query, options);
+    const data = await Job.paginate(query, options);
     const itemsList = data.itemsList;
     const paginator = data.paginator;
 

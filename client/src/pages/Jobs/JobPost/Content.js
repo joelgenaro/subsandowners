@@ -40,6 +40,7 @@ const RightSideContent = () => {
   const [files, setFiles] = useState([]);
   const [isShowRadioForRemoval, setIsShowRadioForRemoval] = useState("no");
   const [styleOptions, setStyleOptions] = useState([]);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   // Check message
   useEffect(() => {
@@ -49,8 +50,9 @@ const RightSideContent = () => {
         history.push("/signin");
       }
     } else if (isSuccess) {
+      setIsSubmit(false);
       toast.success("Project Registered Successfully");
-      // history.push("/joblist");
+      history.push("/candidate-list");
     }
     dispatch(jobReset());
   }, [isSuccess, isError, message, history, dispatch]);
@@ -71,6 +73,14 @@ const RightSideContent = () => {
     };
     initAutocomplete();
   }, []);
+
+  useEffect(() => {
+    if (isSubmit) {
+      setTimeout(() => {
+        dispatch(createJob(project));
+      }, 1000);
+    }
+  }, [project.attachments]);
 
   const handleChange = (e) => {
     setProject((data) => ({ ...data, [e.target.name]: e.target.value }));
@@ -132,6 +142,7 @@ const RightSideContent = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setIsSubmit(true);
     let tempFiles = [];
 
     // File upload to Firebase
@@ -160,10 +171,6 @@ const RightSideContent = () => {
       );
     }
     setProject((data) => ({ ...data, attachments: tempFiles }));
-
-    setTimeout(() => {
-      dispatch(createJob(project));
-    }, 1000);
   };
 
   return (

@@ -3,7 +3,6 @@ import { Col, Container, Row } from "reactstrap";
 import JobDetailsDescription from "./JobDetailsDescription";
 import RightSideContent from "./RightSideContent";
 import Section from "./Section";
-import MetaTags from "react-meta-tags";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -43,9 +42,6 @@ const JobDetails = ({ match }) => {
 
   return (
     <React.Fragment>
-      <MetaTags>
-        <title>Job Details | Jobcy - Job Listing Template | Themesdesign</title>
-      </MetaTags>
       <Section />
       <section className="section">
         <Container>

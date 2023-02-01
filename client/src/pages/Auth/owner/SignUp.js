@@ -26,10 +26,10 @@ const SignUpForOwner = () => {
     } else if (isSuccess) {
       if (both == true) {
         toast.success("Owner account created Successfully");
-        history.push("/letsStart");
+        history.push("/lets-start");
       } else {
         toast.success("User Registered Successfully");
-        history.push("/registerForOwner");
+        history.push("/register-owner");
       }
     }
     dispatch(authReset());
@@ -69,9 +69,7 @@ const SignUpForOwner = () => {
         <div className="main-content">
           <div className="page-content">
             <MetaTags>
-              <title>
-                Sign Up | Jobcy - Job Listing Template | Themesdesign
-              </title>
+              <title>User Sign Up | Scheduleasub</title>
             </MetaTags>
             <section className="bg-auth">
               <Container>

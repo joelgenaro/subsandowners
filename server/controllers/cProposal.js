@@ -1,8 +1,12 @@
 const User = require("../models/mUser");
+const Job = require("../models/mJob");
 
 const placeBid = async (req, res, next) => {
   const filter = { _id: req.user["_id"] };
-  const owner_id = req.body.jobId;
+  const jobFilter = { _id: req.body.jobId };
+  const proposalForJob = {
+    userId: req.user["_id"],
+  };
   const proposal = { ...req.body };
 
   try {
@@ -11,14 +15,17 @@ const placeBid = async (req, res, next) => {
     });
 
     if (!isEdit || isEdit.length > 0) {
-      await User.updateMany(
-        { _id: owner_id },
-        { $set: { "proposals.$[element]": proposal } },
+      await User.updateOne(
+        { _id: req.user["_id"] },
+        { $set: { "proposals.$[element]": { ...req.body } } },
         { arrayFilters: [{ "element.jobId": req.body.jobId }] }
       );
     } else {
       await User.findOneAndUpdate(filter, {
         $push: { proposals: proposal },
+      });
+      await Job.findOneAndUpdate(jobFilter, {
+        $push: { proposals: { ...proposalForJob } },
       });
     }
 
@@ -69,8 +76,28 @@ const retract = async (req, res, next) => {
   }
 };
 
+const myProposal = async (req, res, next) => {
+  let proposals = null;
+  const id = req.user["_id"];
+
+  try {
+    const jobIds = await User.findById(id);
+
+    proposals =
+      jobIds.proposals && jobIds.proposals.length > 0 ? jobIds.proposals : null;
+
+    res.status(201).json({
+      success: true,
+      proposals,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   placeBid,
   getProposal,
   retract,
+  myProposal,
 };

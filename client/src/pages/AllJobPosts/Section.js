@@ -6,11 +6,11 @@ const Section = () => {
   return (
     <React.Fragment>
       <section className="page-title-box">
-        <Container>
+        <Container className="container">
           <Row className="justify-content-center">
             <Col md={6}>
               <div className="text-center text-white">
-                <h3 className="mb-4">Candidate List</h3>
+                <h3 className="mb-4">Job Postings</h3>
                 <div className="page-next"></div>
               </div>
             </Col>

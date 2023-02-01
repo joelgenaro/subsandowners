@@ -39,7 +39,7 @@ const RegisterForSub = () => {
       }
     } else if (isSuccess) {
       toast.success("Profile Registered Successfully");
-      history.push("/joblist");
+      history.push("/job-list");
     }
     dispatch(authReset());
   }, [isSuccess, isError, message, history, dispatch]);
@@ -95,9 +95,7 @@ const RegisterForSub = () => {
         <div className="main-content">
           <div className="page-content">
             <MetaTags>
-              <title>
-                Sign Up | Jobcy - Job Listing Template | Themesdesign
-              </title>
+              <title>User Register | Scheduleasub</title>
             </MetaTags>
             <section className="bg-auth">
               <Container>

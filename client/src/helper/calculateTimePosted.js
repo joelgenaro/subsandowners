@@ -25,4 +25,4 @@ const calculateTimePosted = (createdAt) => {
   return Math.floor(seconds) + " seconds ago";
 };
 
-export { calculateTimePosted };
+export default calculateTimePosted;

@@ -1,7 +1,8 @@
 import React, { memo } from "react";
 import { Card, CardBody, Col, Row } from "reactstrap";
+import MetaTags from "react-meta-tags";
 import { Link } from "react-router-dom";
-import { calculateTimePosted } from "../../../helper/calculateTimePosted";
+import calculateTimePosted from "../../../helper/calculateTimePosted";
 import capitalize from "../../../helper/capitalize";
 import Bid from "./Bid";
 import Proposal from "./Proposal";
@@ -10,10 +11,11 @@ import { useSelector } from "react-redux";
 const JobDetailsDescription = ({ data }) => {
   const { proposal, isEdit } = useSelector((state) => state.proposal);
 
-  console.log("----------------------->>>", proposal, isEdit);
-
   return (
     <React.Fragment>
+      <MetaTags>
+        <title>{data.title} | Scheduleasub</title>
+      </MetaTags>
       <Card className="job-detail overflow-hidden">
         <CardBody className="p-4">
           <div>
@@ -131,7 +133,7 @@ const JobDetailsDescription = ({ data }) => {
           ) : null}
         </CardBody>
       </Card>
-      {proposal && !isEdit ? <Proposal /> : <Bid />}
+      {proposal && !isEdit ? <Proposal /> : <Bid data={data} />}
     </React.Fragment>
   );
 };

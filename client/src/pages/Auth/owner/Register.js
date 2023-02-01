@@ -44,7 +44,7 @@ const RegisterForOwner = () => {
       }
     } else if (isSuccess) {
       toast.success("Profile Registered Successfully");
-      history.push("/letsStart");
+      history.push("/lets-start");
     }
     dispatch(authReset());
   }, [isSuccess, isError, message, history, dispatch]);
@@ -101,9 +101,7 @@ const RegisterForOwner = () => {
         <div className="main-content">
           <div className="page-content">
             <MetaTags>
-              <title>
-                Sign Up | Jobcy - Job Listing Template | Themesdesign
-              </title>
+              <title>User Register | Scheduleasub</title>
             </MetaTags>
             <section className="bg-auth">
               <Container>
@@ -322,9 +320,6 @@ const RegisterForOwner = () => {
                                 >
                                   Submit
                                 </button>
-                                <a href="/letsStart" className="btn btn-info">
-                                  Skip
-                                </a>
                               </div>
                             </Form>
                           </CardBody>

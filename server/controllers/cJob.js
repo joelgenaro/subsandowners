@@ -1,18 +1,6 @@
 const User = require("../models/mUser");
 const Job = require("../models/mJob");
-
-// Paginator lables
-const myCustomLabels = {
-  totalDocs: "itemCount",
-  docs: "itemsList",
-  limit: "perPage",
-  page: "currentPage",
-  nextPage: "next",
-  prevPage: "prev",
-  totalPages: "pageCount",
-  pagingCounter: "slNo",
-  meta: "paginator",
-};
+const myCustomLabels = require("../utils/paginationLabel");
 
 const createJob = async (req, res, next) => {
   const filter = { _id: req.user["_id"] };
@@ -22,10 +10,13 @@ const createJob = async (req, res, next) => {
   };
 
   try {
-    await Job.create({ ...data });
+    const job = await Job.create({ ...data });
+    const userJob = {
+      jobId: job["_id"],
+    };
 
     await User.findOneAndUpdate(filter, {
-      $push: { jobs: { ...req.body } },
+      $push: { jobs: { ...userJob } },
     });
 
     res.status(201).json({

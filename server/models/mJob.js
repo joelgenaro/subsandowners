@@ -17,19 +17,19 @@ const jobSchema = new mongoose.Schema(
     },
     materialCategory: {
       type: String,
-      required: false,
+      default: undefined,
     },
     materialStyle: {
       type: String,
-      required: false,
+      default: undefined,
     },
     materialColor: {
       type: String,
-      required: false,
+      default: undefined,
     },
     materialHeight: {
       type: String,
-      required: false,
+      default: undefined,
     },
     removalCategory: {
       type: String,
@@ -56,6 +56,10 @@ const jobSchema = new mongoose.Schema(
       default: "",
     },
     attachments: {
+      type: [],
+      default: undefined,
+    },
+    proposals: {
       type: [],
       default: undefined,
     },

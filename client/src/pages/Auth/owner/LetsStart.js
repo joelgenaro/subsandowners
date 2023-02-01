@@ -22,9 +22,7 @@ const LetsStart = () => {
         <div className="main-content">
           <div className="page-content">
             <MetaTags>
-              <title>
-                Sign Out | Jobcy - Job Listing Template | Themesdesign
-              </title>
+              <title></title>
             </MetaTags>
             <section className="bg-auth">
               <Container>
@@ -63,7 +61,7 @@ const LetsStart = () => {
                               </div>
                               <div>
                                 <Link
-                                  to="/jobpost"
+                                  to="/job-post"
                                   className="btn btn-white btn-hover w-100"
                                 >
                                   Post a job
@@ -71,7 +69,7 @@ const LetsStart = () => {
                               </div>
                               <div>
                                 <Link
-                                  to="/candidatelist"
+                                  to="/candidate-list"
                                   className="btn btn-white btn-hover w-100"
                                 >
                                   Browse subcontractor's profile

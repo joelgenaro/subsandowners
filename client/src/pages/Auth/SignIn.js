@@ -49,9 +49,7 @@ const SignIn = () => {
         <div className="main-content">
           <div className="page-content">
             <MetaTags>
-              <title>
-                Sign In | Jobcy - Job Listing Template | Themesdesign
-              </title>
+              <title>Sign In to Hire Labors & Find Work | Scheduleasub</title>
             </MetaTags>
             <section className="bg-auth">
               <Container>
@@ -140,7 +138,7 @@ const SignIn = () => {
                                       id="flexCheckDefault"
                                     />
                                     <Link
-                                      to="/resetpassword"
+                                      to="/reset-password"
                                       className="float-end text-white"
                                     >
                                       Forgot Password?
@@ -166,7 +164,7 @@ const SignIn = () => {
                                 <p className="mb-0">
                                   Don't have an account ?{" "}
                                   <Link
-                                    to="/chooseOption"
+                                    to="/choose-option"
                                     className="fw-medium text-white text-decoration-underline"
                                   >
                                     {" "}

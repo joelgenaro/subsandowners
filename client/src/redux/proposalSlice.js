@@ -9,6 +9,7 @@ const initialState = {
   jobId: null,
   proposal: null,
   isEdit: false,
+  proposals: null,
 };
 
 const errorMessageHandler = (error) => {
@@ -21,6 +22,18 @@ export const placeBid = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       return await proposalService.placeBid(data);
+    } catch (error) {
+      const message = errorMessageHandler(error);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const myProposal = createAsyncThunk(
+  "proposal/myProposal",
+  async (data, thunkAPI) => {
+    try {
+      return await proposalService.myProposal(data);
     } catch (error) {
       const message = errorMessageHandler(error);
       return thunkAPI.rejectWithValue(message);
@@ -114,6 +127,21 @@ export const proposalSlice = createSlice({
       state.isError = true;
       state.message = action.payload;
       state.proposal = null;
+    });
+
+    builder.addCase(myProposal.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(myProposal.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.proposals = action.payload.proposals;
+    });
+    builder.addCase(myProposal.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.message = action.payload;
+      state.proposals = null;
     });
   },
 });

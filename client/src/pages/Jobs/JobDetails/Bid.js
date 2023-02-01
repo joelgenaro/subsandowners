@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import { Card, CardBody, Col, Row, Input } from "reactstrap";
 import { Form } from "react-bootstrap";
 import {
@@ -10,25 +10,29 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const Bid = () => {
+const Bid = ({ data }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { isSuccess, isError, message, isLoading, jobId, proposal, isEdit } =
     useSelector((state) => state.proposal);
   const [terms, setTerms] = useState({
+    jobTitle: data.title,
     jobId: jobId,
     bidAmount: "",
     deliveryDate: "",
     proposal: "",
+    bid_date: new Date(),
   });
 
   useEffect(() => {
     if (isEdit == true) {
       setTerms({
+        jobTitle: proposal.jobTitle,
         jobId: proposal.jobId,
         bidAmount: proposal.bidAmount,
         deliveryDate: proposal.deliveryDate,
         proposal: proposal.proposal,
+        bid_date: proposal.bid_date,
       });
     }
   }, []);
@@ -164,4 +168,4 @@ const Bid = () => {
   );
 };
 
-export default Bid;
+export default memo(Bid);

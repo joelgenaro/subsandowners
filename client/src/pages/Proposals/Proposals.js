@@ -1,26 +1,26 @@
 import React from "react";
 import { MetaTags } from "react-meta-tags";
-import { Container, Row } from "reactstrap";
-import Content from "./Content";
+import { Container } from "reactstrap";
+import JobListing from "./JobListing";
 import Section from "./Section";
+import Selected from "./Selected";
 import "./index.css";
 
-const JobPost = () => {
+const Proposals = () => {
   return (
     <React.Fragment>
       <MetaTags>
-        <title>Post a job | Scheduleasub</title>
+        <title>Proposals</title>
       </MetaTags>
       <Section />
       <section className="section">
         <Container>
-          <Row className="align-items-center">
-            <Content />
-          </Row>
+          <Selected />
+          <JobListing />
         </Container>
       </section>
     </React.Fragment>
   );
 };
 
-export default JobPost;
+export default Proposals;

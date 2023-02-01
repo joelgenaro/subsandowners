@@ -1,7 +1,7 @@
 import React, { useEffect, useState, memo } from "react";
 import { Link } from "react-router-dom";
 import { Col, Row } from "reactstrap";
-import { calculateTimePosted } from "../../../helper/calculateTimePosted";
+import calculateTimePosted from "../../../helper/calculateTimePosted";
 import capitalize from "../../../helper/capitalize";
 
 const JobCard = ({ project }) => {

@@ -24,8 +24,14 @@ const retract = async (data) => {
   return response.data;
 };
 
+const myProposal = async (data) => {
+  const response = await axios.post(`${API_URL}/myProposal`, data, config);
+  return response.data;
+};
+
 export const proposalService = {
   placeBid,
   getProposal,
   retract,
+  myProposal,
 };

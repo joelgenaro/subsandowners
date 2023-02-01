@@ -9,7 +9,9 @@ const path = require("path");
 // routes
 const auth = require("./routes/auth.route.js");
 const job = require("./routes/job.route.js");
+const proposal = require("./routes/proposal.route.js");
 const candidate = require("./routes/candidate.route.js");
+const jobPostings = require("./routes/jobPostings.route.js");
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -33,6 +35,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/auth", auth);
 app.use("/api/job", job);
 app.use("/api/candidate", candidate);
+app.use("/api/proposal", proposal);
+app.use("/api/jobPostings", jobPostings);
 
 app.use(errorHandler);
 
