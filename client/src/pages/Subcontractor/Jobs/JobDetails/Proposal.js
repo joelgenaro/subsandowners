@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Card, CardBody, Col, Row } from "reactstrap";
-import { confirm } from "../../../../components/Confirmation";
+import { Confirm } from "../../../../components/Confirmation";
 import {
   retract,
   proposalReset,
@@ -31,7 +31,7 @@ const Proposal = () => {
   }, [isSuccess, isError, message, history, dispatch]);
 
   const handleRetract = async () => {
-    if (await confirm("Are you sure you want to retract your bid?")) {
+    if (await Confirm("Are you sure you want to retract your bid?")) {
       dispatch(retract({ id: jobId }));
     }
   };

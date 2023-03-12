@@ -4,7 +4,7 @@ import { Container, Row, Col } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import { confirm } from "../../../components/Confirmation";
+import { Confirm } from "../../../components/Confirm";
 import {
   getData,
   setApplicationId,
@@ -54,7 +54,7 @@ const OfferDetails = ({ match }) => {
   };
 
   const onDecline = async () => {
-    if (await confirm("Are you sure you want to decline this offer?")) {
+    if (await Confirm("Are you sure you want to decline this offer?")) {
       dispatch(declineOffer({ id: applicationId }));
     }
   };

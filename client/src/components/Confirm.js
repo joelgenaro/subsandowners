@@ -48,7 +48,7 @@ Confirmation.propTypes = {
   enableEscape: PropTypes.bool,
 };
 
-export function confirm(
+export function Confirm(
   confirmation,
   proceedLabel = "OK",
   cancelLabel = "cancel",
