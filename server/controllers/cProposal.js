@@ -1,32 +1,31 @@
-const User = require("../models/mUser");
-const Job = require("../models/mJob");
+const Application = require("../models/mApplication");
 
 const placeBid = async (req, res, next) => {
-  const filter = { _id: req.user["_id"] };
-  const jobFilter = { _id: req.body.jobId };
-  const proposalForJob = {
-    userId: req.user["_id"],
-  };
-  const proposal = { ...req.body };
-
   try {
-    const isEdit = await User.find({
-      proposals: { $elemMatch: { jobId: req.body.jobId } },
+    const proposal = { ...req.body };
+
+    const isEdit = await Application.find({
+      jobId: req.body.jobId,
+      candidateId: req.user["_id"],
     });
 
-    if (!isEdit || isEdit.length > 0) {
-      await User.updateOne(
-        { _id: req.user["_id"] },
-        { $set: { "proposals.$[element]": { ...req.body } } },
-        { arrayFilters: [{ "element.jobId": req.body.jobId }] }
-      );
+    if (!isEdit || isEdit.length == 0) {
+      await Application.create({
+        candidateId: req.user["_id"],
+        ...req.body,
+      });
     } else {
-      await User.findOneAndUpdate(filter, {
-        $push: { proposals: proposal },
-      });
-      await Job.findOneAndUpdate(jobFilter, {
-        $push: { proposals: { ...proposalForJob } },
-      });
+      await Application.findOneAndUpdate(
+        {
+          jobId: req.body.jobId,
+          candidateId: req.user["_id"],
+        },
+        {
+          bidAmount: req.body.bidAmount,
+          deliveryDate: req.body.deliveryDate,
+          proposal: req.body.proposal,
+        }
+      );
     }
 
     res.status(201).json({
@@ -39,15 +38,14 @@ const placeBid = async (req, res, next) => {
 };
 
 const getProposal = async (req, res, next) => {
-  const jobId = req.body.id;
-
   try {
-    const userWithProposal = await User.find({
-      proposals: { $elemMatch: { jobId: jobId } },
+    const userWithProposal = await Application.find({
+      jobId: req.body.id,
+      candidateId: req.user["_id"],
     });
 
     const isExistProposal =
-      userWithProposal.length > 0 ? userWithProposal[0].proposals[0] : null;
+      userWithProposal.length > 0 ? userWithProposal[0] : null;
 
     res.status(201).json({
       success: true,
@@ -59,14 +57,11 @@ const getProposal = async (req, res, next) => {
 };
 
 const retract = async (req, res, next) => {
-  const ownerId = req.user["_id"];
-  const jobId = req.body.id;
-
   try {
-    await User.updateOne(
-      { _id: ownerId },
-      { $pull: { proposals: { jobId: jobId } } }
-    );
+    await Application.findOneAndDelete({
+      jobId: req.body.id,
+      candidateId: req.user["_id"],
+    });
 
     res.status(201).json({
       success: true,
@@ -77,18 +72,21 @@ const retract = async (req, res, next) => {
 };
 
 const myProposal = async (req, res, next) => {
-  let proposals = null;
-  const id = req.user["_id"];
-
   try {
-    const jobIds = await User.findById(id);
+    const submittedProposals = await Application.find({
+      candidateId: req.user["_id"],
+      status: { $eq: "open" },
+    });
 
-    proposals =
-      jobIds.proposals && jobIds.proposals.length > 0 ? jobIds.proposals : null;
+    const offers = await Application.find({
+      candidateId: req.user["_id"],
+      status: { $eq: "sendOffer" },
+    });
 
     res.status(201).json({
       success: true,
-      proposals,
+      submittedProposals,
+      offers,
     });
   } catch (error) {
     next(error);

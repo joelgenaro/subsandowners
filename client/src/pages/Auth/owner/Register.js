@@ -6,7 +6,7 @@ import MetaTags from "react-meta-tags";
 import userImage2 from "../../../assets/images/user/img-02.jpg";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import { profileUpdate, authReset } from "../../../redux/authSlice";
+import { profileUpdate, authReset } from "../../../redux/Extra/authSlice";
 import useGeoLocation from "react-ipgeolocation";
 import toBase64 from "../../../helper/toBase64";
 import countries from "../../../helper/countries";

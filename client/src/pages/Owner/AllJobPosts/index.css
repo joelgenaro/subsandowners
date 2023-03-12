@@ -1,0 +1,12 @@
+.proposalStatusBar {
+  display: flex;
+  justify-content: space-evenly;
+}
+.allJobShowing {
+  display: flex;
+  justify-content: end;
+}
+.titleLink:hover {
+  text-decoration: underline;
+  color: #766df4 !important;
+}

@@ -6,12 +6,12 @@ const {
   createJob,
   getJobDetails,
   getAllJobs,
-  placeBid,
+  updateFav,
 } = require("../controllers/cJob.js");
 
 router.post("/create", protect, createJob);
 router.post("/getJobDetails", protect, getJobDetails);
 router.post("/getAllJobs", protect, getAllJobs);
-router.post("/placeBid", protect, placeBid);
+router.post("/updateFavOfDB", protect, updateFav);
 
 module.exports = router;

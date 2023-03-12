@@ -1,0 +1,124 @@
+.custom {
+  justify-content: space-between;
+  border: 1px solid #dbdfe2;
+  border-radius: 10px;
+  margin-bottom: 50px;
+}
+.category {
+  width: 25%;
+  text-align: center;
+  border-right: 1px solid #dbdfe2;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.category a {
+  padding: 20px;
+}
+
+.tab-content {
+  border: 1px solid #dbdfe2;
+  border-radius: 10px;
+}
+
+/* Review Proposal */
+
+.flexCenter {
+  display: flex;
+  justify-content: center;
+}
+
+.filler-job-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.proposalSort {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.proposalFilter {
+  width: 80%;
+  border-radius: 25px;
+}
+.searchBtn {
+  width: 50px;
+}
+.searchBtn .btn {
+  border-radius: 0px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.searchInput {
+  display: flex;
+}
+
+.filter-search-form {
+  width: 80%;
+}
+.filler-job-input-box {
+  border-radius: 0px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.proposalBtn {
+  display: flex;
+  justify-content: end;
+}
+.proposalBtn .btn {
+  border-radius: 25px;
+  padding: 5px;
+  min-width: 150px;
+}
+
+.show-more-icon {
+  position: absolute;
+  right: 22px;
+  /* top: 22px; */
+  bottom: 10px;
+}
+.moreLink {
+  text-decoration: underline;
+}
+
+.mbutton {
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  appearance: button;
+
+  text-decoration: underline;
+  color: initial;
+  border: aliceblue;
+  background-color: white;
+}
+
+.candidate-list-images {
+  display: flex;
+  justify-content: center;
+}
+
+/* View Job Post */
+
+.detailsHeader {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.editJobContent {
+  display: flex;
+  justify-content: center;
+}
+
+.retractBtn {
+  margin-right: 10px;
+}
+
+.radioForRemoval {
+  display: flex;
+  justify-content: space-evenly;
+}

@@ -76,13 +76,17 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: undefined,
     },
+    is_fav: {
+      type: Boolean,
+      default: false,
+    },
     fav_subs: {
       type: Array,
-      default: undefined,
+      default: [],
     },
     fav_jobs: {
       type: Array,
-      default: undefined,
+      default: [],
     },
     fav_owners: {
       type: String,
@@ -98,14 +102,6 @@ const userSchema = new mongoose.Schema(
     },
     avatar: {
       type: String,
-      default: undefined,
-    },
-    jobs: {
-      type: [],
-      default: undefined,
-    },
-    proposals: {
-      type: [],
       default: undefined,
     },
     join_date: {
@@ -136,7 +132,7 @@ userSchema.methods.matchPasswords = async function (password) {
 
 userSchema.methods.getSignedToken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-    expiresIn: "12h",
+    expiresIn: "24h",
   });
 };
 

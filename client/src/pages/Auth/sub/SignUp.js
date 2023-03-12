@@ -7,7 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
-import { authRegister, authReset } from "../../../redux/authSlice";
+import { authRegister, authReset } from "../../../redux/Extra/authSlice";
 import lightLogo from "../../../assets/images/logo-light.png";
 import darkLogo from "../../../assets/images/logo-dark.png";
 import signUpImage from "../../../assets/images/auth/sign-up.png";

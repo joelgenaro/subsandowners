@@ -22,7 +22,7 @@ import jobImage from "../../assets/images/featured-job/img-01.png";
 
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { logoutUser, authReset } from "../../redux/authSlice";
+import { logoutUser, authReset } from "../../redux/Extra/authSlice";
 import { toast } from "react-toastify";
 import { useCookies } from "react-cookie";
 
@@ -260,7 +260,7 @@ const NavBar = (props) => {
                         </Link>
                       </li>
                       <li>
-                        <Link className="dropdown-item" to="#">
+                        <Link className="dropdown-item" to="/saved-talents">
                           Saved Talent
                         </Link>
                       </li>
@@ -321,7 +321,7 @@ const NavBar = (props) => {
                         </Link>
                       </li>
                       <li>
-                        <Link className="dropdown-item" to="#">
+                        <Link className="dropdown-item" to="/saved-jobs">
                           Saved Jobs
                         </Link>
                       </li>
@@ -334,7 +334,7 @@ const NavBar = (props) => {
                   </NavItem>
                   <NavItem className="dropdown dropdown-hover">
                     <NavLink
-                      to="#"
+                      to="/active-contracts"
                       id="subMyJobs"
                       role="button"
                       onClick={() => setMyJobs(!myJobs)}
@@ -351,7 +351,7 @@ const NavBar = (props) => {
                       aria-labelledby="subMyJobs"
                     >
                       <li>
-                        <Link className="dropdown-item" to="#">
+                        <Link className="dropdown-item" to="/active-contracts">
                           My Jobs
                         </Link>
                       </li>

@@ -51,17 +51,17 @@ const jobSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    status: {
-      type: String,
-      default: "",
-    },
     attachments: {
       type: [],
       default: undefined,
     },
-    proposals: {
-      type: [],
-      default: undefined,
+    is_fav: {
+      type: Boolean,
+      default: false,
+    },
+    status: {
+      type: String,
+      default: "open",
     },
     date_created: {
       type: Date,

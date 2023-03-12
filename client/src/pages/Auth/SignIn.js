@@ -4,7 +4,7 @@ import MetaTags from "react-meta-tags";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import { authLogin, authReset } from "../../redux/authSlice";
+import { authLogin, authReset } from "../../redux/Extra/authSlice";
 
 //Import Image
 import lightLogo from "../../assets/images/logo-light.png";

@@ -3,21 +3,8 @@ const Job = require("../models/mJob");
 const myCustomLabels = require("../utils/paginationLabel");
 
 const createJob = async (req, res, next) => {
-  const filter = { _id: req.user["_id"] };
-  const data = {
-    ...req.body,
-    owner_id: req.user["_id"],
-  };
-
   try {
-    const job = await Job.create({ ...data });
-    const userJob = {
-      jobId: job["_id"],
-    };
-
-    await User.findOneAndUpdate(filter, {
-      $push: { jobs: { ...userJob } },
-    });
+    const job = await Job.create({ ...req.body, owner_id: req.user["_id"] });
 
     res.status(201).json({
       success: true,
@@ -28,10 +15,8 @@ const createJob = async (req, res, next) => {
 };
 
 const getJobDetails = async (req, res, next) => {
-  const jobId = req.body.id;
-
   try {
-    const details = await Job.findById(jobId).exec();
+    const details = await Job.findById(req.body.id).exec();
 
     res.status(201).json({
       success: true,
@@ -52,7 +37,7 @@ const getAllJobs = async (req, res, next) => {
     customLabels: myCustomLabels,
     allowDiskUse: true,
   };
-  // Query regarding filter options.
+
   const query = {
     $and: [
       {
@@ -102,27 +87,35 @@ const getAllJobs = async (req, res, next) => {
   };
 
   try {
+    const user = await User.findOne({ _id: owner_id });
     const data = await Job.paginate(query, options);
+
     const itemsList = data.itemsList;
     const paginator = data.paginator;
+    const fav_jobs = user.fav_jobs ? user.fav_jobs : [];
 
     res.status(201).json({
       success: true,
       itemsList,
       paginator,
+      fav_jobs,
     });
   } catch (error) {
     next(error);
   }
 };
 
-const placeBid = async (req, res, next) => {
+const updateFav = async (req, res, next) => {
   const filter = { _id: req.user["_id"] };
+  const jobId = req.body["_id"];
+  const is_fav = req.body.is_fav;
 
   try {
-    await User.findOneAndUpdate(filter, {
-      $push: { proposals: { ...req.body } },
-    });
+    if (is_fav == true) {
+      await User.findOneAndUpdate(filter, { $pull: { fav_jobs: jobId } });
+    } else {
+      await User.findOneAndUpdate(filter, { $push: { fav_jobs: jobId } });
+    }
 
     res.status(201).json({
       success: true,
@@ -136,5 +129,5 @@ module.exports = {
   createJob,
   getJobDetails,
   getAllJobs,
-  placeBid,
+  updateFav,
 };

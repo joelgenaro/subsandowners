@@ -13,7 +13,7 @@ import { Form } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import { forgotPassword, authReset } from "../../redux/authSlice";
+import { forgotPassword, authReset } from "../../redux/Extra/authSlice";
 
 const ResetPassword = () => {
   const [email, setEmail] = useState("");
