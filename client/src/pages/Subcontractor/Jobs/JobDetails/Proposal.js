@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Card, CardBody, Col, Row } from "reactstrap";
-import { Confirm } from "../../../../components/Confirmation";
+import { Confirm } from "../../../../components/Confirm";
 import {
   retract,
   proposalReset,
