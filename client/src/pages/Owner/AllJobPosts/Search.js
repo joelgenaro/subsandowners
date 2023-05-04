@@ -23,39 +23,34 @@ const Search = () => {
         <Col lg={8}>
           <div className="candidate-list-widgets mb-4">
             <Row className="g-2">
-              <Col md={10}>
-                <div className="filter-search-form filter-border mt-3 mt-md-0">
-                  <i className="uil uil-briefcase-alt"></i>
-                  <Input
-                    onChange={handleText}
-                    type="search"
-                    defaultValue={text}
-                    className="form-control filler-job-input-box"
-                    id="exampleFormControlInput1"
-                    placeholder="Search job postings"
-                  />
-                </div>
-              </Col>
-
-              <Col md={2}>
-                <div className="mt-3 mt-md-0 h-100">
-                  <button
-                    className="btn btn-primary submit-btn w-100 h-100"
-                    type="submit"
-                    onClick={submit}
-                  >
-                    <i className="uil uil-search me-1"></i>
-                  </button>
-                </div>
-              </Col>
+               <Col lg={10} className="searchInput">
+                  <div className="filter-search-form  mt-3 mt-md-0">
+                    <i className="uil uil-briefcase-alt"></i>
+                    <Input
+                      onChange={handleText}
+                      type="search"
+                      defaultValue={text}
+                      className="form-control filler-job-input-box"
+                      id="exampleFormControlInput1"
+                      placeholder="Search"
+                    />
+                  </div>
+                  <div className="searchBtn">
+                    <button
+                      className="btn btn-primary submit-btn w-100 h-100"
+                     onClick={submit}
+                    >
+                      <i className="uil uil-search me-1"></i>
+                    </button>
+                  </div>
+                </Col>
             </Row>
           </div>
         </Col>
         <Col lg={4}>
           <div className="mb-4 allJobShowing">
             {paginator ? (
-              <h6 className="fs-16 mb-0">
-                {" "}
+              <h6 className="fs-16 mb-0">       
                 {paginator.slNo} –{" "}
                 {paginator.currentPage * paginator.perPage > paginator.itemCount
                   ? paginator.itemCount

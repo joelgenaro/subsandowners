@@ -7,10 +7,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
-  applicantsReset,
   setJobId,
-  getJobDetails,
+  applicantsReset,
   getProposals,
+  getHiredCandidates,
+  getJobDetails,
 } from "../../../redux/Owner/applicantsSlice";
 import "./index.css";
 
@@ -37,7 +38,8 @@ const Applicants = ({ match }) => {
   useEffect(() => {
     dispatch(setJobId(jobId));
     dispatch(getJobDetails({ id: jobId }));
-    dispatch(getProposals({ id: jobId }));
+    dispatch(getProposals({ id: jobId, page: 1 }));
+    dispatch(getHiredCandidates({ id: jobId, page: 1 }));
   }, []);
 
   return (

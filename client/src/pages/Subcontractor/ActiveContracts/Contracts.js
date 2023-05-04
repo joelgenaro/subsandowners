@@ -73,8 +73,7 @@ const Contracts = () => {
                             <Col lg={6}>
                               <h7 className="fs-17 mb-1">
                                 <Link
-                                  target="_blank"
-                                  to={"/jobs/"}
+                                  to={"/scontract/" + contract.ID_Application}
                                   className="moreLink"
                                 >
                                   {capitalize(contract.jobName)}

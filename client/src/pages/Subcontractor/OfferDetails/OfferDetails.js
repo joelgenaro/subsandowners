@@ -24,9 +24,8 @@ const OfferDetails = ({ match }) => {
 
   const history = useHistory();
   const dispatch = useDispatch();
-  const { job, isLoading, isSuccess, isError, message } = useSelector(
-    (state) => state.offer
-  );
+  const { job, ownerInfo, isLoading, isSuccess, isError, message } =
+    useSelector((state) => state.offer);
 
   useEffect(() => {
     dispatch(getData({ id: applicationId }));
@@ -82,9 +81,11 @@ const OfferDetails = ({ match }) => {
             )}
 
             {!isLoading ? (
-              <Col lg={4} className="mt-4 mt-lg-0">
-                <ClientInfo />
-              </Col>
+              ownerInfo ? (
+                <Col lg={4} className="mt-4 mt-lg-0">
+                  <ClientInfo data={ownerInfo} />
+                </Col>
+              ) : null
             ) : (
               <div
                 className="spinner-border text-primary m-1"

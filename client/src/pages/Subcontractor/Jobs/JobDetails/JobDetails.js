@@ -23,9 +23,8 @@ const JobDetails = ({ match }) => {
 
   const history = useHistory();
   const dispatch = useDispatch();
-  const { isSuccess, isError, message, isLoading, details } = useSelector(
-    (state) => state.job
-  );
+  const { isSuccess, isError, message, isLoading, details, ownerInfo } =
+    useSelector((state) => state.job);
 
   // Check message
   useEffect(() => {
@@ -57,7 +56,7 @@ const JobDetails = ({ match }) => {
                   <JobDetailsDescription data={details} />
                 </Col>
                 <Col lg={4} className="mt-4 mt-lg-0">
-                  <RightSideContent data={details} />
+                  <RightSideContent data={ownerInfo} />
                 </Col>
               </Row>
             ) : (

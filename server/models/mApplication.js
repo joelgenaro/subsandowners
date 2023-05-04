@@ -1,4 +1,4 @@
-const { ObjectId } = require("mongodb");
+const { ObjectId, Decimal128 } = require("mongodb");
 const mongoose = require("mongoose");
 const mongoosePaginate = require("mongoose-paginate-v2");
 
@@ -36,11 +36,35 @@ const applicationSchema = new mongoose.Schema(
       type: String,
       default: undefined,
     },
+    ownerFeedback: {
+      stars: {
+        type: Decimal128,
+        default: 0,
+      },
+      feedback: {
+        type: String,
+        default: "",
+      },
+    },
+    subFeedback: {
+      stars: {
+        type: Decimal128,
+        default: 0,
+      },
+      feedback: {
+        type: String,
+        default: "",
+      },
+    },
     date_created: {
       type: Date,
       default: Date.now,
     },
-    date_updated: {
+    date_started: {
+      type: String,
+      default: undefined,
+    },
+    date_completed: {
       type: String,
       default: undefined,
     },

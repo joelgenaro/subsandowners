@@ -1,4 +1,5 @@
 const Job = require("../models/mJob");
+const Application = require("../models/mApplication");
 const myCustomLabels = require("../utils/paginationLabel");
 
 const getData = async (req, res, next) => {
@@ -10,14 +11,19 @@ const getData = async (req, res, next) => {
   };
 
   const query = {
-    owner_id: { $eq: req.user["_id"] },
+    $and: [
+      { owner_id: { $eq: req.user["_id"] } },
+      { status: { $ne: "closed" } },
+    ],
   };
 
   try {
     const data = await Job.paginate(query, options);
-
-    const itemsList = data.itemsList;
+    const itemsListToCountProposals = data.itemsList;
     const paginator = data.paginator;
+
+    const promises = itemsListToCountProposals.map((item) => getStatus(item));
+    const itemsList = await Promise.all(promises);
 
     res.status(201).json({
       success: true,
@@ -27,6 +33,32 @@ const getData = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+const getStatus = async (item) => {
+  const applications = await Application.find({ jobId: item._id });
+  let messaged = 0;
+  let hired = 0;
+
+  applications.map((item) => {
+    if (item.status === "interviewing") {
+      ++messaged;
+    }
+    if (
+      item.status === "hired" ||
+      item.status === "end" ||
+      item.status === "requestFeedback"
+    ) {
+      ++hired;
+    }
+  });
+
+  return {
+    ...item._doc,
+    proposals: applications.length,
+    messaged: messaged,
+    hired: hired,
+  };
 };
 
 const filter = async (req, res, next) => {
@@ -58,7 +90,27 @@ const filter = async (req, res, next) => {
   }
 };
 
+const deleteJob = async (req, res, next) => {
+  const ID_Delete = req.body.id;
+
+  try {
+    await Application.updateMany(
+      ({ jobId: ID_Delete }, { $set: { status: "closed" } })
+    );
+
+    await Job.deleteOne({ _id: ID_Delete });
+
+    res.status(201).json({
+      success: true,
+      ID_Delete,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getData,
   filter,
+  deleteJob,
 };

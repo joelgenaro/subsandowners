@@ -67,7 +67,11 @@ const jobSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-    date_ends: {
+    date_started: {
+      type: String,
+      default: undefined,
+    },
+    date_end: {
       type: String,
       default: undefined,
     },

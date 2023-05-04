@@ -1,13 +1,13 @@
 import React, { memo, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import userImg from "../../../../assets/images/user/img-01.jpg";
 import { CardBody, Col, Row, Modal, ModalBody } from "reactstrap";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { sendOffer } from "../../../../redux/Owner/applicantsSlice";
 
-const CandidateDetails = ({ details }) => {
+const CandidateDetails = ({ jobDetails, details }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [isMore, setIsMore] = useState(false);
+  const dispatch = useDispatch();
 
   //Apply Now Model
   const [modal, setModal] = useState(false);
@@ -17,8 +17,6 @@ const CandidateDetails = ({ details }) => {
     details.proposal.length > 300 ? setIsMore(true) : setIsMore(false);
   }, [details.proposal.length]);
 
-  const dispatch = useDispatch();
-  const { jobId, jobDetails } = useSelector((state) => state.applicants);
   // more and less
   const description = showFullDescription
     ? details.proposal
@@ -32,7 +30,9 @@ const CandidateDetails = ({ details }) => {
   };
 
   const confirmOffer = () => {
-    dispatch(sendOffer({ jobId: jobId, candidateId: details.candidateId }));
+    dispatch(
+      sendOffer({ jobId: jobDetails._id, candidateId: details.candidateId })
+    );
   };
 
   return (
@@ -44,7 +44,7 @@ const CandidateDetails = ({ details }) => {
               <div className="candidate-list-images">
                 <Link to="#">
                   <img
-                    src={userImg}
+                    src={details.candidate.avatar}
                     alt=""
                     className="avatar-lg img-thumbnail rounded-circle"
                   />
@@ -56,18 +56,20 @@ const CandidateDetails = ({ details }) => {
               <Row className="">
                 <Col lg={6}>
                   <div className="candidate-list-content mt-3 mt-lg-0">
-                    <h5 className="fs-19 mb-0">
+                    <h5 className="fs-19 mb-10">
                       <Link to="/candidatedetails" className="primary-link">
-                        {details.candidateName}
+                        {details.candidate.firstName +
+                          " " +
+                          details.candidate.lastName}
                       </Link>
                     </h5>
                     <p className="text-muted mb-2">
                       <i className="mdi mdi-map-marker"></i>{" "}
-                      {details.candidateDesignation}
+                      {details.candidate.country}
                     </p>
                     <ul className="list-inline mb-0 text-muted">
                       <li className="list-inline-item">
-                        $ {details.salary} earned
+                        $ {details.candidate.salary} earned
                       </li>
                     </ul>
                   </div>
@@ -75,16 +77,25 @@ const CandidateDetails = ({ details }) => {
 
                 <Col lg={6}>
                   <div className="proposalBtn">
-                    <Link to="#" className="btn btn-outline-primary">
-                      Messages
-                    </Link>
-                    <Link
-                      to="#"
-                      onClick={openModal}
-                      className="btn btn-primary ms-2"
-                    >
-                      Hire
-                    </Link>
+                    {details.status === "sendOffer" ? (
+                      <span className="badge bg-info awaitingAcceptance">
+                        Awaiting Acceptance
+                      </span>
+                    ) : (
+                      <>
+                        {""}
+                        <Link to="#" className="btn btn-outline-primary">
+                          Messages
+                        </Link>
+                        <Link
+                          to="#"
+                          onClick={openModal}
+                          className="btn btn-primary ms-2"
+                        >
+                          Hire
+                        </Link>
+                      </>
+                    )}
                   </div>
                 </Col>
               </Row>

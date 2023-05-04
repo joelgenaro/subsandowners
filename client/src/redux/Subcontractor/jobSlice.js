@@ -7,6 +7,7 @@ const initialState = {
   isError: false,
   message: "",
   details: null,
+  ownerInfo: null,
   data: null,
   paginator: null,
   fav_jobs: [],
@@ -137,12 +138,14 @@ export const jobSlice = createSlice({
       state.isLoading = false;
       state.isSuccess = true;
       state.details = action.payload.details;
+      state.ownerInfo = action.payload.ownerInfo;
     });
     builder.addCase(getJobDetails.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.message = action.payload;
       state.details = null;
+      state.ownerInfo = null;
     });
 
     builder.addCase(updateFavOfDB.fulfilled, (state, action) => {

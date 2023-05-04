@@ -1,6 +1,7 @@
 const Application = require("../models/mApplication");
 const User = require("../models/mUser");
 const Job = require("../models/mJob");
+const { getOwnerInfo } = require("./cScontract.js");
 
 const getData = async (req, res, next) => {
   try {
@@ -12,9 +13,12 @@ const getData = async (req, res, next) => {
       _id: jobId,
     });
 
+    const ownerInfo = await getOwnerInfo(jobInfo.owner_id);
+
     res.status(201).json({
       success: true,
       jobInfo,
+      ownerInfo,
     });
   } catch (error) {
     next(error);
@@ -22,13 +26,23 @@ const getData = async (req, res, next) => {
 };
 
 const acceptOffer = async (req, res, next) => {
+  const currentDate = Date.now;
+
   try {
     const { jobId } = await Application.findOneAndUpdate(
       { _id: req.body.id },
       { status: "hired" }
     );
 
-    await Job.findOneAndUpdate({ _id: jobId }, { status: "hired" });
+    await Job.findOneAndUpdate(
+      { _id: jobId, date_started: { $exists: false } },
+      { status: "hired", date_started: currentDate }
+    );
+
+    await Application.findOneAndUpdate(
+      { jobId: jobId, candidateId: req.user["_id"] },
+      { status: "hired", date_started: currentDate }
+    );
 
     const message = "accept";
 

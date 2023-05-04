@@ -4,6 +4,7 @@ import classnames from "classnames";
 import ReviewProposals from "./ReviewProposals/ReviewProposals";
 import ViewJobPost from "./ViewJobPost/ViewJobPost";
 import InviteFreelancers from "./InviteFreelancers/InviteFreelancers";
+import Hire from "./Hire/Hire";
 
 const Category = () => {
   const [activeTab, setActiveTab] = useState("3");
@@ -37,9 +38,9 @@ const Category = () => {
           <NavLink
             to="#"
             className={classnames({ active: basicActiveTab === "2" })}
-            onClick={() => {
-              basicTabChange("2");
-            }}
+            // onClick={() => {
+            //   basicTabChange("2");
+            // }}
             type="button"
           >
             <span>INVITE FREELANCERS</span>
@@ -84,7 +85,7 @@ const Category = () => {
           <ReviewProposals />
         </TabPane>
         <TabPane tabId="4">
-          <h1>hire</h1>
+          <Hire />
         </TabPane>
       </TabContent>
     </React.Fragment>

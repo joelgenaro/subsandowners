@@ -6,7 +6,7 @@ import { confirmable, createConfirmation } from "react-confirm";
 const Confirmation = ({
   okLabel = "OK",
   cancelLabel = "Cancel",
-  title = "Retract bid",
+  title = "",
   confirmation,
   show,
   proceed,

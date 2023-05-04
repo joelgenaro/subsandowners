@@ -19,7 +19,6 @@ const create = async (req, res, next) => {
 
       try {
         const user = await User.findOneAndUpdate(filter, { ...role });
-
         const token = generateToken(user, 201, res);
 
         res.cookie("token", token, {

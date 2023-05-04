@@ -7,9 +7,11 @@ import { useHistory } from "react-router-dom";
 import {
   getData,
   jobPostingsReset,
+  deleteJob,
 } from "../../../redux/Owner/jobPostingsSlice";
 import calculateTimePosted from "../../../helper/calculateTimePosted";
 import capitalize from "../../../helper/capitalize";
+import { Confirm } from "../../../components/Confirm";
 
 const JobListing = () => {
   const history = useHistory();
@@ -34,6 +36,12 @@ const JobListing = () => {
     }
     dispatch(jobPostingsReset());
   }, [isSuccess, isError, message, dispatch]);
+
+  const onDeleteJob = async (id) => {
+    if (await Confirm("Are you sure you want to delete your job?")) {
+      dispatch(deleteJob({ id: id }));
+    }
+  };
 
   return (
     <React.Fragment>
@@ -73,9 +81,7 @@ const JobListing = () => {
                             <li className="list-inline-item">
                               <div className="mr-3">
                                 <h5 className="fs-17 mb-1">
-                                  {jobListingDetails.proposals
-                                    ? jobListingDetails.proposals.length
-                                    : 0}
+                                  {jobListingDetails.proposals}
                                 </h5>
                                 <p className="text-muted fs-14 mb-0">
                                   Proposals
@@ -84,7 +90,9 @@ const JobListing = () => {
                             </li>
                             <li className="list-inline-item">
                               <div className="mr-3">
-                                <h5 className="fs-17 mb-1">0</h5>
+                                <h5 className="fs-17 mb-1">
+                                  {jobListingDetails.messaged}
+                                </h5>
                                 <p className="text-muted fs-14 mb-0">
                                   Messaged
                                 </p>
@@ -92,7 +100,9 @@ const JobListing = () => {
                             </li>
                             <li className="list-inline-item">
                               <div className="mr-3">
-                                <h5 className="fs-17 mb-1">0</h5>
+                                <h5 className="fs-17 mb-1">
+                                  {jobListingDetails.hired}
+                                </h5>
                                 <p className="text-muted fs-14 mb-0">Hired</p>
                               </div>
                             </li>
@@ -109,7 +119,7 @@ const JobListing = () => {
                             title="Edit"
                           >
                             <Link
-                              to="/bookmarkjobpost"
+                              to={"/edit_job/" + jobListingDetails["_id"]}
                               className="avatar-sm bg-soft-success d-inline-block text-center rounded-circle fs-18"
                             >
                               <i className="uil uil-edit"></i>
@@ -123,6 +133,9 @@ const JobListing = () => {
                           >
                             <Link
                               to="#"
+                              onClick={() => {
+                                onDeleteJob(jobListingDetails["_id"]);
+                              }}
                               className="avatar-sm bg-soft-danger d-inline-block text-center rounded-circle fs-18"
                             >
                               <i className="uil uil-trash-alt"></i>

@@ -9,6 +9,7 @@ const initialState = {
   applicationId: null,
   client: null,
   job: null,
+  ownerInfo: null,
 };
 
 const errorMessageHandler = (error) => {
@@ -74,12 +75,14 @@ export const offerSlice = createSlice({
       state.isLoading = false;
       state.isSuccess = true;
       state.job = action.payload.jobInfo;
+      state.ownerInfo = action.payload.ownerInfo;
     });
     builder.addCase(getData.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.message = action.payload;
       state.job = null;
+      state.ownerInfo = null;
     });
 
     builder.addCase(declineOffer.pending, (state) => {

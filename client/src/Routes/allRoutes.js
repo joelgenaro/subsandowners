@@ -31,6 +31,8 @@ const SavedTalents = React.lazy(() =>
 const Applicants = React.lazy(() =>
   import("../pages/Owner/Applicants/Applicants")
 );
+const EditJob = React.lazy(() => import("../pages/Owner/EditJob/EditJob"));
+const MyJobs = React.lazy(() => import("../pages/Owner/MyJobs/MyJobs"));
 
 // Subcontractor Section
 const SignUpForSub = React.lazy(() => import("../pages/Auth/sub/SignUp"));
@@ -53,6 +55,9 @@ const SavedJobs = React.lazy(() =>
 const ActiveContracts = React.lazy(() =>
   import("../pages/Subcontractor/ActiveContracts/ActiveContracts")
 );
+const SubContract = React.lazy(() =>
+  import("../pages/Subcontractor/Contract/Contract")
+);
 
 // Routes
 const authLayoutForPublicRoutes = [
@@ -73,22 +78,25 @@ const authLayoutForPrivateRoutes = [
 
 const commonLayoutForPublicRoutes = [
   { path: "/", component: LandingPage },
-  { path: "*", component: Error404 },
+  // { path: "*", component: Error404 },
 ];
 
 const commonLayoutForPrivateRoutes = [
   { path: "/job-list", component: JobList },
   { path: "/job-post", component: JobPost },
-  { path: "/proposals", component: Proposals },
   { path: "/jobs/:jobId", component: JobDetails },
-  { path: "/offer/:applicationId", component: OfferDetails },
-  { path: "/candidate-list", component: CandidateList },
+  { path: "/edit_job/:jobId", component: EditJob },
   { path: "/all-jobs", component: AllJobPosts },
-  { path: "/active-contracts", component: ActiveContracts },
+  { path: "/my-jobs", component: MyJobs },
   { path: "/saved-jobs", component: SavedJobs },
   { path: "/saved-talents", component: SavedTalents },
   { path: "/saved-talents", component: SavedTalents },
   { path: "/saved-talents", component: SavedTalents },
+  { path: "/proposals", component: Proposals },
+  { path: "/offer/:applicationId", component: OfferDetails },
+  { path: "/candidate-list", component: CandidateList },
+  { path: "/active-contracts", component: ActiveContracts },
+  { path: "/scontract/:contractId", component: SubContract },
   { path: "/applicants/:jobId", component: Applicants },
 ];
 

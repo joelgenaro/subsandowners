@@ -1,0 +1,53 @@
+.contractSection {
+  background-image: none !important;
+  background-color: white !important;
+  padding-bottom: 10px;
+}
+
+.clientName {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.mainSection {
+  padding-top: 40px;
+}
+
+.summaryContent {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.feedbackBtn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.active-star {
+  color: rgba(247, 204, 83, 1) !important;
+}
+.mdi-star {
+  cursor: pointer;
+}
+.review-rating i {
+  font-size: 25px;
+}
+
+.job-detail .icon {
+  height: 46px;
+  line-height: 46px;
+  min-width: 46px;
+  border-radius: 46px;
+  text-align: center;
+  font-size: 20px;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.modal-dialog {
+  max-width: 850px;
+}

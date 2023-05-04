@@ -1,5 +1,6 @@
 const Application = require("../models/mApplication");
 const Job = require("../models/mJob");
+const User = require("../models/mUser");
 const myCustomLabels = require("../utils/paginationLabel");
 
 const updateJob = async (req, res, next) => {
@@ -16,55 +17,133 @@ const updateJob = async (req, res, next) => {
 
 const getProposals = async (req, res, next) => {
   const options = {
-    page: req.query.page,
-    limit: 15,
+    page: req.body.page,
+    limit: 10,
     customLabels: myCustomLabels,
-    allowDiskUse: true,
   };
+  const type = req.body.type;
+  const jobId = req.body.id;
 
-  const query = {
-    $and: [
-      {
-        jobId: { $eq: req.body.id },
-      },
-      {
-        status: { $ne: "hired" },
-      },
+  let query = null;
+
+  query = {
+    jobId: { $eq: jobId },
+    $or: [
+      { status: { $eq: "open" } },
+      { status: { $eq: "sendOffer" } },
+      { status: { $eq: "interviewing" } },
     ],
   };
 
   try {
     const data = await Application.paginate(query, options);
 
-    const itemsList = data.itemsList;
+    const itemsListApplications = data.itemsList;
     const paginator = data.paginator;
+    const promises = itemsListApplications.map((item) => getUserInfo(item));
+    const itemsList = await Promise.all(promises);
 
     res.status(201).json({
       success: true,
       itemsList,
       paginator,
+      type,
     });
   } catch (error) {
     next(error);
   }
 };
 
-const sendOffer = async (req, res, next) => {
-  const currentDate = Date.now();
+const getHiredCandidates = async (req, res, next) => {
+  const options = {
+    page: req.body.page,
+    limit: 10,
+    customLabels: myCustomLabels,
+  };
+  const type = req.body.type;
+  const jobId = req.body.id;
+
+  let query = null;
+
+  query = {
+    jobId: { $eq: jobId },
+    $or: [
+      { status: { $eq: "hired" } },
+      { status: { $eq: "end" } },
+      { status: { $eq: "requestFeedback" } },
+    ],
+  };
 
   try {
-    await Job.findOneAndUpdate(
-      { _id: req.body.jobId },
-      { status: "interviewing", date_updated: currentDate }
-    );
+    const data = await Application.paginate(query, options);
+
+    const itemsListApplications = data.itemsList;
+    const paginator = data.paginator;
+    const promises = itemsListApplications.map((item) => getUserInfo(item));
+    const itemsList = await Promise.all(promises);
+
+    res.status(201).json({
+      success: true,
+      itemsList,
+      paginator,
+      type,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getUserInfo = async (item) => {
+  const userInfo = await User.findOne({ _id: item.candidateId });
+  return {
+    ...item._doc,
+    candidate: {
+      firstName: userInfo.first_name,
+      lastName: userInfo.last_name,
+      avatar: userInfo.avatar,
+      country: userInfo.country,
+      salary: userInfo.salary,
+    },
+  };
+};
+
+const sendOffer = async (req, res, next) => {
+  const jobId = req.body.jobId;
+  const candidateId = req.body.candidateId;
+
+  try {
+    await Job.findOneAndUpdate({ _id: jobId }, { status: "interviewing" });
 
     await Application.findOneAndUpdate(
-      { jobId: req.body.jobId, candidateId: req.body.candidateId },
+      { jobId: jobId, candidateId: candidateId },
       { status: "sendOffer" }
     );
 
     res.status(201).json({
       success: true,
+      candidateId,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const endContract = async (req, res, next) => {
+  const id = req.body.id;
+  const setParams = {
+    $set: {
+      "subFeedback.stars": req.body.score,
+      "subFeedback.feedback": req.body.feedback,
+    },
+  };
+
+  try {
+    await Application.findOneAndUpdate({ _id: id }, { ...setParams });
+
+    res.status(201).json({
+      success: true,
+      setParams,
+      id,
     });
   } catch (error) {
     next(error);
@@ -74,5 +153,7 @@ const sendOffer = async (req, res, next) => {
 module.exports = {
   updateJob,
   sendOffer,
+  getHiredCandidates,
   getProposals,
+  endContract,
 };

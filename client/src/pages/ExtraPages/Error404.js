@@ -12,9 +12,9 @@ const Error404 = () => {
       <div>
         <div className="main-content">
           <div className="page-content">
-            <MetaTags>
+            {/* <MetaTags>
               <title>Error 404 | Scheduleasub</title>
-            </MetaTags>
+            </MetaTags> */}
             <section className="bg-error bg-auth text-dark">
               <Container>
                 <Row className="justify-content-center">

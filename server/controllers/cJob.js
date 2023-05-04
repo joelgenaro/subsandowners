@@ -1,6 +1,8 @@
 const User = require("../models/mUser");
 const Job = require("../models/mJob");
+const Application = require("../models/mApplication");
 const myCustomLabels = require("../utils/paginationLabel");
+const { getOwnerInfo } = require("./cScontract.js");
 
 const createJob = async (req, res, next) => {
   try {
@@ -17,10 +19,12 @@ const createJob = async (req, res, next) => {
 const getJobDetails = async (req, res, next) => {
   try {
     const details = await Job.findById(req.body.id).exec();
+    const ownerInfo = await getOwnerInfo(details.owner_id);
 
     res.status(201).json({
       success: true,
       details,
+      ownerInfo,
     });
   } catch (error) {
     next(error);
@@ -43,6 +47,7 @@ const getAllJobs = async (req, res, next) => {
       {
         owner_id: { $ne: owner_id },
       },
+      { status: { $ne: "closed" } },
       {
         $or: [
           { title: { $regex: filterOptions.text, $options: "i" } },
@@ -90,9 +95,14 @@ const getAllJobs = async (req, res, next) => {
     const user = await User.findOne({ _id: owner_id });
     const data = await Job.paginate(query, options);
 
-    const itemsList = data.itemsList;
+    const itemsListToCountProposals = data.itemsList;
     const paginator = data.paginator;
     const fav_jobs = user.fav_jobs ? user.fav_jobs : [];
+
+    const promises = itemsListToCountProposals.map((item) =>
+      countProposals(item)
+    );
+    const itemsList = await Promise.all(promises);
 
     res.status(201).json({
       success: true,
@@ -103,6 +113,18 @@ const getAllJobs = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+const countProposals = async (item) => {
+  const proposals = await Application.find({ jobId: item._id });
+  const ownerInfo = await getOwnerInfo(item.owner_id);
+
+  return {
+    ...item._doc,
+    proposals: proposals.length,
+    feedback: ownerInfo.feedback,
+    totalSpent: ownerInfo.totalSpent.totalSpent,
+  };
 };
 
 const updateFav = async (req, res, next) => {

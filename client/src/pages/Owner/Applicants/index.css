@@ -78,7 +78,6 @@
 .show-more-icon {
   position: absolute;
   right: 22px;
-  /* top: 22px; */
   bottom: 10px;
 }
 .moreLink {
@@ -121,4 +120,50 @@
 .radioForRemoval {
   display: flex;
   justify-content: space-evenly;
+}
+
+.awaitingAcceptance {
+  font-size: 20px;
+}
+
+/* Hire */
+
+.feedback {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  align-items: center;
+}
+.feedbackStatus {
+  margin-bottom: 0px;
+}
+
+.modal-dialog {
+  max-width: 850px;
+}
+
+.review-rating i {
+  font-size: 25px;
+}
+
+.active-star {
+  color: rgba(247, 204, 83, 1) !important;
+}
+
+.mdi-star {
+  cursor: pointer;
+}
+
+.stars {
+  margin-left: 10px;
+}
+
+.border-bottom {
+  border: none;
+  border-bottom: solid 1px #dbdfe2;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

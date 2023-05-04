@@ -15,6 +15,11 @@ const getData = async (data) => {
   return response.data;
 };
 
+const deleteJob = async (data) => {
+  const response = await axios.post(`${API_URL}/deleteJob`, data, config);
+  return response.data;
+};
+
 // Filter subs
 const filter = async (data) => {
   const response = await axios.post(`${API_URL}/filter`, data, config);
@@ -23,5 +28,6 @@ const filter = async (data) => {
 
 export const jobPostingsService = {
   getData,
+  deleteJob,
   filter,
 };

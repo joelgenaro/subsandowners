@@ -14,24 +14,20 @@ const initialState = {
     data: null,
     paginator: null,
   },
+  hiredCandidates: {
+    data: null,
+    paginator: null,
+  },
+  invite: {
+    data: null,
+    paginator: null,
+  },
 };
 
 const errorMessageHandler = (error) => {
   const message = error.response.data.error || error.message;
   return message;
 };
-
-export const sendOffer = createAsyncThunk(
-  "applicants/sendOffer",
-  async (data, thunkAPI) => {
-    try {
-      return await applicantsService.sendOffer(data);
-    } catch (error) {
-      const message = errorMessageHandler(error);
-      return thunkAPI.rejectWithValue(message);
-    }
-  }
-);
 
 export const getProposals = createAsyncThunk(
   "applicants/getProposals",
@@ -45,11 +41,23 @@ export const getProposals = createAsyncThunk(
   }
 );
 
-export const getJobDetails = createAsyncThunk(
-  "applicants/getJobDetails",
+export const getHiredCandidates = createAsyncThunk(
+  "applicants/getHiredCandidates",
   async (jobId, thunkAPI) => {
     try {
-      return await jobService.getJobDetails(jobId);
+      return await applicantsService.getHiredCandidates(jobId);
+    } catch (error) {
+      const message = errorMessageHandler(error);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const endContract = createAsyncThunk(
+  "applicants/endContract",
+  async (data, thunkAPI) => {
+    try {
+      return await applicantsService.endContract(data);
     } catch (error) {
       const message = errorMessageHandler(error);
       return thunkAPI.rejectWithValue(message);
@@ -62,6 +70,30 @@ export const updateJob = createAsyncThunk(
   async (jobId, thunkAPI) => {
     try {
       return await applicantsService.updateJob(jobId);
+    } catch (error) {
+      const message = errorMessageHandler(error);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const sendOffer = createAsyncThunk(
+  "applicants/sendOffer",
+  async (data, thunkAPI) => {
+    try {
+      return await applicantsService.sendOffer(data);
+    } catch (error) {
+      const message = errorMessageHandler(error);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getJobDetails = createAsyncThunk(
+  "applicants/getJobDetails",
+  async (jobId, thunkAPI) => {
+    try {
+      return await jobService.getJobDetails(jobId);
     } catch (error) {
       const message = errorMessageHandler(error);
       return thunkAPI.rejectWithValue(message);
@@ -107,19 +139,43 @@ export const applicants = createSlice({
       state.reviewProposals.paginator = null;
     });
 
-    builder.addCase(getJobDetails.pending, (state) => {
+    builder.addCase(getHiredCandidates.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(getJobDetails.fulfilled, (state, action) => {
+    builder.addCase(getHiredCandidates.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
-      state.jobDetails = action.payload.details;
+      state.hiredCandidates.data = action.payload.itemsList;
+      state.hiredCandidates.paginator = action.payload.paginator;
     });
-    builder.addCase(getJobDetails.rejected, (state, action) => {
+    builder.addCase(getHiredCandidates.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.message = action.payload;
-      state.jobDetails = null;
+      state.hiredCandidates.data = null;
+      state.hiredCandidates.paginator = null;
+    });
+
+    builder.addCase(endContract.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(endContract.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+
+      state.hiredCandidates.data.map((user) => {
+        if (action.payload.id === user["_id"]) {
+          user.subFeedback.stars.$numberDecimal =
+            action.payload.setParams.$set["subFeedback.stars"];
+          user.subFeedback.feedback =
+            action.payload.setParams.$set["subFeedback.feedback"];
+        }
+      });
+    });
+    builder.addCase(endContract.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.message = action.payload;
     });
 
     builder.addCase(updateJob.pending, (state) => {
@@ -141,11 +197,32 @@ export const applicants = createSlice({
     builder.addCase(sendOffer.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
+
+      state.reviewProposals.data.map((item) => {
+        if (item.candidateId == action.payload.candidateId) {
+          item.status = "sendOffer";
+        }
+      });
     });
     builder.addCase(sendOffer.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.message = action.payload;
+    });
+
+    builder.addCase(getJobDetails.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getJobDetails.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.jobDetails = action.payload.details;
+    });
+    builder.addCase(getJobDetails.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.message = action.payload;
+      state.jobDetails = null;
     });
   },
 });

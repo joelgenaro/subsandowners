@@ -42,6 +42,20 @@ export const filter = createAsyncThunk(
   }
 );
 
+// Search job with text
+export const deleteJob = createAsyncThunk(
+  "jobPostings/deleteJob",
+  async (data, thunkAPI) => {
+    try {
+      return await jobPostingsService.deleteJob(data);
+    } catch (error) {
+      const message = errorMessageHandler(error);
+
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const jobPostingsSlice = createSlice({
   name: "jobPostings",
   initialState,
@@ -57,14 +71,12 @@ export const jobPostingsSlice = createSlice({
     builder.addCase(getData.pending, (state) => {
       state.isLoading = true;
     });
-
     builder.addCase(getData.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
       state.data = action.payload.itemsList;
       state.paginator = action.payload.paginator;
     });
-
     builder.addCase(getData.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
@@ -76,20 +88,35 @@ export const jobPostingsSlice = createSlice({
     builder.addCase(filter.pending, (state) => {
       state.isLoading = true;
     });
-
     builder.addCase(filter.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
       state.data = action.payload.itemsList;
       state.paginator = action.payload.paginator;
     });
-
     builder.addCase(filter.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.message = action.payload;
       state.data = null;
       state.paginator = null;
+    });
+
+    builder.addCase(deleteJob.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(deleteJob.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+
+      state.data = state.data.filter(function (item) {
+        return item._id !== action.payload.ID_Delete;
+      });
+    });
+    builder.addCase(deleteJob.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.message = action.payload;
     });
   },
 });
