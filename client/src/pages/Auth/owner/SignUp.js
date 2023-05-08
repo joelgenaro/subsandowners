@@ -69,7 +69,7 @@ const SignUpForOwner = () => {
         <div className="main-content">
           <div className="page-content">
             <MetaTags>
-              <title>User Sign Up | Scheduleasub</title>
+              <title>User Sign Up | Bidderbadger</title>
             </MetaTags>
             <section className="bg-auth">
               <Container>

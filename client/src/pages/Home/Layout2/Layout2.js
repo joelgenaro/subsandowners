@@ -6,7 +6,7 @@ const Layout2 = () => {
   return (
     <React.Fragment>
       <MetaTags>
-        <title>Scheduleasub</title>
+        <title>Bidderbadger</title>
       </MetaTags>
       <Section />
     </React.Fragment>

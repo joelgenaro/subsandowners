@@ -11,7 +11,7 @@ const Candidate = () => {
   return (
     <React.Fragment>
       <MetaTags>
-        <title>Browse Labors | Scheduleasub</title>
+        <title>Browse Labors | Bidderbadger</title>
       </MetaTags>
       <Section />
       <section className="section">

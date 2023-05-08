@@ -101,7 +101,7 @@ const RegisterForOwner = () => {
         <div className="main-content">
           <div className="page-content">
             <MetaTags>
-              <title>User Register | Scheduleasub</title>
+              <title>User Register | Bidderbadger</title>
             </MetaTags>
             <section className="bg-auth">
               <Container>

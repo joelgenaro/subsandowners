@@ -50,7 +50,7 @@ const ResetPassword = () => {
         <div className="main-content">
           <div className="page-content">
             <MetaTags>
-              <title>Sign In to Hire Labors & Find Work | Scheduleasub</title>
+              <title>Sign In to Hire Labors & Find Work | Bidderbadger</title>
             </MetaTags>
             <section className="bg-auth">
               <Container>

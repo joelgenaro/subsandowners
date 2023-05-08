@@ -14,7 +14,7 @@ const JobDetailsDescription = ({ data }) => {
   return (
     <React.Fragment>
       <MetaTags>
-        <title>{data.title} | Scheduleasub</title>
+        <title>{data.title} | Bidderbadger</title>
       </MetaTags>
       <Card className="job-detail overflow-hidden">
         <CardBody className="p-4">

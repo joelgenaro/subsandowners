@@ -9,7 +9,7 @@ const JobPost = () => {
   return (
     <React.Fragment>
       <MetaTags>
-        <title>Post a job | Scheduleasub</title>
+        <title>Post a job | Bidderbadger</title>
       </MetaTags>
       <Section />
       <section className="section">

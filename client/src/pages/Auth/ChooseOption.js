@@ -14,7 +14,7 @@ const ChooseOption = () => {
         <div className="">
           <div className="">
             <MetaTags>
-              <title>User Sign Up | Scheduleasub</title>
+              <title>User Sign Up | Bidderbadger</title>
             </MetaTags>
             <section className="bg-auth">
               <Container>
