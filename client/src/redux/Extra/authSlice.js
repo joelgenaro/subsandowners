@@ -10,6 +10,7 @@ const initialState = {
   isLogoutSuccess: false,
   isError: false,
   message: "",
+  user: {},
 };
 
 const errorMessageHandler = (error) => {
@@ -125,6 +126,7 @@ export const authSlice = createSlice({
       state.authToken = action.payload.token;
       state.role = action.payload.role;
       state.both = action.payload.both;
+      state.user = { ...action.payload.current_user };
     });
 
     builder.addCase(authLogin.rejected, (state, action) => {
@@ -134,6 +136,7 @@ export const authSlice = createSlice({
       state.authToken = null;
       state.role = null;
       state.both = false;
+      state.user = {};
     });
 
     builder.addCase(forgotPassword.pending, (state) => {

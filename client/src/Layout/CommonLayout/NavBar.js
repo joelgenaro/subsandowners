@@ -16,9 +16,6 @@ import classname from "classnames";
 import darkLogo from "../../assets/images/logo-dark.png";
 import lightLogo from "../../assets/images/logo-light.png";
 import userImage2 from "../../assets/images/user/img-02.jpg";
-import jobImage4 from "../../assets/images/featured-job/img-04.png";
-import userImage1 from "../../assets/images/user/img-02.jpg";
-import jobImage from "../../assets/images/featured-job/img-01.png";
 
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -29,7 +26,7 @@ import { useCookies } from "react-cookie";
 const NavBar = (props) => {
   // Auth
   const [cookies, setCookie] = useCookies();
-  const { isLogoutSuccess, isError, message } = useSelector(
+  const { isLogoutSuccess, isError, message, user } = useSelector(
     (state) => state.auth
   );
   let Token = cookies.token;
@@ -411,14 +408,14 @@ const NavBar = (props) => {
                   aria-expanded="false"
                 >
                   <img
-                    src={userImage2}
+                    src={user.avatar == null ? userImage2 : user.avatar}
                     alt="mdo"
                     width="35"
                     height="35"
                     className="rounded-circle me-1"
                   />{" "}
                   <span className="d-none d-md-inline-block fw-medium">
-                    {/* Hi, Jennifer */}
+                    {user?.first_name + " " + user?.last_name}
                   </span>
                 </DropdownToggle>
                 <DropdownMenu
@@ -426,11 +423,11 @@ const NavBar = (props) => {
                   aria-labelledby="userdropdown"
                   end
                 >
-                  {/* <li>
-                    <Link className="dropdown-item" to="#">
+                  <li>
+                    <Link className="dropdown-item" to="/profile">
                       My Profile
                     </Link>
-                  </li> */}
+                  </li>
                   {both === "true" && Role == "sub" ? (
                     <li>
                       <Link

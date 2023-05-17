@@ -13,40 +13,42 @@ const create = async (req, res, next) => {
     res.status(400);
     return next(new Error("User already exists"));
   } else if (userExist) {
+    const filter = { _id: userExist["_id"] };
+    const both = true;
+
     try {
-      const filter = { _id: userExist["_id"] };
-      const both = true;
+      const user = await User.findOneAndUpdate(filter, { ...role });
+      const current_user = {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        avatar: user.avatar,
+      };
+      const token = generateToken(user, 201, res);
 
-      try {
-        const user = await User.findOneAndUpdate(filter, { ...role });
-        const token = generateToken(user, 201, res);
+      res.cookie("token", token, {
+        secure: true,
+      });
 
-        res.cookie("token", token, {
-          secure: true,
-        });
+      res.cookie("role", identifier, {
+        secure: true,
+      });
 
-        res.cookie("role", identifier, {
-          secure: true,
-        });
+      res.cookie("both", true, {
+        secure: true,
+      });
 
-        res.cookie("both", true, {
-          secure: true,
-        });
+      res.status(201).json({
+        success: true,
+        token,
+        both,
+        identifier,
+        current_user,
+      });
 
-        res.status(201).json({
-          success: true,
-          token,
-          both,
-          identifier,
-        });
-
-        res.status(201).json({
-          success: true,
-          message: "Profile Update Success",
-        });
-      } catch (error) {
-        next(error);
-      }
+      res.status(201).json({
+        success: true,
+        message: "Profile Update Success",
+      });
     } catch (error) {
       next(error);
     }
@@ -57,6 +59,11 @@ const create = async (req, res, next) => {
         password,
         ...role,
       });
+      const current_user = {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        avatar: user.avatar,
+      };
       const token = generateToken(user, 201, res);
       const both = false;
 
@@ -77,6 +84,7 @@ const create = async (req, res, next) => {
         token,
         both,
         identifier,
+        current_user,
       });
     } catch (error) {
       next(error);
@@ -91,6 +99,11 @@ const login = async (req, res, next) => {
 
   // Check if user exists
   const user = await User.findOne({ email }).select("+password");
+  const current_user = {
+    first_name: user.first_name,
+    last_name: user.last_name,
+    avatar: user.avatar,
+  };
 
   if (!user) {
     res.status(400);
@@ -135,6 +148,7 @@ const login = async (req, res, next) => {
       token,
       both,
       role,
+      current_user,
     });
   } catch (error) {
     next(error);

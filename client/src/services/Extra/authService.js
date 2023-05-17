@@ -2,7 +2,7 @@ import axios from "axios";
 
 axios.defaults.withCredentials = true;
 
-const API_URL = `https://bidderbadger.com/api/auth`;
+const API_URL = `http://localhost:5000/api/auth`;
 const config = {
   headers: {
     "Content-Type": "application/json",
@@ -23,6 +23,7 @@ const forgotPassword = async (email) => {
 
 // Register User
 const createAccountGmail = async (userData) => {
+  console.log(userData);
   const response = await axios.post(`${API_URL}/add`, userData, config);
   return response.data;
 };

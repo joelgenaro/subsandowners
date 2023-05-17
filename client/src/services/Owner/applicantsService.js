@@ -2,7 +2,7 @@ import axios from "axios";
 
 axios.defaults.withCredentials = true;
 
-const API_URL = `https://bidderbadger.com/api/applicants`;
+const API_URL = `http://localhost:5000/api/applicants`;
 const config = {
   headers: {
     "Content-Type": "application/json",

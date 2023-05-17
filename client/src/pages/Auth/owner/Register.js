@@ -29,7 +29,6 @@ const RegisterForOwner = () => {
     last_name: "",
     profile: "",
     phone: "",
-    salary: "",
     country: "",
     city: "",
     address: "",
@@ -219,26 +218,6 @@ const RegisterForOwner = () => {
                                         id="phone"
                                         name="phone"
                                         value={subcontractor.phone}
-                                        onChange={handleChange}
-                                      />
-                                    </div>
-                                  </Col>
-
-                                  <Col lg={6}>
-                                    <div className="mb-3">
-                                      <Label
-                                        htmlFor="salary"
-                                        className="form-label"
-                                      >
-                                        Salary
-                                      </Label>
-                                      <Input
-                                        type="text"
-                                        className="form-control"
-                                        id="salary"
-                                        required
-                                        name="salary"
-                                        value={subcontractor.salary}
                                         onChange={handleChange}
                                       />
                                     </div>
