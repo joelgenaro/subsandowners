@@ -92,7 +92,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: undefined,
     },
-    salary: {
+    company: {
+      type: String,
+      default: undefined,
+    },
+    earned: {
       type: String,
       default: undefined,
     },

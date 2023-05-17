@@ -5,18 +5,18 @@ import LeftSideContent from "./LeftSideContent";
 import RightSideContent from "./RightSideContent";
 import Section from "./Section";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { profileReset, getProfile } from "../../redux/Profile/profileSlice";
 
-const MyProfile = ({ match }) => {
-  const {
-    params: { userId },
-  } = match;
-
+const MyProfile = () => {
   const history = useHistory();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const myParam = queryParams.get("from");
   const dispatch = useDispatch();
   const { isSuccess, isError, message } = useSelector((state) => state.profile);
+  const role = localStorage.getItem("role");
 
   // Check message
   useEffect(() => {
@@ -30,7 +30,7 @@ const MyProfile = ({ match }) => {
   }, [isSuccess, isError, message, history, dispatch]);
 
   useEffect(() => {
-    dispatch(getProfile(userId));
+    dispatch(getProfile({ id: myParam, role: role }));
   }, []);
 
   return (

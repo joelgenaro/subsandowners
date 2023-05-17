@@ -1,11 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Card, CardBody, Col } from "reactstrap";
+import { useSelector } from "react-redux";
 
 //Import images
 import profileImage from "../../assets/images/user/img-02.jpg";
 
 const LeftSideContent = () => {
+  const { data } = useSelector((state) => state.profile);
+
   return (
     <React.Fragment>
       <Col lg={4}>
@@ -57,48 +60,6 @@ const LeftSideContent = () => {
                   >
                     <i className="uil uil-phone-alt"></i>
                   </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div className="mt-4 border-bottom pb-4">
-              <h5 className="fs-17 fw-bold mb-3">Documents</h5>
-              <ul className="profile-document list-unstyled mb-0">
-                <li>
-                  <div className="profile-document-list d-flex align-items-center mt-4 ">
-                    <div className="icon flex-shrink-0">
-                      <i className="uil uil-file"></i>
-                    </div>
-                    <div className="ms-3">
-                      <h6 className="fs-16 mb-0">Resume.pdf</h6>
-                      <p className="text-muted mb-0">1.25 MB</p>
-                    </div>
-                    <div className="ms-auto">
-                      <Link to="#" download className="fs-20 text-muted">
-                        <i className="uil uil-import"></i>
-                      </Link>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div className="profile-document-list d-flex align-items-center mt-4 ">
-                    <div className="icon flex-shrink-0">
-                      <i className="uil uil-file"></i>
-                    </div>
-                    <div className="ms-3">
-                      <h6 className="fs-16 mb-0">Cover-letter.pdf</h6>
-                      <p className="text-muted mb-0">1.25 MB</p>
-                    </div>
-                    <div className="ms-auto">
-                      <Link
-                        to="#"
-                        download="dark-logo"
-                        className="fs-20 text-muted"
-                      >
-                        <i className="uil uil-import"></i>
-                      </Link>
-                    </div>
-                  </div>
                 </li>
               </ul>
             </div>

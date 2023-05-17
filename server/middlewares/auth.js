@@ -13,8 +13,6 @@ const protect = async (req, res, next) => {
     next();
   } catch (error) {
     res.clearCookie("token");
-    res.clearCookie("role");
-    res.clearCookie("both");
     res.status(401);
 
     return next(new Error("Not authorized!"));

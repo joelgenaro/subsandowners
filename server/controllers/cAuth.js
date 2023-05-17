@@ -29,14 +29,6 @@ const create = async (req, res, next) => {
         secure: true,
       });
 
-      res.cookie("role", identifier, {
-        secure: true,
-      });
-
-      res.cookie("both", true, {
-        secure: true,
-      });
-
       res.status(201).json({
         success: true,
         token,
@@ -71,14 +63,6 @@ const create = async (req, res, next) => {
         secure: true,
       });
 
-      res.cookie("role", identifier, {
-        secure: true,
-      });
-
-      res.cookie("both", false, {
-        secure: true,
-      });
-
       res.status(201).json({
         success: true,
         token,
@@ -99,17 +83,17 @@ const login = async (req, res, next) => {
 
   // Check if user exists
   const user = await User.findOne({ email }).select("+password");
-  const current_user = {
-    first_name: user.first_name,
-    last_name: user.last_name,
-    avatar: user.avatar,
-  };
 
   if (!user) {
     res.status(400);
     return next(new Error("User does not exists"));
   }
 
+  const current_user = {
+    first_name: user.first_name,
+    last_name: user.last_name,
+    avatar: user.avatar,
+  };
   const { owner, sub } = user;
 
   if (sub == true && owner == true) {
@@ -132,14 +116,6 @@ const login = async (req, res, next) => {
     const token = generateToken(user, 200, res);
 
     res.cookie("token", token, {
-      secure: true,
-    });
-
-    res.cookie("role", role, {
-      secure: true,
-    });
-
-    res.cookie("both", both, {
       secure: true,
     });
 
@@ -216,9 +192,7 @@ const forgotPassword = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
   res.clearCookie("token");
-  res.clearCookie("role");
-  res.clearCookie("both");
-
+  
   res.status(200).json({
     success: true,
     message: "Logged out",

@@ -23,7 +23,6 @@ const forgotPassword = async (email) => {
 
 // Register User
 const createAccountGmail = async (userData) => {
-  console.log(userData);
   const response = await axios.post(`${API_URL}/add`, userData, config);
   return response.data;
 };

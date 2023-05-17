@@ -30,8 +30,8 @@ const NavBar = (props) => {
     (state) => state.auth
   );
   let Token = cookies.token;
-  let Role = cookies.role;
-  let both = cookies.both;
+  let Role = localStorage.getItem("role");
+  let both = localStorage.getItem("both");
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -56,6 +56,8 @@ const NavBar = (props) => {
 
   //scroll navbar
   const [navClass, setnavClass] = useState(false);
+
+  const currentUser = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     window.addEventListener("scroll", scrollNavigation, true);
@@ -96,7 +98,7 @@ const NavBar = (props) => {
   const switchAccount = (e) => {
     const accountToSwitch = e.target.name;
 
-    setCookie("role", accountToSwitch);
+    localStorage.setItem("role", accountToSwitch);
 
     accountToSwitch === "sub"
       ? history.push("/job-list")
@@ -105,6 +107,7 @@ const NavBar = (props) => {
 
   const logoutHandler = (e) => {
     dispatch(logoutUser());
+    history.push("/signin");
   };
 
   const scrollNavigation = () => {
@@ -408,14 +411,18 @@ const NavBar = (props) => {
                   aria-expanded="false"
                 >
                   <img
-                    src={user.avatar == null ? userImage2 : user.avatar}
+                    src={
+                      currentUser.avatar == null
+                        ? userImage2
+                        : currentUser.avatar
+                    }
                     alt="mdo"
                     width="35"
                     height="35"
                     className="rounded-circle me-1"
                   />{" "}
                   <span className="d-none d-md-inline-block fw-medium">
-                    {user?.first_name + " " + user?.last_name}
+                    {currentUser.first_name + " " + currentUser.last_name}
                   </span>
                 </DropdownToggle>
                 <DropdownMenu

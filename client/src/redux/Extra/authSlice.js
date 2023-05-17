@@ -106,6 +106,8 @@ export const authSlice = createSlice({
       state.authToken = action.payload.token;
       state.role = action.payload.idenifier;
       state.both = action.payload.both;
+      localStorage.setItem("role", action.payload.idenifier);
+      localStorage.setItem("both", action.payload.both);
     });
 
     builder.addCase(authRegister.rejected, (state, action) => {
@@ -115,6 +117,9 @@ export const authSlice = createSlice({
       state.authToken = null;
       state.role = null;
       state.both = false;
+      localStorage.setItem("user", null);
+      localStorage.setItem("role", null);
+      localStorage.setItem("both", false);
     });
     builder.addCase(authLogin.pending, (state) => {
       state.isLoading = true;
@@ -127,6 +132,9 @@ export const authSlice = createSlice({
       state.role = action.payload.role;
       state.both = action.payload.both;
       state.user = { ...action.payload.current_user };
+      localStorage.setItem("user", JSON.stringify(action.payload.current_user));
+      localStorage.setItem("role", action.payload.role);
+      localStorage.setItem("both", action.payload.both);
     });
 
     builder.addCase(authLogin.rejected, (state, action) => {
@@ -137,6 +145,9 @@ export const authSlice = createSlice({
       state.role = null;
       state.both = false;
       state.user = {};
+      localStorage.setItem("user", null);
+      localStorage.setItem("role", null);
+      localStorage.setItem("both", false);
     });
 
     builder.addCase(forgotPassword.pending, (state) => {
@@ -177,6 +188,9 @@ export const authSlice = createSlice({
       state.both = false;
       state.isLogoutSuccess = true;
       state.message = action.payload;
+      localStorage.setItem("user", null);
+      localStorage.setItem("role", null);
+      localStorage.setItem("both", false);
     });
 
     builder.addCase(logoutUser.rejected, (state, action) => {
