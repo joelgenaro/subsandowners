@@ -412,9 +412,9 @@ const NavBar = (props) => {
                 >
                   <img
                     src={
-                      currentUser.avatar == null
+                      currentUser?.avatar == null
                         ? userImage2
-                        : currentUser.avatar
+                        : currentUser?.avatar
                     }
                     alt="mdo"
                     width="35"
@@ -422,7 +422,7 @@ const NavBar = (props) => {
                     className="rounded-circle me-1"
                   />{" "}
                   <span className="d-none d-md-inline-block fw-medium">
-                    {currentUser.first_name + " " + currentUser.last_name}
+                    {currentUser?.first_name + " " + currentUser?.last_name}
                   </span>
                 </DropdownToggle>
                 <DropdownMenu

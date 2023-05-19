@@ -1,0 +1,17 @@
+.profile-resume-active {
+  top: auto;
+  right: auto;
+}
+.profile_label {
+  min-width: 30px !important;
+  font-size: 20px;
+}
+.align-items {
+  align-items: center;
+}
+.align-start {
+  align-items: start;
+}
+.nav-link {
+  padding: 26px 26px !important;
+}

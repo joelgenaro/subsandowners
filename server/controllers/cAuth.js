@@ -134,6 +134,8 @@ const login = async (req, res, next) => {
 const update = async (req, res, next) => {
   const filter = { _id: req.user["_id"] };
   const update = { ...req.body };
+  let both = false;
+  let role = null;
 
   try {
     const updatedProfile = await User.findOneAndUpdate(filter, update, {
@@ -145,11 +147,24 @@ const update = async (req, res, next) => {
       avatar: updatedProfile.avatar,
     };
 
+    const { owner, sub } = updatedProfile;
+
+    if (sub == true && owner == true) {
+      both = true;
+      role = "sub";
+    } else if (sub == true) {
+      role = "sub";
+    } else {
+      role = "owner";
+    }
+
     res.status(201).json({
       success: true,
       message: "Profile Update Success",
       updatedProfile,
       current_user,
+      both,
+      role,
     });
   } catch (error) {
     next(error);

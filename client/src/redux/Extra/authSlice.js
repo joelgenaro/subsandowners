@@ -108,6 +108,7 @@ export const authSlice = createSlice({
       state.both = action.payload.both;
       localStorage.setItem("role", action.payload.idenifier);
       localStorage.setItem("both", action.payload.both);
+      localStorage.setItem("user", JSON.stringify(action.payload.current_user));
     });
 
     builder.addCase(authRegister.rejected, (state, action) => {
@@ -174,12 +175,18 @@ export const authSlice = createSlice({
       state.isLoading = false;
       state.isSuccess = true;
       state.message = action.payload;
+      localStorage.setItem("user", JSON.stringify(action.payload.current_user));
+      localStorage.setItem("role", action.payload.role);
+      localStorage.setItem("both", action.payload.both);
     });
 
     builder.addCase(profileUpdate.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.message = action.payload;
+      localStorage.setItem("user", null);
+      localStorage.setItem("role", null);
+      localStorage.setItem("both", false);
     });
     builder.addCase(logoutUser.fulfilled, (state, action) => {
       state.isLoading = false;
