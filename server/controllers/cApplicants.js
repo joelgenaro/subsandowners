@@ -102,7 +102,7 @@ const getUserInfo = async (item) => {
       lastName: userInfo.last_name,
       avatar: userInfo.avatar,
       country: userInfo.country,
-      salary: userInfo.salary,
+      company: userInfo.company,
     },
   };
 };

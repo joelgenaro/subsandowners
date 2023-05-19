@@ -69,7 +69,7 @@ const CandidateDetails = ({ jobDetails, details }) => {
                     </p>
                     <ul className="list-inline mb-0 text-muted">
                       <li className="list-inline-item">
-                        $ {details.candidate.salary} earned
+                        $ {details.candidate.earned} earned
                       </li>
                     </ul>
                   </div>

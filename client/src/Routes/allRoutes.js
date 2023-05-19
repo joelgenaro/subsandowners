@@ -9,6 +9,8 @@ const ChooseOption = React.lazy(() => import("../pages/Auth/ChooseOption"));
 const ResetPassword = React.lazy(() => import("../pages/Auth/ResetPassword"));
 const ComingSoon = React.lazy(() => import("../pages/ExtraPages/ComingSoon"));
 const Error404 = React.lazy(() => import("../pages/ExtraPages/Error404"));
+const MyProfile = React.lazy(() => import("../pages/MyProfile/MyProfile"));
+const Settings = React.lazy(() => import("../pages/Settings/Settings"));
 
 // Owner Section
 const SignUpForOwner = React.lazy(() => import("../pages/Auth/owner/SignUp"));
@@ -93,11 +95,13 @@ const commonLayoutForPrivateRoutes = [
   { path: "/saved-talents", component: SavedTalents },
   { path: "/saved-talents", component: SavedTalents },
   { path: "/proposals", component: Proposals },
+  { path: "/profile", component: MyProfile },
   { path: "/offer/:applicationId", component: OfferDetails },
   { path: "/candidate-list", component: CandidateList },
   { path: "/active-contracts", component: ActiveContracts },
   { path: "/scontract/:contractId", component: SubContract },
   { path: "/applicants/:jobId", component: Applicants },
+  { path: "/settings", component: Settings },
 ];
 
 export {

@@ -29,8 +29,8 @@ const RegisterForOwner = () => {
     last_name: "",
     profile: "",
     phone: "",
-    salary: "",
     country: "",
+    company: "",
     city: "",
     address: "",
     avatar: null,
@@ -223,22 +223,21 @@ const RegisterForOwner = () => {
                                       />
                                     </div>
                                   </Col>
-
                                   <Col lg={6}>
                                     <div className="mb-3">
                                       <Label
-                                        htmlFor="salary"
+                                        htmlFor="company"
                                         className="form-label"
                                       >
-                                        Salary
+                                        Company
                                       </Label>
                                       <Input
                                         type="text"
                                         className="form-control"
-                                        id="salary"
+                                        id="company"
                                         required
-                                        name="salary"
-                                        value={subcontractor.salary}
+                                        name="company"
+                                        value={subcontractor.company}
                                         onChange={handleChange}
                                       />
                                     </div>

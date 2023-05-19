@@ -63,7 +63,7 @@ const filter = async (req, res, next) => {
         $or: [
           { firstName: { $regex: filter, $options: "i" } },
           { lastName: { $regex: filter, $options: "i" } },
-          { salary: { $regex: filter, $options: "i" } },
+          { earned: { $regex: filter, $options: "i" } },
           { location: { $regex: filter, $options: "i" } },
         ],
       },

@@ -13,40 +13,34 @@ const create = async (req, res, next) => {
     res.status(400);
     return next(new Error("User already exists"));
   } else if (userExist) {
+    const filter = { _id: userExist["_id"] };
+    const both = true;
+
     try {
-      const filter = { _id: userExist["_id"] };
-      const both = true;
+      const user = await User.findOneAndUpdate(filter, { ...role });
+      const current_user = {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        avatar: user.avatar,
+      };
+      const token = generateToken(user, 201, res);
 
-      try {
-        const user = await User.findOneAndUpdate(filter, { ...role });
-        const token = generateToken(user, 201, res);
+      res.cookie("token", token, {
+        secure: true,
+      });
 
-        res.cookie("token", token, {
-          secure: true,
-        });
+      res.status(201).json({
+        success: true,
+        token,
+        both,
+        identifier,
+        current_user,
+      });
 
-        res.cookie("role", identifier, {
-          secure: true,
-        });
-
-        res.cookie("both", true, {
-          secure: true,
-        });
-
-        res.status(201).json({
-          success: true,
-          token,
-          both,
-          identifier,
-        });
-
-        res.status(201).json({
-          success: true,
-          message: "Profile Update Success",
-        });
-      } catch (error) {
-        next(error);
-      }
+      res.status(201).json({
+        success: true,
+        message: "Profile Update Success",
+      });
     } catch (error) {
       next(error);
     }
@@ -57,18 +51,15 @@ const create = async (req, res, next) => {
         password,
         ...role,
       });
+      const current_user = {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        avatar: user.avatar,
+      };
       const token = generateToken(user, 201, res);
       const both = false;
 
       res.cookie("token", token, {
-        secure: true,
-      });
-
-      res.cookie("role", identifier, {
-        secure: true,
-      });
-
-      res.cookie("both", false, {
         secure: true,
       });
 
@@ -77,6 +68,7 @@ const create = async (req, res, next) => {
         token,
         both,
         identifier,
+        current_user,
       });
     } catch (error) {
       next(error);
@@ -97,6 +89,11 @@ const login = async (req, res, next) => {
     return next(new Error("User does not exists"));
   }
 
+  const current_user = {
+    first_name: user.first_name,
+    last_name: user.last_name,
+    avatar: user.avatar,
+  };
   const { owner, sub } = user;
 
   if (sub == true && owner == true) {
@@ -122,19 +119,12 @@ const login = async (req, res, next) => {
       secure: true,
     });
 
-    res.cookie("role", role, {
-      secure: true,
-    });
-
-    res.cookie("both", both, {
-      secure: true,
-    });
-
     res.status(200).json({
       success: true,
       token,
       both,
       role,
+      current_user,
     });
   } catch (error) {
     next(error);
@@ -144,13 +134,37 @@ const login = async (req, res, next) => {
 const update = async (req, res, next) => {
   const filter = { _id: req.user["_id"] };
   const update = { ...req.body };
+  let both = false;
+  let role = null;
 
   try {
-    await User.findOneAndUpdate(filter, update);
+    const updatedProfile = await User.findOneAndUpdate(filter, update, {
+      returnOriginal: false,
+    });
+    const current_user = {
+      first_name: updatedProfile.first_name,
+      last_name: updatedProfile.last_name,
+      avatar: updatedProfile.avatar,
+    };
+
+    const { owner, sub } = updatedProfile;
+
+    if (sub == true && owner == true) {
+      both = true;
+      role = "sub";
+    } else if (sub == true) {
+      role = "sub";
+    } else {
+      role = "owner";
+    }
 
     res.status(201).json({
       success: true,
       message: "Profile Update Success",
+      updatedProfile,
+      current_user,
+      both,
+      role,
     });
   } catch (error) {
     next(error);
@@ -202,8 +216,6 @@ const forgotPassword = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
   res.clearCookie("token");
-  res.clearCookie("role");
-  res.clearCookie("both");
 
   res.status(200).json({
     success: true,

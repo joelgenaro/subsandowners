@@ -144,7 +144,6 @@ const RightSideContent = () => {
 
     setIsSubmit(true);
     let tempFiles = [];
-    console.log(files);
     // File upload to Firebase
     if (files.length > 0) {
       // Upload files to Firebase
@@ -170,7 +169,6 @@ const RightSideContent = () => {
         })
       );
     }
-    console.log(tempFiles);
     setProject((data) => ({ ...data, attachments: tempFiles }));
   };
 

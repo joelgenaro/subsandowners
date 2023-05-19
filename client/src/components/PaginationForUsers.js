@@ -6,7 +6,6 @@ import "react-pagination-bar/dist/index.css";
 
 const PaginationForUsers = (props) => {
   const { data, setCurrentPage, currentPage, pagePostLimit } = { ...props };
-  console.log(currentPage, pagePostLimit);
   return (
     <React.Fragment>
       <Row>

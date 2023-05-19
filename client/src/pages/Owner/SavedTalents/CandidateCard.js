@@ -61,7 +61,7 @@ const CandidateCard = ({ subcontractor }) => {
                   {subcontractor.location}
                 </li>
                 <li className="list-inline-item">
-                  <i className="uil uil-wallet"></i> {subcontractor.salary}
+                  <i className="uil uil-wallet"></i> {subcontractor.earned}
                 </li>
               </ul>
             </div>

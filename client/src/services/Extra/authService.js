@@ -2,7 +2,7 @@ import axios from "axios";
 
 axios.defaults.withCredentials = true;
 
-const API_URL = `https://bidderbadger.com/api/auth`;
+const API_URL = `http://localhost:5000/api/auth`;
 const config = {
   headers: {
     "Content-Type": "application/json",
@@ -30,6 +30,7 @@ const createAccountGmail = async (userData) => {
 // Update User profile
 const updateProfile = async (params) => {
   const response = await axios.post(`${API_URL}/update`, params, config);
+
   return response.data;
 };
 

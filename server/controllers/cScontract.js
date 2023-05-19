@@ -3,7 +3,6 @@ const Job = require("../models/mJob");
 const User = require("../models/mUser");
 
 const giveFeedback = async (req, res, next) => {
-  console.log(req.body);
   const id = req.body.id;
   const setParams = {
     $set: {
