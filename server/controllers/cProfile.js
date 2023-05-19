@@ -6,6 +6,7 @@ const getProfile = async (req, res, next) => {
   try {
     const userId = req.body.id != null ? req.body.id : req.user["_id"];
     const profile = await User.findOne({ _id: userId });
+    // const subFeedback = getSubFeedback(userId);
 
     res.status(201).json({
       success: true,
@@ -16,6 +17,32 @@ const getProfile = async (req, res, next) => {
   }
 };
 
+const getSubFeedback = async (id) => {
+  let feedback = 0;
+  let feedbackCount = 0;
+
+  const joins = await Job.aggregate([
+    {
+      $lookup: {
+        from: "application",
+        localField: "_id",
+        foreignField: "jobId",
+        as: "applications",
+      },
+    },
+  ]);
+
+  joins.map((job, i) => {
+    job.applications.map((application, a) => {
+      if (application.subFeedback.stars != 0) feedbackCount++;
+      feedback += Number(application.subFeedback.stars);
+    });
+  });
+
+  return { feedback: feedback / feedbackCount };
+};
+
 module.exports = {
   getProfile,
+  getSubFeedback,
 };

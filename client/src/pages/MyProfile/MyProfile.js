@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { profileReset, getProfile } from "../../redux/Profile/profileSlice";
+import "./index.css";
 
 const MyProfile = () => {
   const history = useHistory();
