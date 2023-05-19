@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Col,
   Row,
@@ -15,15 +15,82 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import userImage2 from "../../assets/images/user/img-02.jpg";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import useGeoLocation from "react-ipgeolocation";
+import toBase64 from "../../helper/toBase64";
+import countries from "../../helper/countries";
+import { profileUpdate } from "../../redux/Profile/profileSlice";
 
 const RightSideContent = () => {
+  const imageRef = useRef();
+  const dispatch = useDispatch();
+  const { data } = useSelector((state) => state.profile);
+  const geo = useGeoLocation();
+
+  const [profile, setProfile] = useState({});
   const [activeTab, setActiveTab] = useState("1");
   const tabChange = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
   };
-  const { data } = useSelector((state) => state.profile);
+
+  useEffect(() => {
+    setProfile({
+      first_name: data?.first_name,
+      last_name: data?.last_name,
+      profile: data?.profile,
+      phone: data?.phone,
+      company: data?.company,
+      country: data?.country,
+      city: data?.city,
+      address: data?.address,
+      avatar: data?.avatar != null ? data?.avatar : userImage2,
+    });
+  }, [data]);
+
+  useEffect(() => {
+    initAutocomplete();
+    setProfile((data) => ({ ...data, country: countries[geo.country] }));
+  }, [geo.country]);
+
+  // Location Autocomplete
+  const initAutocomplete = () => {
+    const cityOption = {
+      types: ["(cities)"],
+      componentRestrictions: { country: geo.country },
+    };
+
+    let cityInput = document.getElementById("city");
+
+    let searchBoxCity = new window.google.maps.places.Autocomplete(
+      cityInput,
+      cityOption
+    );
+
+    searchBoxCity.addListener("place_changed", function () {
+      setProfile((data) => ({
+        ...data,
+        city: document.getElementById("city").value,
+      }));
+    });
+  };
+
+  const handleChange = (e) => {
+    setProfile((data) => ({ ...data, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(profileUpdate(profile));
+  };
+
+  const handlePhoto = async (e) => {
+    const file = e.target.files[0];
+    const basecode = await toBase64(file);
+
+    imageRef.current.src = basecode;
+
+    setProfile((data) => ({ ...data, avatar: basecode }));
+  };
 
   return (
     <React.Fragment>
@@ -55,7 +122,7 @@ const RightSideContent = () => {
                 }}
                 type="button"
               >
-                Settings
+                Edit Profile
               </NavLink>
             </NavItem>
           </Nav>
@@ -67,66 +134,26 @@ const RightSideContent = () => {
                   <h5 className="fs-18 fw-bold">About</h5>
                   <p className="text-muted mt-4">{data?.profile}</p>
                 </div>
-
-                <div className="candidate-education-details mt-4">
-                  <h6 className="fs-18 fw-bold mb-0">Experiences</h6>
-                  <div className="candidate-education-content mt-4 d-flex">
-                    <div className="circle flex-shrink-0 bg-soft-primary">
-                      {" "}
-                      W{" "}
-                    </div>
-                    <div className="ms-4">
-                      <h6 className="fs-16 mb-1">
-                        Web Design & Development Team Leader
-                      </h6>
-                      <p className="mb-2 text-muted">
-                        Creative Agency - (2013 - 2016)
-                      </p>
-                      <p className="text-muted">
-                        There are many variations of passages of available, but
-                        the majority alteration in some form. As a highly
-                        skilled and successfull product development and design
-                        specialist with more than 4 Years of My experience.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="candidate-education-content mt-4 d-flex">
-                    <div className="circle flex-shrink-0 bg-soft-primary">
-                      {" "}
-                      P{" "}
-                    </div>
-                    <div className="ms-4">
-                      <h6 className="fs-16 mb-1">Project Manager</h6>
-                      <p className="mb-2 text-muted">
-                        Jobcy Technology Pvt.Ltd - (Pressent)
-                      </p>
-                      <p className="text-muted mb-0">
-                        There are many variations of passages of available, but
-                        the majority alteration in some form. As a highly
-                        skilled and successfull product development and design
-                        specialist with more than 4 Years of My experience.
-                      </p>
-                    </div>
-                  </div>
-                </div>
               </TabPane>
               <TabPane tabId="2">
-                <Form action="#">
+                <Form action="#" onSubmit={handleSubmit}>
                   <div>
                     <h5 className="fs-17 fw-semibold mb-3 mb-0">My Account</h5>
                     <div className="text-center">
                       <div className="mb-4 profile-user">
                         <img
-                          src={userImage2}
+                          src={data?.avatar != null ? data?.avatar : userImage2}
                           className="rounded-circle img-thumbnail profile-img"
                           id="profile-img"
                           alt=""
+                          ref={imageRef}
                         />
                         <div className="p-0 rounded-circle profile-photo-edit">
                           <Input
                             id="profile-img-file-input"
                             type="file"
                             className="profile-img-file-input"
+                            onChange={handlePhoto}
                           />
                           <Label
                             htmlFor="profile-img-file-input"
@@ -146,7 +173,11 @@ const RightSideContent = () => {
                           <Input
                             type="text"
                             className="form-control"
-                            id="firstName"
+                            id="first_name"
+                            name="first_name"
+                            required
+                            value={profile.first_name}
+                            onChange={handleChange}
                           />
                         </div>
                       </Col>
@@ -159,41 +190,43 @@ const RightSideContent = () => {
                             type="text"
                             className="form-control"
                             id="lastName"
+                            name="last_name"
+                            required
+                            value={profile.last_name}
+                            onChange={handleChange}
                           />
                         </div>
                       </Col>
 
                       <Col lg={6}>
                         <div className="mb-3">
-                          <label
-                            htmlFor="choices-single-categories"
-                            className="form-label"
-                          >
-                            Account Type
-                          </label>
-                          <select
-                            className="form-select"
-                            data-trigger
-                            name="choices-single-categories"
-                            id="choices-single-categories"
-                            aria-label="Default select example"
-                          >
-                            <option value="4">Accounting</option>
-                            <option value="1">IT & Software</option>
-                            <option value="3">Marketing</option>
-                            <option value="5">Banking</option>
-                          </select>
-                        </div>
-                      </Col>
-                      <Col lg={6}>
-                        <div className="mb-3">
-                          <Label htmlFor="email" className="form-label">
-                            Email
+                          <Label htmlFor="phone" className="form-label">
+                            Phone
                           </Label>
                           <Input
                             type="text"
                             className="form-control"
-                            id="email"
+                            id="phone"
+                            name="phone"
+                            value={profile.phone}
+                            onChange={handleChange}
+                          />
+                        </div>
+                      </Col>
+
+                      <Col lg={6}>
+                        <div className="mb-3">
+                          <Label htmlFor="company" className="form-label">
+                            Company
+                          </Label>
+                          <Input
+                            type="text"
+                            className="form-control"
+                            id="company"
+                            name="company"
+                            required
+                            value={profile.company}
+                            onChange={handleChange}
                           />
                         </div>
                       </Col>
@@ -211,207 +244,79 @@ const RightSideContent = () => {
                           >
                             Introduce Yourself
                           </Label>
-                          <textarea className="form-control" rows="5">
-                            Developer with over 5 years' experience working in
-                            both the public and private sectors. Diplomatic,
-                            personable, and adept at managing sensitive
-                            situations. Highly organized, self-motivated, and
-                            proficient with computers. Looking to boost
-                            students’ satisfactions scores for International
-                            University. Bachelor's degree in communications.
-                          </textarea>
-                        </div>
-                      </Col>
-
-                      <Col lg={6}>
-                        <div className="mb-3">
-                          <Label htmlFor="languages" className="form-label">
-                            Languages
-                          </Label>
-                          <Input
-                            type="text"
+                          <textarea
                             className="form-control"
-                            id="languages"
-                          />
-                        </div>
-                      </Col>
-
-                      <Col lg={6}>
-                        <div className="mb-3">
-                          <label
-                            htmlFor="choices-single-location"
-                            className="form-label"
-                          >
-                            Location
-                          </label>
-                          <select
-                            className="form-select"
-                            data-trigger
-                            name="choices-single-location"
-                            id="choices-single-location"
-                            aria-label="Default select exam
-                                                                            ple"
-                          >
-                            <option value="ME">Montenegro</option>
-                            <option value="MS">Montserrat</option>
-                            <option value="MA">Morocco</option>
-                            <option value="MZ">Mozambique</option>
-                          </select>
-                        </div>
-                      </Col>
-                      <Col lg={12}>
-                        <div className="mb-3">
-                          <Label htmlFor="attachmentscv" className="form-label">
-                            Attachments CV
-                          </Label>
-                          <Input
-                            className="form-control"
-                            type="file"
-                            id="attachmentscv"
-                          />
+                            rows="5"
+                            id="profile"
+                            name="profile"
+                            required
+                            value={profile.profile}
+                            onChange={handleChange}
+                          ></textarea>
                         </div>
                       </Col>
                     </Row>
                   </div>
 
                   <div className="mt-4">
-                    <h5 className="fs-17 fw-semibold mb-3">Social Media</h5>
-                    <Row>
-                      <Col lg={6}>
-                        <div className="mb-3">
-                          <Label htmlFor="facebook" className="form-label">
-                            Facebook
-                          </Label>
-                          <Input
-                            type="text"
-                            className="form-control"
-                            id="facebook"
-                            to="https://www.facebook.com"
-                          />
-                        </div>
-                      </Col>
-
-                      <Col lg={6}>
-                        <div className="mb-3">
-                          <Label htmlFor="twitter" className="form-label">
-                            Twitter
-                          </Label>
-                          <Input
-                            type="text"
-                            className="form-control"
-                            id="twitter"
-                            to="https://www.twitter.com"
-                          />
-                        </div>
-                      </Col>
-
-                      <Col lg={6}>
-                        <div className="mb-3">
-                          <Label htmlFor="linkedin" className="form-label">
-                            Linkedin
-                          </Label>
-                          <Input
-                            type="text"
-                            className="form-control"
-                            id="linkedin"
-                            to="https://www.linkedin.com"
-                          />
-                        </div>
-                      </Col>
-
-                      <Col lg={6}>
-                        <div className="mb-3">
-                          <Label htmlFor="whatsapp" className="form-label">
-                            Whatsapp
-                          </Label>
-                          <Input
-                            type="text"
-                            className="form-control"
-                            id="whatsapp"
-                            to="https://www.whatsapp.com"
-                          />
-                        </div>
-                      </Col>
-                    </Row>
-                  </div>
-
-                  <div className="mt-4">
-                    <h5 className="fs-17 fw-semibold mb-3 mb-3">
-                      Change Password
+                    <h5 className="fs-17 fw-semibold mb-3">
+                      Where are you located?
                     </h5>
                     <Row>
-                      <Col lg={12}>
+                      <Col lg={6}>
                         <div className="mb-3">
-                          <Label
-                            htmlFor="current-password-input"
-                            className="form-label"
-                          >
-                            Current password
-                          </Label>
+                          <label htmlFor="country" className="form-label">
+                            Country
+                          </label>
                           <Input
-                            type="password"
-                            className="form-control"
-                            placeholder="Enter Current password"
-                            id="current-password-input"
+                            type="text"
+                            id="country"
+                            name="country"
+                            disabled
+                            onChange={handleChange}
+                            value={profile.country}
                           />
                         </div>
                       </Col>
-
                       <Col lg={6}>
                         <div className="mb-3">
-                          <Label
-                            htmlFor="new-password-input"
-                            className="form-label"
-                          >
-                            New password
-                          </Label>
+                          <label htmlFor="city" className="form-label">
+                            City
+                          </label>
                           <Input
-                            type="password"
                             className="form-control"
-                            placeholder="Enter new password"
-                            id="new-password-input"
-                          />
-                        </div>
-                      </Col>
-
-                      <Col lg={6}>
-                        <div className="mb-3">
-                          <Label
-                            htmlFor="confirm-password-input"
-                            className="form-label"
-                          >
-                            Confirm Password
-                          </Label>
-                          <Input
-                            type="password"
-                            className="form-control"
-                            placeholder="Confirm Password"
-                            id="confirm-password-input"
+                            name="city"
+                            required
+                            defaultValue={profile.city}
+                            id="city"
+                            type="search"
                           />
                         </div>
                       </Col>
 
                       <Col lg={12}>
-                        <div className="form-check">
+                        <div className="mb-3">
+                          <label htmlFor="address" className="form-label">
+                            Street Address
+                          </label>
                           <Input
-                            className="form-check-input"
-                            type="checkbox"
-                            id="verification"
+                            className="form-control"
+                            id="address"
+                            name="address"
+                            required
+                            onChange={handleChange}
+                            defaultValue={profile.address}
+                            type="search"
                           />
-                          <Label
-                            className="form-check-label"
-                            htmlFor="verification"
-                          >
-                            Enable Two-Step Verification via email
-                          </Label>
                         </div>
                       </Col>
                     </Row>
                   </div>
+
                   <div className="mt-4 text-end">
-                    <Link to="#" className="btn btn-primary">
+                    <button type="submit" className="btn btn-primary">
                       Update
-                    </Link>
+                    </button>
                   </div>
                 </Form>
               </TabPane>

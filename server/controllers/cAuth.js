@@ -136,11 +136,20 @@ const update = async (req, res, next) => {
   const update = { ...req.body };
 
   try {
-    await User.findOneAndUpdate(filter, update);
+    const updatedProfile = await User.findOneAndUpdate(filter, update, {
+      returnOriginal: false,
+    });
+    const current_user = {
+      first_name: updatedProfile.first_name,
+      last_name: updatedProfile.last_name,
+      avatar: updatedProfile.avatar,
+    };
 
     res.status(201).json({
       success: true,
       message: "Profile Update Success",
+      updatedProfile,
+      current_user,
     });
   } catch (error) {
     next(error);
@@ -192,7 +201,7 @@ const forgotPassword = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
   res.clearCookie("token");
-  
+
   res.status(200).json({
     success: true,
     message: "Logged out",

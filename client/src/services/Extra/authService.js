@@ -30,6 +30,7 @@ const createAccountGmail = async (userData) => {
 // Update User profile
 const updateProfile = async (params) => {
   const response = await axios.post(`${API_URL}/update`, params, config);
+
   return response.data;
 };
 

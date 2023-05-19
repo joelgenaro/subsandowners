@@ -464,6 +464,11 @@ const NavBar = (props) => {
                     ""
                   )}
                   <li>
+                    <Link className="dropdown-item" to="/settings">
+                      Settings
+                    </Link>
+                  </li>
+                  <li>
                     <Link
                       className="dropdown-item"
                       to="#"
