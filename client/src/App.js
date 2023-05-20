@@ -6,12 +6,7 @@ import { CookiesProvider } from "react-cookie";
 import axios from "axios";
 //import Custom Style scss
 import "./assets/scss/themes.scss";
-let react_env = process.env.REACT_APP_NODE_ENV;
-let node_url = "http://localhost:5000";
-if (react_env == "production") {
-  node_url = process.env.REACT_APP_SERVER_URL;
-}
-axios.defaults.baseURL = node_url;
+axios.defaults.baseURL = process.env.REACT_APP_SERVER_URL;
 
 function App() {
   return (
