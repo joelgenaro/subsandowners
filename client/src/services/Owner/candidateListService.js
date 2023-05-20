@@ -2,7 +2,7 @@ import axios from "axios";
 
 axios.defaults.withCredentials = true;
 
-const API_URL = `http://localhost:5000/api/candidate`;
+const API_URL = `/api/candidate`;
 const config = {
   headers: {
     "Content-Type": "application/json",
