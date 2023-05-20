@@ -134,6 +134,47 @@ const RightSideContent = () => {
                   <h5 className="fs-18 fw-bold">About</h5>
                   <p className="text-muted mt-4">{data?.profile}</p>
                 </div>
+                <div className="candidate-education-details mt-4">
+                  <h6 className="fs-18 fw-bold mb-0">Service Area</h6>
+                  <div className="candidate-education-content mt-4 d-flex">
+                    <div className="circle flex-shrink-0 bg-soft-primary">
+                      {" "}
+                      W{" "}
+                    </div>
+                    <div className="ms-4">
+                      <h6 className="fs-16 mb-1">
+                        Web Design & Development Team Leader
+                      </h6>
+                      <p className="mb-2 text-muted">
+                        Creative Agency - (2013 - 2016)
+                      </p>
+                      <p className="text-muted">
+                        There are many variations of passages of available, but
+                        the majority alteration in some form. As a highly
+                        skilled and successfull product development and design
+                        specialist with more than 4 Years of My experience.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="candidate-education-content mt-4 d-flex">
+                    <div className="circle flex-shrink-0 bg-soft-primary">
+                      {" "}
+                      P{" "}
+                    </div>
+                    <div className="ms-4">
+                      <h6 className="fs-16 mb-1">Project Manager</h6>
+                      <p className="mb-2 text-muted">
+                        Jobcy Technology Pvt.Ltd - (Pressent)
+                      </p>
+                      <p className="text-muted mb-0">
+                        There are many variations of passages of available, but
+                        the majority alteration in some form. As a highly
+                        skilled and successfull product development and design
+                        specialist with more than 4 Years of My experience.
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </TabPane>
               <TabPane tabId="2">
                 <Form action="#" onSubmit={handleSubmit}>

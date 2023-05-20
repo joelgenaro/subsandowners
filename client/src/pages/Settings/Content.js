@@ -81,7 +81,7 @@ const Content = () => {
                       }}
                       type="button"
                     >
-                      Service
+                      Service Area
                     </NavLink>
                   </NavItem>
                 ) : null}
@@ -114,7 +114,7 @@ const Content = () => {
                 {role == "sub" ? (
                   <TabPane tabId="4">
                     <div>
-                      <h5 className="fs-18 fw-bold">Service</h5>
+                      <h5 className="fs-18 fw-bold">Service Area</h5>
                       <p className="text-muted mt-4"></p>
                     </div>
                   </TabPane>
