@@ -2,7 +2,7 @@ import axios from "axios";
 
 axios.defaults.withCredentials = true;
 
-const API_URL = `http://localhost:5000/api/jobPostings`;
+const API_URL = `https://subsandowners.onrender.com/api/jobPostings`;
 const config = {
   headers: {
     "Content-Type": "application/json",
