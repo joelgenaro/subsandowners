@@ -7,14 +7,12 @@ import {
   TabContent,
   TabPane,
   Card,
-  Input,
-  Form,
   NavItem,
   CardBody,
-  Label,
 } from "reactstrap";
 import classnames from "classnames";
-import userImage2 from "../../assets/images/user/img-02.jpg";
+import Email from "./Email";
+import Password from "./Password";
 
 const Content = () => {
   const [activeTab, setActiveTab] = useState("1");
@@ -96,7 +94,7 @@ const Content = () => {
                 <TabPane tabId="1">
                   <div>
                     <h5 className="fs-18 fw-bold">Email</h5>
-                    <p className="text-muted mt-4"></p>
+                    <Email />
                   </div>
                 </TabPane>
                 <TabPane tabId="2">
@@ -108,7 +106,7 @@ const Content = () => {
                 <TabPane tabId="3">
                   <div>
                     <h5 className="fs-18 fw-bold">Password</h5>
-                    <p className="text-muted mt-4"></p>
+                    <Password />
                   </div>
                 </TabPane>
                 {role == "sub" ? (

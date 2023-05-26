@@ -107,7 +107,7 @@ const NavBar = (props) => {
 
   const logoutHandler = (e) => {
     dispatch(logoutUser());
-    history.push("/signin");
+    history.push("/signout");
   };
 
   const scrollNavigation = () => {
@@ -214,21 +214,21 @@ const NavBar = (props) => {
                           Post a Job
                         </Link>
                       </li>
-                      {/* <li>
+                      <li>
                         <Link className="dropdown-item" to="/my-jobs">
                           My Jobs
                         </Link>
-                      </li> */}
+                      </li>
                       <li>
                         <Link className="dropdown-item" to="/all-jobs">
                           All Job Posts
                         </Link>
                       </li>
-                      {/* <li>
+                      <li>
                         <Link className="dropdown-item" to="#">
                           All Contracts
                         </Link>
-                      </li> */}
+                      </li>
                     </ul>
                   </NavItem>
                   <NavItem className="dropdown dropdown-hover">
@@ -254,11 +254,11 @@ const NavBar = (props) => {
                           Discover
                         </Link>
                       </li>
-                      {/* <li>
+                      <li>
                         <Link className="dropdown-item" to="#">
                           Your hires
                         </Link>
-                      </li> */}
+                      </li>
                       <li>
                         <Link className="dropdown-item" to="/saved-talents">
                           Saved Talent
@@ -266,7 +266,7 @@ const NavBar = (props) => {
                       </li>
                     </ul>
                   </NavItem>
-                  {/* <NavItem className="dropdown dropdown-hover">
+                  <NavItem className="dropdown dropdown-hover">
                     <NavLink
                       to="#"
                       id="ownerReporst"
@@ -284,7 +284,7 @@ const NavBar = (props) => {
                       )}
                       aria-labelledby="ownerReporst"
                     ></ul>
-                  </NavItem> */}
+                  </NavItem>
 
                   <NavItem>
                     <Link className="nav-link" to="#">
@@ -355,14 +355,14 @@ const NavBar = (props) => {
                           My Jobs
                         </Link>
                       </li>
-                      {/* <li>
+                      <li>
                         <Link className="dropdown-item" to="#">
                           All Contracts
                         </Link>
-                      </li> */}
+                      </li>
                     </ul>
                   </NavItem>
-                  {/* <NavItem className="dropdown dropdown-hover">
+                  <NavItem className="dropdown dropdown-hover">
                     <NavLink
                       to="#"
                       id="subReports"
@@ -380,7 +380,7 @@ const NavBar = (props) => {
                       )}
                       aria-labelledby="subReports"
                     ></ul>
-                  </NavItem> */}
+                  </NavItem>
 
                   <NavItem>
                     <Link className="nav-link" to="#">
