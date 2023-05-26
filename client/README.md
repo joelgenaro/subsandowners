@@ -1,6 +1,7 @@
-# Getting Started with Create React App
+# Getting Started
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1. Install `node 16.14.2` & `npm 8.19.2`
+2. To install
 
 ## Available Scripts
 
