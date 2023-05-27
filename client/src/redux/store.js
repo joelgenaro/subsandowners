@@ -12,6 +12,7 @@ import offerReducer from "./Subcontractor/offerSlice";
 import activeContractsReducer from "./Subcontractor/activeContractsSlice";
 import scontractReducer from "./Subcontractor/scontractSlice";
 import profileReducer from "./Profile/profileSlice";
+import settingsReducer from "./Extra/settingsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -28,5 +29,6 @@ export const store = configureStore({
     activeContracts: activeContractsReducer,
     scontract: scontractReducer,
     profile: profileReducer,
+    settings: settingsReducer,
   },
 });

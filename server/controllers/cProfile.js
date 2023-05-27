@@ -6,7 +6,7 @@ const getProfile = async (req, res, next) => {
   try {
     const userId = req.user["_id"];
     const profile = await User.findOne({ _id: userId });
-    console.log(userId, profile);
+
     res.status(201).json({
       success: true,
       profile,

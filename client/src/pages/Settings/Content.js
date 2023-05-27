@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Col,
   Row,
@@ -54,7 +54,7 @@ const Content = () => {
                     }}
                     type="button"
                   >
-                    Membership
+                    Password
                   </NavLink>
                 </NavItem>
                 <NavItem role="presentation">
@@ -66,7 +66,7 @@ const Content = () => {
                     }}
                     type="button"
                   >
-                    Password
+                    Service Area
                   </NavLink>
                 </NavItem>
                 {role == "sub" ? (
@@ -79,7 +79,7 @@ const Content = () => {
                       }}
                       type="button"
                     >
-                      Service Area
+                      Memebership
                     </NavLink>
                   </NavItem>
                 ) : null}
@@ -99,20 +99,19 @@ const Content = () => {
                 </TabPane>
                 <TabPane tabId="2">
                   <div>
-                    <h5 className="fs-18 fw-bold">Memebership</h5>
-                    <p className="text-muted mt-4"></p>
+                    <h5 className="fs-18 fw-bold">Password</h5>
+                    <Password />
                   </div>
                 </TabPane>
                 <TabPane tabId="3">
                   <div>
-                    <h5 className="fs-18 fw-bold">Password</h5>
-                    <Password />
+                    <h5 className="fs-18 fw-bold">Service Area</h5>
                   </div>
                 </TabPane>
                 {role == "sub" ? (
                   <TabPane tabId="4">
                     <div>
-                      <h5 className="fs-18 fw-bold">Service Area</h5>
+                      <h5 className="fs-18 fw-bold">Memebership</h5>
                       <p className="text-muted mt-4"></p>
                     </div>
                   </TabPane>

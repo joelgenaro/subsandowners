@@ -1,9 +1,28 @@
-import React from "react";
-import { Col, Row, Card, Input, CardBody, Container, Label } from "reactstrap";
+import React, { useState, useEffect } from "react";
+import { Col, Row, Input, CardBody } from "reactstrap";
 import { Form } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
+import { updateEmail } from "../../redux/Extra/settingsSlice";
 
 const Email = () => {
-  const handleSubmit = () => {};
+  const dispatch = useDispatch();
+  const { email } = useSelector((state) => state.settings);
+  const [value, setValue] = useState(null);
+
+  useEffect(() => {
+    setValue(email);
+  }, [email]);
+
+  const valueChange = (e) => {
+    setValue(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (value === null) return;
+
+    dispatch(updateEmail({ email: value }));
+  };
 
   return (
     <React.Fragment>
@@ -22,8 +41,8 @@ const Email = () => {
                     id="email"
                     name="email"
                     required
-                    // value={profile.first_name}
-                    // onChange={handleChange}
+                    value={value}
+                    onChange={valueChange}
                   />
                 </div>
               </Col>

@@ -19,6 +19,7 @@ const offer = require("./routes/offer.route.js");
 const activeContracts = require("./routes/activeContracts.route.js");
 const scontract = require("./routes/scontract.route.js");
 const profile = require("./routes/profile.route.js");
+const settings = require("./routes/settings.route.js");
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -51,6 +52,7 @@ app.use("/api/offer", offer);
 app.use("/api/activeContracts", activeContracts);
 app.use("/api/scontract", scontract);
 app.use("/api/profile", profile);
+app.use("/api/settings", settings);
 
 app.use(errorHandler);
 
