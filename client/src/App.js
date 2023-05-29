@@ -6,8 +6,8 @@ import { CookiesProvider } from "react-cookie";
 import axios from "axios";
 import "./assets/scss/themes.scss";
 
-axios.defaults.baseURL = process.env.REACT_APP_DEV_SERVER_URL;
-// axios.defaults.baseURL = process.env.REACT_APP_PRD_SERVER_URL;
+// axios.defaults.baseURL = process.env.REACT_APP_DEV_SERVER_URL;
+axios.defaults.baseURL = process.env.REACT_APP_PRD_SERVER_URL;
 
 function App() {
   return (
