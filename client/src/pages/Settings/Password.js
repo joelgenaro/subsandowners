@@ -30,12 +30,12 @@ const Password = () => {
       .min(6, "New Password must be at least 6 characters"),
     confirm_password: Yup.string()
       .transform((x) => (x === "" ? undefined : x))
-      .when("password", (password, schema) => {
+      .when("new_password", (password, schema) => {
         if (password) {
           return schema.required("Confirm Password is required");
         }
       })
-      .oneOf([Yup.ref("password")], "Passwords must match"),
+      .oneOf([Yup.ref("new_password")], "Passwords must match"),
   });
 
   const formOptions = { resolver: yupResolver(validationSchema) };
