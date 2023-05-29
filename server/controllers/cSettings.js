@@ -39,7 +39,32 @@ const updateEmail = async (req, res, next) => {
   }
 };
 
+const reset_password = async (req, res, next) => {
+  try {
+    const userId = req.user['id'];
+    const { current_password, new_password } = req.body;
+    const user = await User.findOne({ _id: userId }).select("+password");
+    const isMatch = await user.matchPasswords(current_password);
+
+    if (!isMatch) {
+      res.status(400);
+      return next(new Error("User password does not match"));
+    }
+
+    user.password = new_password;
+    await user.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Password Reset Success",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getData,
   updateEmail,
+  reset_password
 };

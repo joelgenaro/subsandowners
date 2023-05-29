@@ -5148,7 +5148,7 @@ countup.js@^2.0.8:
   resolved "https://registry.yarnpkg.com/countup.js/-/countup.js-2.0.8.tgz#eca0c31c9db3f7769cba494d9315cd52dbaaf1b9"
   integrity sha512-pW3xwwD+hB+xmtI16xFcuLS0D5hSQqPQWkZOdgpKQyzxCquDNo2VCFPkRw12vmvdpnicXVTcjmYiakG6biwINg==
 
-create-react-class@^15.5.x, create-react-class@^15.6.2:
+create-react-class@^15.5.2, create-react-class@^15.5.x, create-react-class@^15.6.2:
   version "15.7.0"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.7.0.tgz#7499d7ca2e69bb51d13faf59bd04f0c65a1d6c1e"
   integrity sha512-QZv4sFWG9S5RUvkTYWbflxeZX+JG7Cz0Tn33rQBJ+WFQTqTfUTjMjiv9tnfXazjsO5r0KhPs+AqCjyrQX6h2ng==
@@ -10454,6 +10454,14 @@ react-preloaders2@^3.0.5:
     prop-types "^15.7.2"
     styled-components "^5.0.0-beta.0"
 
+react-progress-button@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/react-progress-button/-/react-progress-button-5.1.0.tgz#87d7538dd392d2e22a4dfb573285b1f77a6595c0"
+  integrity sha512-JbMwEYr16xuB+l4LiDbNYi2zQGxcq4SWXuyi6AUjx34KSIUS6/v3c1lp9oH/klG+amfkMPG63Ogvn4w3ovo0AA==
+  dependencies:
+    create-react-class "^15.5.2"
+    prop-types "^15.5.8"
+
 react-rangeslider@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/react-rangeslider/-/react-rangeslider-2.2.0.tgz#4362b01f4f5a455f0815d371d496f69ca4c6b5aa"
@@ -10598,6 +10606,11 @@ react-select@^5.7.0:
     prop-types "^15.6.0"
     react-transition-group "^4.3.0"
     use-isomorphic-layout-effect "^1.1.2"
+
+react-spinners@^0.13.8:
+  version "0.13.8"
+  resolved "https://registry.yarnpkg.com/react-spinners/-/react-spinners-0.13.8.tgz#5262571be0f745d86bbd49a1e6b49f9f9cb19acc"
+  integrity sha512-3e+k56lUkPj0vb5NDXPVFAOkPC//XyhKPJjvcGjyMNPWsBKpplfeyialP74G7H7+It7KzhtET+MvGqbKgAqpZA==
 
 react-toastify@^9.1.1:
   version "9.1.1"

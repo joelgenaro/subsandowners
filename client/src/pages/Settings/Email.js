@@ -3,15 +3,21 @@ import { Col, Row, Input, CardBody } from "reactstrap";
 import { Form } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { updateEmail } from "../../redux/Extra/settingsSlice";
+import LoadingButton from '../../components/LoadingButton'
 
 const Email = () => {
   const dispatch = useDispatch();
-  const { email } = useSelector((state) => state.settings);
+  const { email, isSuccess, isError } = useSelector((state) => state.settings);
   const [value, setValue] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setValue(email);
   }, [email]);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [isSuccess, isError]);
 
   const valueChange = (e) => {
     setValue(e.target.value);
@@ -21,6 +27,7 @@ const Email = () => {
     e.preventDefault();
     if (value === null) return;
 
+    setIsLoading(true);
     dispatch(updateEmail({ email: value }));
   };
 
@@ -50,9 +57,7 @@ const Email = () => {
           </div>
 
           <div className="mt-4 text-start">
-            <button type="submit" className="btn btn-primary">
-              Update email address
-            </button>
+            <LoadingButton disabled={isLoading} isLoading={isLoading} title={'Update email address'} />
           </div>
         </Form>
       </CardBody>

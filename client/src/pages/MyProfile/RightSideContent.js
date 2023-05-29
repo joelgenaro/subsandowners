@@ -20,14 +20,16 @@ import useGeoLocation from "react-ipgeolocation";
 import toBase64 from "../../helper/toBase64";
 import countries from "../../helper/countries";
 import { profileUpdate } from "../../redux/Profile/profileSlice";
+import LoadingButton from '../../components/LoadingButton'
 
 const RightSideContent = () => {
   const imageRef = useRef();
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.profile);
+  const { data, isSuccess, isError } = useSelector((state) => state.profile);
   const geo = useGeoLocation();
 
   const [profile, setProfile] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("1");
   const tabChange = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -51,6 +53,10 @@ const RightSideContent = () => {
     initAutocomplete();
     setProfile((data) => ({ ...data, country: countries[geo.country] }));
   }, [geo.country]);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [isSuccess, isError]);
 
   // Location Autocomplete
   const initAutocomplete = () => {
@@ -80,6 +86,8 @@ const RightSideContent = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
     dispatch(profileUpdate(profile));
   };
 
@@ -355,9 +363,7 @@ const RightSideContent = () => {
                   </div>
 
                   <div className="mt-4 text-end">
-                    <button type="submit" className="btn btn-primary">
-                      Update
-                    </button>
+                    <LoadingButton disabled={isLoading} isLoading={isLoading} title={'Update'} />
                   </div>
                 </Form>
               </TabPane>

@@ -23,7 +23,7 @@ const Settings = () => {
       if (message === "Not authorized!") {
         history.push("/signin");
       }
-    }else{
+    } else if (isSuccess) {
       const result = message !== "" ? toast.success(message) : null;
     }
 

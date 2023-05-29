@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Container, Card, Col, Input, Row, CardBody } from "reactstrap";
 import MetaTags from "react-meta-tags";
-
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
@@ -128,9 +127,8 @@ const SignUpForOwner = () => {
                                     name="email"
                                     placeholder="Enter your email"
                                     {...register("email")}
-                                    className={`form-control ${
-                                      errors.email ? "is-invalid" : ""
-                                    }`}
+                                    className={`form-control ${errors.email ? "is-invalid" : ""
+                                      }`}
                                   />
                                   <div className="invalid-feedback">
                                     {errors.email?.message}
@@ -149,9 +147,8 @@ const SignUpForOwner = () => {
                                     name="password"
                                     placeholder="Enter your password"
                                     {...register("password")}
-                                    className={`form-control ${
-                                      errors.password ? "is-invalid" : ""
-                                    }`}
+                                    className={`form-control ${errors.password ? "is-invalid" : ""
+                                      }`}
                                   />
                                   <div className="invalid-feedback">
                                     {errors.password?.message}
@@ -170,9 +167,8 @@ const SignUpForOwner = () => {
                                     id="confirmPasswordInput"
                                     placeholder="Confirm your password"
                                     {...register("confirmPassword")}
-                                    className={`form-control ${
-                                      errors.confirmPassword ? "is-invalid" : ""
-                                    }`}
+                                    className={`form-control ${errors.confirmPassword ? "is-invalid" : ""
+                                      }`}
                                   />
                                   <div className="invalid-feedback">
                                     {errors.confirmPassword?.message}
