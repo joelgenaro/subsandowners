@@ -17,18 +17,26 @@ import {
 } from "../../../../redux/Owner/applicantsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import SelectOptions from "../../../../components/SelectOptions";
+import LoadingButton from "../../../../components/LoadingButton";
 
 const EditJob = () => {
   const dispatch = useDispatch();
-  const { jobDetails } = useSelector((state) => state.applicants);
+  const { jobDetails, isError, isSuccess } = useSelector(
+    (state) => state.applicants
+  );
   const [project, setProject] = useState({});
   const [isShowRadioForRemoval, setIsShowRadioForRemoval] = useState("no");
   const [styleOptions, setStyleOptions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setProject({ ...jobDetails });
     styleOptionsToSwitch(jobDetails.materialCategory);
   }, []);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [isSuccess, isError]);
 
   // Google map Input
   useEffect(() => {
@@ -109,6 +117,7 @@ const EditJob = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
     dispatch(updateJob(project));
     dispatch(setJobDetails(project));
     dispatch(setJobEdit(false));
@@ -421,9 +430,12 @@ const EditJob = () => {
                   >
                     Cancel
                   </Link>
-                  <button type="submit" className="btn btn-primary">
-                    Save
-                  </button>
+                  <LoadingButton
+                    disabled={isLoading}
+                    className={"btn btn-primary"}
+                    isLoading={isLoading}
+                    title={"Save"}
+                  />
                 </div>
               </Form>
             </CardBody>

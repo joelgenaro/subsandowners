@@ -20,7 +20,7 @@ import useGeoLocation from "react-ipgeolocation";
 import toBase64 from "../../helper/toBase64";
 import countries from "../../helper/countries";
 import { profileUpdate } from "../../redux/Profile/profileSlice";
-import LoadingButton from '../../components/LoadingButton'
+import LoadingButton from "../../components/LoadingButton";
 
 const RightSideContent = () => {
   const imageRef = useRef();
@@ -363,7 +363,12 @@ const RightSideContent = () => {
                   </div>
 
                   <div className="mt-4 text-end">
-                    <LoadingButton disabled={isLoading} isLoading={isLoading} title={'Update'} />
+                    <LoadingButton
+                      className={"btn btn-primary"}
+                      disabled={isLoading}
+                      isLoading={isLoading}
+                      title={"Update"}
+                    />
                   </div>
                 </Form>
               </TabPane>

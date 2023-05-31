@@ -5,14 +5,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { authLogin, authReset } from "../../redux/Extra/authSlice";
-
-//Import Image
 import lightLogo from "../../assets/images/logo-light.png";
 import darkLogo from "../../assets/images/logo-dark.png";
-
 import signInImage from "../../assets/images/auth/sign-in.png";
 import { Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import LoadingButton from "../../components/LoadingButton";
 
 const SignIn = () => {
   const history = useHistory();
@@ -22,6 +20,7 @@ const SignIn = () => {
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isError) {
@@ -31,6 +30,7 @@ const SignIn = () => {
       history.push("/");
     }
     dispatch(authReset());
+    setIsLoading(false);
   }, [isSuccess, isError, message, history, dispatch]);
 
   const handleChange = (e) => {
@@ -40,6 +40,7 @@ const SignIn = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
     dispatch(authLogin(userData));
   };
 
@@ -152,12 +153,14 @@ const SignIn = () => {
                                   </div>
                                 </div>
                                 <div className="text-center">
-                                  <button
-                                    type="submit"
-                                    className="btn btn-white btn-hover w-100"
-                                  >
-                                    Sign In
-                                  </button>
+                                  <LoadingButton
+                                    disabled={isLoading}
+                                    isLoading={isLoading}
+                                    className={
+                                      "btn btn-primary btn-hover w-100"
+                                    }
+                                    title={"Sign In"}
+                                  />
                                 </div>
                               </Form>
                               <div className="mt-4 text-center">

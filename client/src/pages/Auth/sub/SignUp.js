@@ -11,6 +11,7 @@ import { authRegister, authReset } from "../../../redux/Extra/authSlice";
 import lightLogo from "../../../assets/images/logo-light.png";
 import darkLogo from "../../../assets/images/logo-dark.png";
 import signUpImage from "../../../assets/images/auth/sign-up.png";
+import LoadingButton from "../../../components/LoadingButton";
 
 const SignUpForSub = () => {
   // Dispatch
@@ -19,6 +20,7 @@ const SignUpForSub = () => {
   const { isSuccess, isError, message, both } = useSelector(
     (state) => state.auth
   );
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isError) {
@@ -33,10 +35,12 @@ const SignUpForSub = () => {
       }
     }
     dispatch(authReset());
+    setIsLoading(false);
   }, [isSuccess, isError, message, both, history, dispatch]);
 
   const onSubmit = (data) => {
     const userData = { ...data, identifier: "sub" };
+    setIsLoading(true);
     dispatch(authRegister(userData));
   };
 
@@ -201,6 +205,14 @@ const SignUpForSub = () => {
                                   </div>
                                 </div>
                                 <div className="text-center">
+                                  <LoadingButton
+                                    disabled={isLoading}
+                                    className={
+                                      "btn btn-primary btn-hover w-100"
+                                    }
+                                    isLoading={isLoading}
+                                    title={"Join Subcontractor"}
+                                  />
                                   <button
                                     type="submit"
                                     className="btn btn-white btn-hover w-100"

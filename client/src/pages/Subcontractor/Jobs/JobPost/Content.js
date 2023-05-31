@@ -17,6 +17,7 @@ import {
 import { ref, uploadBytesResumable, getDownloadURL } from "@firebase/storage";
 import { storage } from "../../../../config/firebase";
 import SelectOptions from "../../../../components/SelectOptions";
+import LoadingButton from "../../../../components/LoadingButton";
 
 const RightSideContent = () => {
   const history = useHistory();
@@ -41,6 +42,7 @@ const RightSideContent = () => {
   const [isShowRadioForRemoval, setIsShowRadioForRemoval] = useState("no");
   const [styleOptions, setStyleOptions] = useState([]);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Check message
   useEffect(() => {
@@ -55,6 +57,7 @@ const RightSideContent = () => {
       history.push("/candidate-list");
     }
     dispatch(jobReset());
+    setIsLoading(false);
   }, [isSuccess, isError, message, history, dispatch]);
 
   // Google map Input
@@ -143,6 +146,7 @@ const RightSideContent = () => {
     e.preventDefault();
 
     setIsSubmit(true);
+    setIsLoading(true);
     let tempFiles = [];
     // File upload to Firebase
     if (files.length > 0) {
@@ -465,9 +469,12 @@ const RightSideContent = () => {
               </div>
 
               <div className="mt-4 text-end">
-                <button type="submit" className="btn btn-primary">
-                  Yes, post my project
-                </button>
+                <LoadingButton
+                  disabled={isLoading}
+                  className={"btn btn-primary"}
+                  isLoading={isLoading}
+                  title={"Yes, post my project"}
+                />
               </div>
             </Form>
           </CardBody>

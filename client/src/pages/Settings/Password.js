@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useSelector, useDispatch } from "react-redux";
 import { reset_password } from "../../redux/Extra/settingsSlice";
-import LoadingButton from '../../components/LoadingButton'
+import LoadingButton from "../../components/LoadingButton";
 
 const Password = () => {
   const dispatch = useDispatch();
@@ -58,8 +58,9 @@ const Password = () => {
                     id="current_password"
                     name="current_password"
                     {...register("current_password")}
-                    className={`form-control ${errors.current_password ? "is-invalid" : ""
-                      }`}
+                    className={`form-control ${
+                      errors.current_password ? "is-invalid" : ""
+                    }`}
                   />
                   <div className="invalid-feedback">
                     {errors.current_password?.message}
@@ -78,8 +79,9 @@ const Password = () => {
                     id="new_password"
                     name="new_password"
                     {...register("new_password")}
-                    className={`form-control ${errors.new_password ? "is-invalid" : ""
-                      }`}
+                    className={`form-control ${
+                      errors.new_password ? "is-invalid" : ""
+                    }`}
                   />
                   <div className="invalid-feedback">
                     {errors.new_password?.message}
@@ -98,8 +100,9 @@ const Password = () => {
                     id="confirm_password"
                     name="confirm_password"
                     {...register("confirm_password")}
-                    className={`form-control ${errors.confirm_password ? "is-invalid" : ""
-                      }`}
+                    className={`form-control ${
+                      errors.confirm_password ? "is-invalid" : ""
+                    }`}
                   />
                   <div className="invalid-feedback">
                     {errors.confirm_password?.message}
@@ -110,7 +113,12 @@ const Password = () => {
           </div>
 
           <div className="mt-4 text-start">
-            <LoadingButton disabled={isLoading} isLoading={isLoading} title={'Save settings'} />
+            <LoadingButton
+              className={"btn btn-primary"}
+              disabled={isLoading}
+              isLoading={isLoading}
+              title={"Save settings"}
+            />
           </div>
         </form>
       </CardBody>

@@ -3,7 +3,7 @@ import { Col, Row, Input, CardBody } from "reactstrap";
 import { Form } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { updateEmail } from "../../redux/Extra/settingsSlice";
-import LoadingButton from '../../components/LoadingButton'
+import LoadingButton from "../../components/LoadingButton";
 
 const Email = () => {
   const dispatch = useDispatch();
@@ -57,7 +57,12 @@ const Email = () => {
           </div>
 
           <div className="mt-4 text-start">
-            <LoadingButton disabled={isLoading} isLoading={isLoading} title={'Update email address'} />
+            <LoadingButton
+              disabled={isLoading}
+              className={"btn btn-primary"}
+              isLoading={isLoading}
+              title={"Update email address"}
+            />
           </div>
         </Form>
       </CardBody>

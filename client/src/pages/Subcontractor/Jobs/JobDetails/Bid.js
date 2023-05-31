@@ -9,12 +9,15 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import LoadingButton from "../../../../components/LoadingButton";
 
 const Bid = ({ data }) => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { isSuccess, isError, message, isLoading, jobId, proposal, isEdit } =
-    useSelector((state) => state.proposal);
+  const { isSuccess, isError, message, jobId, proposal, isEdit } = useSelector(
+    (state) => state.proposal
+  );
+  const [isLoading, setIsLoading] = useState(false);
   const [terms, setTerms] = useState({
     jobTitle: data.title,
     jobId: jobId,
@@ -53,6 +56,7 @@ const Bid = ({ data }) => {
       }
     }
     dispatch(proposalReset());
+    setIsLoading(false);
   }, [isSuccess, isError, message, history, dispatch]);
 
   const editCancel = () => {
@@ -66,6 +70,7 @@ const Bid = ({ data }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
     dispatch(placeBid(terms));
   };
 
@@ -155,9 +160,12 @@ const Bid = ({ data }) => {
                     </button>
                   </>
                 ) : (
-                  <button type="submit" className="btn btn-primary btn-hover">
-                    Place Bid
-                  </button>
+                  <LoadingButton
+                    disabled={isLoading}
+                    className={"btn btn-primary btn-hover"}
+                    isLoading={isLoading}
+                    title={"Place Bid"}
+                  />
                 )}
               </div>
             </div>

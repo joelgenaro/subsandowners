@@ -6,7 +6,7 @@ const { getOwnerInfo } = require("./cScontract.js");
 
 const createJob = async (req, res, next) => {
   try {
-    const job = await Job.create({ ...req.body, owner_id: req.user["_id"] });
+    await Job.create({ ...req.body, owner_id: req.user["_id"] });
 
     res.status(201).json({
       success: true,

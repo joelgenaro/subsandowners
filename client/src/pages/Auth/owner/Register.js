@@ -10,6 +10,7 @@ import { profileUpdate, authReset } from "../../../redux/Extra/authSlice";
 import useGeoLocation from "react-ipgeolocation";
 import toBase64 from "../../../helper/toBase64";
 import countries from "../../../helper/countries";
+import LoadingButton from "../../../components/LoadingButton";
 
 const ownerRegisterButtons = {
   display: "flex",
@@ -35,6 +36,7 @@ const RegisterForOwner = () => {
     address: "",
     avatar: null,
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isError) {
@@ -47,6 +49,7 @@ const RegisterForOwner = () => {
       history.push("/lets-start");
     }
     dispatch(authReset());
+    setIsLoading(false);
   }, [isSuccess, isError, message, history, dispatch]);
 
   useEffect(() => {
@@ -83,6 +86,7 @@ const RegisterForOwner = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
     dispatch(profileUpdate(subcontractor));
   };
 
@@ -313,12 +317,12 @@ const RegisterForOwner = () => {
                                 className="mt-4 text-end "
                                 style={ownerRegisterButtons}
                               >
-                                <button
-                                  type="submit"
-                                  className="btn btn-primary"
-                                >
-                                  Submit
-                                </button>
+                                <LoadingButton
+                                  disabled={isLoading}
+                                  className={"btn btn-primary"}
+                                  isLoading={isLoading}
+                                  title={"Submit"}
+                                />
                               </div>
                             </Form>
                           </CardBody>
