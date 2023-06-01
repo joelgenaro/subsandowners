@@ -93,6 +93,7 @@ export const proposalSlice = createSlice({
     builder.addCase(placeBid.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
+      state.message = action.payload.message;
       state.proposal = action.payload.proposal;
     });
     builder.addCase(placeBid.rejected, (state, action) => {
@@ -109,6 +110,7 @@ export const proposalSlice = createSlice({
       state.isLoading = false;
       state.isSuccess = true;
       state.proposal = null;
+      state.message = action.payload.message;
     });
     builder.addCase(retract.rejected, (state, action) => {
       state.isLoading = false;

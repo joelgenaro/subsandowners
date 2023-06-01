@@ -48,12 +48,8 @@ const Bid = ({ data }) => {
         history.push("/signin");
       }
     } else if (isSuccess) {
-      if (isEdit) {
-        toast.success("You have successfully edited a your bid!");
-        dispatch(setIsEdit(false));
-      } else {
-        toast.success("You have successfully placed a your bid!");
-      }
+      const result = message !== "" ? toast.success(message) : null;
+      dispatch(setIsEdit(false));
     }
     dispatch(proposalReset());
     setIsLoading(false);
@@ -155,9 +151,12 @@ const Bid = ({ data }) => {
                     >
                       Cancel
                     </button>
-                    <button type="submit" className="btn btn-primary">
-                      Upated Bid
-                    </button>
+                    <LoadingButton
+                      disabled={isLoading}
+                      className={"btn btn-primary"}
+                      isLoading={isLoading}
+                      title={"Upated Bid"}
+                    />
                   </>
                 ) : (
                   <LoadingButton

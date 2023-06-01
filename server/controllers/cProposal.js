@@ -3,6 +3,7 @@ const Application = require("../models/mApplication");
 const placeBid = async (req, res, next) => {
   try {
     const proposal = { ...req.body };
+    let message = "";
 
     const isEdit = await Application.find({
       jobId: req.body.jobId,
@@ -14,6 +15,8 @@ const placeBid = async (req, res, next) => {
         candidateId: req.user["_id"],
         ...req.body,
       });
+
+      message = "You have successfully placed a your bid";
     } else {
       await Application.findOneAndUpdate(
         {
@@ -26,11 +29,13 @@ const placeBid = async (req, res, next) => {
           proposal: req.body.proposal,
         }
       );
+      message = "You have successfully edited a your bid";
     }
 
     res.status(201).json({
       success: true,
       proposal,
+      message,
     });
   } catch (error) {
     next(error);
@@ -58,6 +63,8 @@ const getProposal = async (req, res, next) => {
 
 const retract = async (req, res, next) => {
   try {
+    const message = "Bid retracted successfully";
+
     await Application.findOneAndDelete({
       jobId: req.body.id,
       candidateId: req.user["_id"],
@@ -65,6 +72,7 @@ const retract = async (req, res, next) => {
 
     res.status(201).json({
       success: true,
+      message,
     });
   } catch (error) {
     next(error);

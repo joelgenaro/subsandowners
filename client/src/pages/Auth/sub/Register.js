@@ -10,6 +10,7 @@ import { profileUpdate, authReset } from "../../../redux/Extra/authSlice";
 import useGeoLocation from "react-ipgeolocation";
 import toBase64 from "../../../helper/toBase64";
 import countries from "../../../helper/countries";
+import LoadingButton from "../../../components/LoadingButton";
 
 const RegisterForSub = () => {
   //Get the whole state from currentAuth
@@ -19,6 +20,7 @@ const RegisterForSub = () => {
   const { isSuccess, isError, message } = useSelector((state) => state.auth);
   const geo = useGeoLocation();
 
+  const [isLoading, setIsLoading] = useState(false);
   const [subcontractor, setSubcontractor] = useState({
     first_name: "",
     last_name: "",
@@ -42,6 +44,7 @@ const RegisterForSub = () => {
       history.push("/job-list");
     }
     dispatch(authReset());
+    setIsLoading(false);
   }, [isSuccess, isError, message, history, dispatch]);
 
   useEffect(() => {
@@ -77,6 +80,8 @@ const RegisterForSub = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
     dispatch(profileUpdate(subcontractor));
   };
 
@@ -305,12 +310,12 @@ const RegisterForSub = () => {
                               </div>
 
                               <div className="mt-4 text-end">
-                                <button
-                                  type="submit"
-                                  className="btn btn-primary"
-                                >
-                                  Submit
-                                </button>
+                                <LoadingButton
+                                  disabled={isLoading}
+                                  className={"btn btn-primary"}
+                                  isLoading={isLoading}
+                                  title={"Submit"}
+                                />
                               </div>
                             </Form>
                           </CardBody>

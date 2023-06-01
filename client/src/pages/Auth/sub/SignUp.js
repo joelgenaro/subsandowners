@@ -213,12 +213,6 @@ const SignUpForSub = () => {
                                     isLoading={isLoading}
                                     title={"Join Subcontractor"}
                                   />
-                                  <button
-                                    type="submit"
-                                    className="btn btn-white btn-hover w-100"
-                                  >
-                                    Join Subcontractor
-                                  </button>
                                 </div>
                               </form>
                               <div className="mt-3 text-center">

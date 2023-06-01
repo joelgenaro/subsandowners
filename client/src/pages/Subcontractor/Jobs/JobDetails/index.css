@@ -1,11 +1,19 @@
 .downloadLink {
   text-decoration: underline;
 }
+
 .yourBidTerms {
   display: flex;
   flex-direction: column;
   align-items: end;
 }
+
 .retractBtn {
   margin-right: 10px;
+}
+
+.retract {
+  margin-top: 20px;
+  display: flex;
+  justify-content: end;
 }

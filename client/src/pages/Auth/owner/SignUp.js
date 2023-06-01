@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Container, Card, Col, Input, Row, CardBody } from "reactstrap";
 import MetaTags from "react-meta-tags";
@@ -11,6 +11,7 @@ import { authRegister, authReset } from "../../../redux/Extra/authSlice";
 import lightLogo from "../../../assets/images/logo-light.png";
 import darkLogo from "../../../assets/images/logo-dark.png";
 import signUpImage from "../../../assets/images/auth/sign-up.png";
+import LoadingButton from "../../../components/LoadingButton";
 
 const SignUpForOwner = () => {
   const history = useHistory();
@@ -18,6 +19,7 @@ const SignUpForOwner = () => {
   const { isSuccess, isError, message, both } = useSelector(
     (state) => state.auth
   );
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isError) {
@@ -32,11 +34,13 @@ const SignUpForOwner = () => {
       }
     }
     dispatch(authReset());
+    setIsLoading(false);
   }, [isSuccess, isError, message, both, history, dispatch]);
 
   const onSubmit = (data) => {
     const userData = { ...data, identifier: "owner" };
 
+    setIsLoading(true);
     dispatch(authRegister(userData));
   };
 
@@ -127,8 +131,9 @@ const SignUpForOwner = () => {
                                     name="email"
                                     placeholder="Enter your email"
                                     {...register("email")}
-                                    className={`form-control ${errors.email ? "is-invalid" : ""
-                                      }`}
+                                    className={`form-control ${
+                                      errors.email ? "is-invalid" : ""
+                                    }`}
                                   />
                                   <div className="invalid-feedback">
                                     {errors.email?.message}
@@ -147,8 +152,9 @@ const SignUpForOwner = () => {
                                     name="password"
                                     placeholder="Enter your password"
                                     {...register("password")}
-                                    className={`form-control ${errors.password ? "is-invalid" : ""
-                                      }`}
+                                    className={`form-control ${
+                                      errors.password ? "is-invalid" : ""
+                                    }`}
                                   />
                                   <div className="invalid-feedback">
                                     {errors.password?.message}
@@ -167,8 +173,9 @@ const SignUpForOwner = () => {
                                     id="confirmPasswordInput"
                                     placeholder="Confirm your password"
                                     {...register("confirmPassword")}
-                                    className={`form-control ${errors.confirmPassword ? "is-invalid" : ""
-                                      }`}
+                                    className={`form-control ${
+                                      errors.confirmPassword ? "is-invalid" : ""
+                                    }`}
                                   />
                                   <div className="invalid-feedback">
                                     {errors.confirmPassword?.message}
@@ -198,12 +205,14 @@ const SignUpForOwner = () => {
                                   </div>
                                 </div>
                                 <div className="text-center">
-                                  <button
-                                    type="submit"
-                                    className="btn btn-white btn-hover w-100"
-                                  >
-                                    Join Owner
-                                  </button>
+                                  <LoadingButton
+                                    disabled={isLoading}
+                                    className={
+                                      "btn btn-primary btn-hover w-100"
+                                    }
+                                    isLoading={isLoading}
+                                    title={"Join Owner"}
+                                  />
                                 </div>
                               </form>
                               <div className="mt-3 text-center">

@@ -76,6 +76,7 @@ export const profileSlice = createSlice({
     builder.addCase(profileUpdate.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
+      state.message = action.payload.message;
       state.data = action.payload.updatedProfile;
       localStorage.setItem("user", JSON.stringify(action.payload.current_user));
     });

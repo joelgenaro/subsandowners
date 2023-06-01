@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardBody, Col, Row } from "reactstrap";
 import { Confirm } from "../../../../components/Confirm";
 import {
@@ -9,6 +9,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
+import LoadingButton from "../../../../components/LoadingButton";
 
 const Proposal = () => {
   const history = useHistory();
@@ -16,6 +17,7 @@ const Proposal = () => {
   const { isSuccess, isError, message, jobId, proposal } = useSelector(
     (state) => state.proposal
   );
+  const [isLoading, setIsLoading] = useState(false);
 
   // Check message
   useEffect(() => {
@@ -25,13 +27,15 @@ const Proposal = () => {
         history.push("/signin");
       }
     } else if (isSuccess) {
-      toast.success("Bid retracted successfully!");
+      const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(proposalReset());
+    setIsLoading(false);
   }, [isSuccess, isError, message, history, dispatch]);
 
   const handleRetract = async () => {
     if (await Confirm("Are you sure you want to retract your bid?")) {
+      setIsLoading(true);
       dispatch(retract({ id: jobId }));
     }
   };
@@ -61,13 +65,15 @@ const Proposal = () => {
             <div className="job-detail-desc">
               <p className="text-muted mb-0">{proposal?.["proposal"]}</p>
             </div>
-            <div className="text-end">
-              <button
-                className="btn btn-danger retractBtn"
-                onClick={handleRetract}
-              >
-                Retract
-              </button>
+            <div className="text-end retract">
+              <div onClick={handleRetract} className="retractBtn">
+                <LoadingButton
+                  disabled={isLoading}
+                  className={"btn btn-danger"}
+                  isLoading={isLoading}
+                  title={"Retract"}
+                />
+              </div>
               <button className="btn btn-primary" onClick={handleEdit}>
                 Edit
               </button>

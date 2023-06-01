@@ -26,6 +26,8 @@ const MyProfile = () => {
       if (message === "Not authorized!") {
         history.push("/signin");
       }
+    } else if (isSuccess) {
+      const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(profileReset());
   }, [isSuccess, isError, message, history, dispatch]);
