@@ -108,6 +108,7 @@ export const jobPostingsSlice = createSlice({
     builder.addCase(deleteJob.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
+      state.message = action.payload.message;
 
       state.data = state.data.filter(function (item) {
         return item._id !== action.payload.ID_Delete;

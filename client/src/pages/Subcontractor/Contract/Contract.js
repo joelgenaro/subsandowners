@@ -24,7 +24,6 @@ const Contract = ({ match }) => {
   const { isLoading, data, isSuccess, isError, message } = useSelector(
     (state) => state.scontract
   );
-
   // Check message
   useEffect(() => {
     if (isError) {
@@ -32,6 +31,8 @@ const Contract = ({ match }) => {
       if (message === "Not authorized!") {
         history.push("/signin");
       }
+    } else if (isSuccess) {
+      const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(scontractReset());
   }, [isSuccess, isError, message, history, dispatch]);
@@ -44,7 +45,7 @@ const Contract = ({ match }) => {
   return (
     <React.Fragment>
       <MetaTags>
-        <title>Job Title</title>
+        <title>{data?.jobDetails?.title}</title>
       </MetaTags>
       <Section />
       <section className="section mainSection">

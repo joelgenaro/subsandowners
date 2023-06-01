@@ -16,7 +16,7 @@ const Section = () => {
               <div className="clientName">
                 <div className="candidate-list-images">
                   <img
-                    src={tempImage}
+                    src={data?.ownerInfo?.avatar}
                     alt=""
                     className="avatar-md img-thumbnail rounded-circle"
                   />

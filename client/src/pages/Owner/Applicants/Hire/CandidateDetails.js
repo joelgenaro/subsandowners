@@ -7,7 +7,6 @@ import Stars from "../../../../components/Stars";
 import Star from "../../../../components/Star";
 import { useSelector, useDispatch } from "react-redux";
 import { endContract } from "../../../../redux/Owner/applicantsSlice";
-import LoadingButton from "../../../../components/LoadingButton";
 
 const CandidateDetails = ({ details }) => {
   const { isSuccess, isError } = useSelector((state) => state.applicants);
@@ -15,7 +14,6 @@ const CandidateDetails = ({ details }) => {
   const [modal, setModal] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
 
   const [starsSelected, setStarsSelected] = useState({
     Skills: 0,
@@ -32,10 +30,6 @@ const CandidateDetails = ({ details }) => {
     "Communication",
     "Cooperation",
   ];
-
-  useEffect(() => {
-    setIsLoading(false);
-  }, [isSuccess, isError]);
 
   const openModal = () => {
     setModal(!modal);
@@ -56,7 +50,6 @@ const CandidateDetails = ({ details }) => {
       totalScore += starsSelected[n];
     });
     const score = Number((totalScore / 5).toFixed(1));
-    setIsLoading(true);
 
     dispatch(
       endContract({ score: score, feedback: feedback, id: details._id })
@@ -266,12 +259,14 @@ const CandidateDetails = ({ details }) => {
                         onChange={(e) => setFeedback(e.target.value)}
                       ></textarea>
                     </div>
-                    <LoadingButton
-                      disabled={isLoading}
-                      className={"btn btn-primary w-100"}
-                      isLoading={isLoading}
-                      title={"End Contract"}
-                    />
+                    <button
+                      type="submit"
+                      onClick={handleSubmit}
+                      disabled={isDisabled}
+                      className="btn btn-primary w-100"
+                    >
+                      End Contract
+                    </button>
                   </>
                 )}
               </ModalBody>

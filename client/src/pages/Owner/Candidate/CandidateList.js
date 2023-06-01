@@ -29,6 +29,7 @@ const CandidateList = () => {
         history.push("/signin");
       }
     } else if (isSuccess) {
+      const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(candidateListReset());
   }, [isSuccess, isError, message, dispatch]);

@@ -19,7 +19,6 @@ const JobListing = () => {
   const { isSuccess, isError, isLoading, message, data } = useSelector(
     (state) => state.jobPostings
   );
-
   // Get Data
   useEffect(() => {
     dispatch(getData({ page: 1 }));
@@ -33,6 +32,7 @@ const JobListing = () => {
         history.push("/signin");
       }
     } else if (isSuccess) {
+      const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(jobPostingsReset());
   }, [isSuccess, isError, message, dispatch]);

@@ -23,6 +23,7 @@ const Applicants = ({ match }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { isSuccess, isError, message } = useSelector((state) => state.job);
+  const { jobDetails } = useSelector((state) => state.applicants);
 
   // Check message
   useEffect(() => {
@@ -31,6 +32,8 @@ const Applicants = ({ match }) => {
       if (message === "Not authorized!") {
         history.push("/signin");
       }
+    } else if (isSuccess) {
+      const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(applicantsReset());
   }, [isSuccess, isError, message, history, dispatch]);
@@ -45,7 +48,7 @@ const Applicants = ({ match }) => {
   return (
     <React.Fragment>
       <MetaTags>
-        <title>Job Title</title>
+        <title>{jobDetails?.title}</title>
       </MetaTags>
       <Section />
       <section className="section">

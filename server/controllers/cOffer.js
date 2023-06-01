@@ -1,11 +1,10 @@
 const Application = require("../models/mApplication");
-const User = require("../models/mUser");
 const Job = require("../models/mJob");
 const { getOwnerInfo } = require("./cScontract.js");
 
 const getData = async (req, res, next) => {
   try {
-    const { jobId, candidateId } = await Application.findOne({
+    const { jobId } = await Application.findOne({
       _id: req.body.id,
     });
 
@@ -26,7 +25,7 @@ const getData = async (req, res, next) => {
 };
 
 const acceptOffer = async (req, res, next) => {
-  const currentDate = Date.now;
+  const currentDate = new Date(Date.now());
 
   try {
     const { jobId } = await Application.findOneAndUpdate(

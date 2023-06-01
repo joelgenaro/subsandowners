@@ -92,6 +92,7 @@ const filter = async (req, res, next) => {
 
 const deleteJob = async (req, res, next) => {
   const ID_Delete = req.body.id;
+  const message = "Project Remove Success";
 
   try {
     await Application.updateMany(
@@ -103,6 +104,7 @@ const deleteJob = async (req, res, next) => {
     res.status(201).json({
       success: true,
       ID_Delete,
+      message,
     });
   } catch (error) {
     next(error);

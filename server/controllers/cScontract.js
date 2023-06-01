@@ -113,6 +113,7 @@ const getOwnerInfo = async (id) => {
 
   return (ownerInfo = {
     name: userInfo.first_name + " " + userInfo.last_name,
+    avatar: userInfo.avatar,
     country: userInfo.country,
     city: userInfo.city,
     memberSince: userInfo.join_date,

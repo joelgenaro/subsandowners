@@ -27,6 +27,7 @@ const Contracts = () => {
         history.push("/signin");
       }
     } else if (isSuccess) {
+      const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(myJobsReset());
   }, [isSuccess, isError, message, history, dispatch]);

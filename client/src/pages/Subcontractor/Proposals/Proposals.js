@@ -32,6 +32,7 @@ const Proposals = () => {
         history.push("/signin");
       }
     } else if (isSuccess) {
+      const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(proposalReset());
   }, [isSuccess, isError, message, history, dispatch]);

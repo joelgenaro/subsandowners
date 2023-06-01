@@ -1,4 +1,5 @@
 const formattedDate = (date) => {
+  console.log(date);
   const mongodbDate = new Date(date); // assume this is the MongoDB date
   const convertedDate = mongodbDate.toLocaleDateString("en-US", {
     month: "short",

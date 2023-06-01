@@ -30,6 +30,7 @@ const Contracts = () => {
         history.push("/signin");
       }
     } else if (isSuccess) {
+      const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(activeContactsReset());
   }, [isSuccess, isError, message, history, dispatch]);

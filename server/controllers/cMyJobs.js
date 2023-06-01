@@ -1,6 +1,4 @@
-const Application = require("../models/mApplication");
 const Job = require("../models/mJob");
-const User = require("../models/mUser");
 
 const getData = async (req, res, next) => {
   try {

@@ -1,6 +1,4 @@
-const Application = require("../models/mApplication");
 const User = require("../models/mUser");
-const Job = require("../models/mJob");
 
 const getData = async (req, res, next) => {
   try {
@@ -41,7 +39,7 @@ const updateEmail = async (req, res, next) => {
 
 const reset_password = async (req, res, next) => {
   try {
-    const userId = req.user['id'];
+    const userId = req.user["id"];
     const { current_password, new_password } = req.body;
     const user = await User.findOne({ _id: userId }).select("+password");
     const isMatch = await user.matchPasswords(current_password);
@@ -66,5 +64,5 @@ const reset_password = async (req, res, next) => {
 module.exports = {
   getData,
   updateEmail,
-  reset_password
+  reset_password,
 };

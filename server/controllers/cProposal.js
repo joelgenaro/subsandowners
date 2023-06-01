@@ -63,7 +63,7 @@ const getProposal = async (req, res, next) => {
 
 const retract = async (req, res, next) => {
   try {
-    const message = "Bid retracted successfully";
+    const message = "Bid Retract Success";
 
     await Application.findOneAndDelete({
       jobId: req.body.id,

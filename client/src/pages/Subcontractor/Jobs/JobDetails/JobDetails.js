@@ -33,6 +33,8 @@ const JobDetails = ({ match }) => {
       if (message === "Not authorized!") {
         history.push("/signin");
       }
+    } else if (isSuccess) {
+      const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(jobReset());
   }, [isSuccess, isError, message, history, dispatch]);

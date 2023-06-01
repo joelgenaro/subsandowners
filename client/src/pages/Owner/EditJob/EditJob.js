@@ -28,6 +28,8 @@ const Applicants = ({ match }) => {
       if (message === "Not authorized!") {
         history.push("/signin");
       }
+    } else if (isSuccess) {
+      const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(applicantsReset());
   }, [isSuccess, isError, message, history, dispatch]);

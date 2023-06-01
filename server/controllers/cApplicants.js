@@ -4,11 +4,14 @@ const User = require("../models/mUser");
 const myCustomLabels = require("../utils/paginationLabel");
 
 const updateJob = async (req, res, next) => {
+  const message = "Project Update Success";
+
   try {
     await Job.updateOne({ _id: req.body["_id"] }, { $set: { ...req.body } });
 
     res.status(201).json({
       success: true,
+      message,
     });
   } catch (error) {
     next(error);
@@ -37,7 +40,6 @@ const getProposals = async (req, res, next) => {
 
   try {
     const data = await Application.paginate(query, options);
-
     const itemsListApplications = data.itemsList;
     const paginator = data.paginator;
     const promises = itemsListApplications.map((item) => getUserInfo(item));
@@ -76,7 +78,6 @@ const getHiredCandidates = async (req, res, next) => {
 
   try {
     const data = await Application.paginate(query, options);
-
     const itemsListApplications = data.itemsList;
     const paginator = data.paginator;
     const promises = itemsListApplications.map((item) => getUserInfo(item));
@@ -95,6 +96,7 @@ const getHiredCandidates = async (req, res, next) => {
 
 const getUserInfo = async (item) => {
   const userInfo = await User.findOne({ _id: item.candidateId });
+
   return {
     ...item._doc,
     candidate: {
@@ -110,6 +112,7 @@ const getUserInfo = async (item) => {
 const sendOffer = async (req, res, next) => {
   const jobId = req.body.jobId;
   const candidateId = req.body.candidateId;
+  const message = "Offer Send Success";
 
   try {
     await Job.findOneAndUpdate({ _id: jobId }, { status: "interviewing" });
@@ -122,6 +125,7 @@ const sendOffer = async (req, res, next) => {
     res.status(201).json({
       success: true,
       candidateId,
+      message,
     });
   } catch (error) {
     next(error);
@@ -136,6 +140,7 @@ const endContract = async (req, res, next) => {
       "subFeedback.feedback": req.body.feedback,
     },
   };
+  const message = "Contract End Success";
 
   try {
     await Application.findOneAndUpdate({ _id: id }, { ...setParams });
@@ -144,6 +149,7 @@ const endContract = async (req, res, next) => {
       success: true,
       setParams,
       id,
+      message,
     });
   } catch (error) {
     next(error);
