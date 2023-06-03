@@ -13,6 +13,7 @@ import {
 import classnames from "classnames";
 import Email from "./Email";
 import Password from "./Password";
+import ServiceArea from "./ServiceArea";
 
 const Content = () => {
   const [activeTab, setActiveTab] = useState("1");
@@ -106,6 +107,7 @@ const Content = () => {
                 <TabPane tabId="3">
                   <div>
                     <h5 className="fs-18 fw-bold">Service Area</h5>
+                    <ServiceArea />
                   </div>
                 </TabPane>
                 {role == "sub" ? (

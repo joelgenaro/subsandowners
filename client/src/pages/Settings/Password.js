@@ -117,7 +117,7 @@ const Password = () => {
               className={"btn btn-primary"}
               disabled={isLoading}
               isLoading={isLoading}
-              title={"Save settings"}
+              title={"Save"}
             />
           </div>
         </form>

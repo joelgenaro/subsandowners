@@ -56,6 +56,7 @@ const RightSideContent = () => {
 
   useEffect(() => {
     setIsLoading(false);
+    setActiveTab("1");
   }, [isSuccess, isError]);
 
   // Location Autocomplete
