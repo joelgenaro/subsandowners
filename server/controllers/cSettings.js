@@ -1,13 +1,15 @@
 const User = require("../models/mUser");
+const states = require("../utils/states");
 
 const getData = async (req, res, next) => {
   try {
     const userId = req.user["_id"];
-    const { email } = await User.findOne({ _id: userId });
+    const { email, service_area } = await User.findOne({ _id: userId });
 
     res.status(201).json({
       success: true,
       email,
+      service_area,
     });
   } catch (error) {
     next(error);
@@ -16,7 +18,6 @@ const getData = async (req, res, next) => {
 
 const updateEmail = async (req, res, next) => {
   try {
-    // Check if user already exists
     const email = req.body.email;
     const userExist = await User.findOne({ email });
 
@@ -32,6 +33,27 @@ const updateEmail = async (req, res, next) => {
         message: "Email Update Success!",
       });
     }
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updateServiceArea = async (req, res, next) => {
+  try {
+    const { state, county } = req.body;
+    const { service_area } = await User.findOneAndUpdate(
+      { _id: req.user["_id"], "service_area.state": state.value },
+      { $set: { "service_area.$.county": county } },
+      {
+        returnOriginal: false,
+      }
+    );
+
+    res.status(201).json({
+      success: true,
+      service_area,
+      message: "Service Area Update Success!",
+    });
   } catch (error) {
     next(error);
   }
@@ -64,5 +86,6 @@ const reset_password = async (req, res, next) => {
 module.exports = {
   getData,
   updateEmail,
+  updateServiceArea,
   reset_password,
 };

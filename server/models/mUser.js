@@ -3,6 +3,7 @@ const mongoosePaginate = require("mongoose-paginate-v2");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+const states = require("../utils/states");
 
 const userSchema = new mongoose.Schema(
   {
@@ -107,6 +108,10 @@ const userSchema = new mongoose.Schema(
     avatar: {
       type: String,
       default: undefined,
+    },
+    service_area: {
+      type: Array,
+      default: states,
     },
     join_date: {
       type: Date,

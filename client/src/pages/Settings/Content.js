@@ -58,32 +58,33 @@ const Content = () => {
                     Password
                   </NavLink>
                 </NavItem>
-                <NavItem role="presentation">
-                  <NavLink
-                    to="#"
-                    className={classnames({ active: activeTab === "3" })}
-                    onClick={() => {
-                      tabChange("3");
-                    }}
-                    type="button"
-                  >
-                    Service Area
-                  </NavLink>
-                </NavItem>
                 {role == "sub" ? (
                   <NavItem role="presentation">
                     <NavLink
                       to="#"
-                      className={classnames({ active: activeTab === "4" })}
+                      className={classnames({ active: activeTab === "3" })}
                       onClick={() => {
-                        tabChange("4");
+                        tabChange("3");
                       }}
                       type="button"
                     >
-                      Memebership
+                      Service Area
                     </NavLink>
                   </NavItem>
                 ) : null}
+
+                <NavItem role="presentation">
+                  <NavLink
+                    to="#"
+                    className={classnames({ active: activeTab === "4" })}
+                    onClick={() => {
+                      tabChange("4");
+                    }}
+                    type="button"
+                  >
+                    Memebership
+                  </NavLink>
+                </NavItem>
               </Nav>
             </CardBody>
           </Card>

@@ -7,24 +7,32 @@ import convertArrToSelect from "../../helper/convertArrToSelect";
 import states from "../../helper/states";
 import LoadingButton from "../../components/LoadingButton";
 import { useSelector, useDispatch } from "react-redux";
+import { updateServiceArea } from "../../redux/Extra/settingsSlice";
 
 const ServiceArea = () => {
   const [state, setState] = useState(null);
   const [county, setCounty] = useState([]);
   const [counties, setCounties] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { isSuccess, isError } = useSelector((state) => state.settings);
-  const selectRef = useRef(null);
+  const [data, setData] = useState(null);
+  const { isSuccess, isError, serviceArea } = useSelector(
+    (state) => state.settings
+  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setIsLoading(false);
   }, [isSuccess, isError]);
 
   useEffect(() => {
+    setData(serviceArea);
+  }, [serviceArea]);
+
+  useEffect(() => {
     if (state) {
-      if (selectRef.current) {
-        selectRef.current.clearValue();
-      }
+      const value = data.find((obj) => obj.state == state.value);
+
+      setCounty(value.county);
       setCounties(convertArrToSelect(zcta.getCountiesByState(state.value)));
     }
   }, [state]);
@@ -33,8 +41,8 @@ const ServiceArea = () => {
     e.preventDefault();
 
     if (state) {
-      console.log(state, county);
       setIsLoading(true);
+      dispatch(updateServiceArea({ state: state, county: county }));
     }
   };
 
@@ -66,15 +74,15 @@ const ServiceArea = () => {
                     County
                   </label>
                   <Select
-                    defaultValue={county}
-                    onChange={setCounty}
-                    isMulti
-                    isClearable
-                    ref={selectRef}
                     name="county"
-                    options={counties}
                     className="basic-multi-select"
                     classNamePrefix="select"
+                    isMulti
+                    isClearable
+                    defaultValue={county}
+                    value={county}
+                    onChange={setCounty}
+                    options={counties}
                   />
                 </div>
               </Col>

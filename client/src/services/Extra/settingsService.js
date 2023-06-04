@@ -19,6 +19,15 @@ const updateEmail = async (data) => {
   return response.data;
 };
 
+const updateServiceArea = async (data) => {
+  const response = await axios.post(
+    `${API_URL}/updateServiceArea`,
+    data,
+    config
+  );
+  return response.data;
+};
+
 const reset_password = async (data) => {
   const response = await axios.post(`${API_URL}/reset_password`, data, config);
   return response.data;
@@ -27,5 +36,6 @@ const reset_password = async (data) => {
 export const settingsService = {
   getData,
   updateEmail,
+  updateServiceArea,
   reset_password,
 };
