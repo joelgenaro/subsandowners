@@ -1,18 +1,23 @@
 .job-box .favorite-icon {
   display: none !important;
 }
+
 .formlabelForPostjob {
   float: left;
 }
+
 .title {
   margin-bottom: 50px;
 }
+
 .form-control {
-  /* margin-bottom: 50px; */
+  margin-bottom: 50px;
 }
+
 .projectTitle {
   margin-top: 10px;
 }
+
 .custom-file {
   position: relative;
   font-family: arial;
@@ -23,6 +28,7 @@
   padding: 10px;
   margin-left: -70%;
 }
+
 .custom-file-input {
   position: absolute;
   left: 0;
@@ -33,22 +39,26 @@
   opacity: 0;
   z-index: 100;
 }
+
 .custom-file img {
   display: inline-block;
   vertical-align: middle;
   margin-right: 5px;
 }
+
 ul.file-list {
   font-family: arial;
   list-style: none;
   padding: 10;
 }
+
 ul.file-list li {
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #ddd;
   padding: 0px;
 }
+
 .remove-list {
   cursor: pointer;
   margin-left: 10px;
@@ -74,6 +84,7 @@ ul.file-list li {
   outline: none;
   transition: border 0.24s ease-in-out;
 }
+
 .radioForRemoval {
   display: flex;
   justify-content: space-evenly;
