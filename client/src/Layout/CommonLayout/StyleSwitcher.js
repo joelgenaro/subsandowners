@@ -13,12 +13,12 @@ const StyleSwitcher = () => {
       "assets/css/app" + color + ".min.css";
     document.getElementById("bootstrap-style").href =
       "assets/css/bootstrap" + color + ".min.css";
-    // toggleSwitcher();
+    toggleSwitcher();
   };
 
   useEffect(() => {
     document.body.setAttribute("data-layout-mode", "light");
-  });
+  }, []);
 
   // Dark/Light mode
   const toggleMode = () => {
@@ -28,7 +28,7 @@ const StyleSwitcher = () => {
     } else {
       document.body.setAttribute("data-layout-mode", "dark");
     }
-    // toggleSwitcher();
+    toggleSwitcher();
   };
 
   return (
