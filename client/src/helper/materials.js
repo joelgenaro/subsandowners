@@ -1,4 +1,5 @@
 const colorOptions = [
+  { value: "", label: "" },
   { value: "Adobe", label: "Adobe" },
   { value: "Almond", label: "Almond" },
   { value: "Black", label: "Black" },
@@ -12,6 +13,7 @@ const colorOptions = [
 ];
 
 const aluminumOptions = [
+  { value: "", label: "" },
   { value: "2 Rail Regular Spaced", label: "2 Rail Regular Spaced" },
   { value: "Commerical Extra Picket", label: "Commerical Extra Picket" },
   { value: "Commerical Regular Spaced", label: "Commerical Regular Spaced" },
@@ -21,6 +23,7 @@ const aluminumOptions = [
 ];
 
 const cedarOptions = [
+  { value: "", label: "" },
   { value: "1 3/4” Spaced", label: "1 3/4” Spaced" },
   { value: "1” Spaced", label: "1” Spaced" },
   { value: "2 3/4” Spaced", label: "2 3/4” Spaced" },
@@ -31,6 +34,7 @@ const cedarOptions = [
 ];
 
 const chainLinkOptions = [
+  { value: "", label: "" },
   { value: "Pool Code", label: "Pool Code" },
   { value: "Pool Code With Bottom Rail", label: "Pool Code With Bottom Rail" },
   { value: "Pool Code With Bottom Wire", label: "Pool Code With Bottom Wire" },
@@ -40,6 +44,7 @@ const chainLinkOptions = [
 ];
 
 const preasureTreatedOptions = [
+  { value: "", label: "" },
   { value: "BOB", label: "BOB" },
   { value: "Dog Ear", label: "Dog Ear" },
   { value: "Split Rail With Wire", label: "Split Rail With Wire" },
@@ -47,6 +52,7 @@ const preasureTreatedOptions = [
 ];
 
 const vinylOptions = [
+  { value: "", label: "" },
   {
     value: "Aluminum Closed Spindle Top",
     label: "Aluminum Closed Spindle Top",
@@ -60,7 +66,6 @@ const vinylOptions = [
   { value: "Georgetown", label: "Georgetown" },
   { value: "Lattice", label: "Lattice" },
   { value: "Open Spindle Top", label: "Open Spindle Top" },
-  { value: "Open Spindle Top", label: "Open Spindle Top" },
   { value: "Picket", label: "Picket" },
   { value: "Privacy", label: "Privacy" },
   { value: "Richmond and New Bedford", label: "Richmond and New Bedford" },
@@ -72,6 +77,7 @@ const vinylOptions = [
 ];
 
 const categoryOptions = [
+  { label: "", value: "" },
   {
     label: "Aluminum",
     value: "Aluminum",

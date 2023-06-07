@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Container, Card, Col, Input, Row, CardBody } from "reactstrap";
 import MetaTags from "react-meta-tags";
@@ -7,28 +7,40 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
-import { authRegister, authReset } from "../../../redux/authSlice";
+import { authRegister, authReset } from "../../../redux/Extra/authSlice";
 import lightLogo from "../../../assets/images/logo-light.png";
 import darkLogo from "../../../assets/images/logo-dark.png";
 import signUpImage from "../../../assets/images/auth/sign-up.png";
+import LoadingButton from "../../../components/LoadingButton";
 
 const SignUpForSub = () => {
+  // Dispatch
   const history = useHistory();
   const dispatch = useDispatch();
-  const { isSuccess, isError, message } = useSelector((state) => state.auth);
+  const { isSuccess, isError, message, both } = useSelector(
+    (state) => state.auth
+  );
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isError) {
       toast.error(message);
     } else if (isSuccess) {
-      toast.success("User Registered Successfully");
-      history.push("/registerForSub");
+      if (both == true) {
+        toast.success("Subcontractor account created Successfully");
+        history.push("/joblist");
+      } else {
+        toast.success("User Registered Successfully");
+        history.push("/register-sub");
+      }
     }
     dispatch(authReset());
-  }, [isSuccess, isError, message, history, dispatch]);
+    setIsLoading(false);
+  }, [isSuccess, isError, message, both, history, dispatch]);
 
   const onSubmit = (data) => {
     const userData = { ...data, identifier: "sub" };
+    setIsLoading(true);
     dispatch(authRegister(userData));
   };
 
@@ -60,9 +72,7 @@ const SignUpForSub = () => {
         <div className="main-content">
           <div className="page-content">
             <MetaTags>
-              <title>
-                Sign Up | Jobcy - Job Listing Template | Themesdesign
-              </title>
+              <title>User Sign Up | Bidderbadger</title>
             </MetaTags>
             <section className="bg-auth">
               <Container>
@@ -195,12 +205,14 @@ const SignUpForSub = () => {
                                   </div>
                                 </div>
                                 <div className="text-center">
-                                  <button
-                                    type="submit"
-                                    className="btn btn-white btn-hover w-100"
-                                  >
-                                    Join Subcontractor
-                                  </button>
+                                  <LoadingButton
+                                    disabled={isLoading}
+                                    className={
+                                      "btn btn-primary btn-hover w-100"
+                                    }
+                                    isLoading={isLoading}
+                                    title={"Join Subcontractor"}
+                                  />
                                 </div>
                               </form>
                               <div className="mt-3 text-center">

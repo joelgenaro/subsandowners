@@ -6,11 +6,11 @@ import { store } from "./redux/store";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
-  <React.Fragment>
+  <React.StrictMode>
     <Provider store={store}>
       <App />
     </Provider>
-  </React.Fragment>,
+  </React.StrictMode>,
   document.getElementById("root")
 );
 

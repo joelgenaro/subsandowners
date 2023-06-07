@@ -2,28 +2,25 @@ import React, { useEffect, useState } from "react";
 import { Card, CardBody, Col, Container, Input, Row } from "reactstrap";
 import MetaTags from "react-meta-tags";
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import { authLogin, authReset } from "../../redux/authSlice";
-
-//Import Image
+import { authLogin, authReset } from "../../redux/Extra/authSlice";
 import lightLogo from "../../assets/images/logo-light.png";
 import darkLogo from "../../assets/images/logo-dark.png";
-
 import signInImage from "../../assets/images/auth/sign-in.png";
 import { Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import LoadingButton from "../../components/LoadingButton";
 
 const SignIn = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { isSuccess, isError, message, role } = useSelector(
-    (state) => state.auth
-  );
+  const { isSuccess, isError, message } = useSelector((state) => state.auth);
   const [userData, setUserData] = useState({
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isError) {
@@ -33,6 +30,7 @@ const SignIn = () => {
       history.push("/");
     }
     dispatch(authReset());
+    setIsLoading(false);
   }, [isSuccess, isError, message, history, dispatch]);
 
   const handleChange = (e) => {
@@ -42,6 +40,7 @@ const SignIn = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
     dispatch(authLogin(userData));
   };
 
@@ -51,9 +50,7 @@ const SignIn = () => {
         <div className="main-content">
           <div className="page-content">
             <MetaTags>
-              <title>
-                Sign In | Jobcy - Job Listing Template | Themesdesign
-              </title>
+              <title>Sign In to Hire Labors & Find Work | Bidderbadger</title>
             </MetaTags>
             <section className="bg-auth">
               <Container>
@@ -93,7 +90,11 @@ const SignIn = () => {
                                   Sign in to continue to Jobcy.
                                 </p>
                               </div>
-                              <Form action="#" onSubmit={handleSubmit}>
+                              <Form
+                                action="#"
+                                className="auth-form"
+                                onSubmit={handleSubmit}
+                              >
                                 <div className="mb-3">
                                   <label
                                     htmlFor="usernameInput"
@@ -138,7 +139,7 @@ const SignIn = () => {
                                       id="flexCheckDefault"
                                     />
                                     <Link
-                                      to="/resetpassword"
+                                      to="/reset-password"
                                       className="float-end text-white"
                                     >
                                       Forgot Password?
@@ -152,19 +153,21 @@ const SignIn = () => {
                                   </div>
                                 </div>
                                 <div className="text-center">
-                                  <button
-                                    type="submit"
-                                    className="btn btn-white btn-hover w-100"
-                                  >
-                                    Sign In
-                                  </button>
+                                  <LoadingButton
+                                    disabled={isLoading}
+                                    isLoading={isLoading}
+                                    className={
+                                      "btn btn-primary btn-hover w-100"
+                                    }
+                                    title={"Sign In"}
+                                  />
                                 </div>
                               </Form>
                               <div className="mt-4 text-center">
                                 <p className="mb-0">
                                   Don't have an account ?{" "}
                                   <Link
-                                    to="/chooseOption"
+                                    to="/choose-option"
                                     className="fw-medium text-white text-decoration-underline"
                                   >
                                     {" "}

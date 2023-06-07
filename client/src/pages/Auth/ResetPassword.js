@@ -11,9 +11,9 @@ import { Link } from "react-router-dom";
 import { Form } from "react-bootstrap";
 
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import { forgotPassword, authReset } from "../../redux/authSlice";
+import { forgotPassword, authReset } from "../../redux/Extra/authSlice";
 
 const ResetPassword = () => {
   const [email, setEmail] = useState("");
@@ -26,6 +26,9 @@ const ResetPassword = () => {
   useEffect(() => {
     if (isError) {
       toast.error(message);
+      if (message === "Not authorized!") {
+        history.push("/signin");
+      }
     } else if (isSuccess) {
       toast.success(message);
       history.push("/");
@@ -35,7 +38,7 @@ const ResetPassword = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (email == "") {
+    if (email === "") {
       toast.error("Please input your email");
     }
     dispatch(forgotPassword({ email }));
@@ -47,9 +50,7 @@ const ResetPassword = () => {
         <div className="main-content">
           <div className="page-content">
             <MetaTags>
-              <title>
-                Reset Password | Jobcy - Job Listing Template | Themesdesign
-              </title>
+              <title>Sign In to Hire Labors & Find Work | Bidderbadger</title>
             </MetaTags>
             <section className="bg-auth">
               <Container>

@@ -4,36 +4,47 @@ import {
   Collapse,
   NavbarToggler,
   NavItem,
+  NavLink,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
 } from "reactstrap";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { logoutUser, authReset } from "../../redux/authSlice";
-import { toast } from "react-toastify";
-import { useCookies } from "react-cookie";
+
 import { Link, withRouter, useHistory } from "react-router-dom";
+import classname from "classnames";
+
 import darkLogo from "../../assets/images/logo-dark.png";
 import lightLogo from "../../assets/images/logo-light.png";
 import userImage2 from "../../assets/images/user/img-02.jpg";
-import jobImage4 from "../../assets/images/featured-job/img-04.png";
-import userImage1 from "../../assets/images/user/img-01.jpg";
-import jobImage from "../../assets/images/featured-job/img-01.png";
-import profileImage from "../../assets/images/profile.jpg";
+
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { logoutUser, authReset } from "../../redux/Extra/authSlice";
+import { toast } from "react-toastify";
+import { useCookies } from "react-cookie";
 
 const NavBar = (props) => {
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
-  const { authToken, isLogoutSuccess, isError, message } = useSelector(
+  // Auth
+  const [cookies, setCookie] = useCookies();
+  const { isLogoutSuccess, isError, message, user } = useSelector(
     (state) => state.auth
   );
-  const Token = cookies.token;
-  const Role = cookies.role;
+  let Token = cookies.token;
+  let Role = localStorage.getItem("role");
+  let both = localStorage.getItem("both");
 
   const history = useHistory();
   const dispatch = useDispatch();
+
+  // NavItems
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
+  const [jobs, setJobs] = useState(false);
+  const [candidates, setCandidates] = useState(false);
+  const [ownerReports, setOwnerReports] = useState(false);
+  const [findWork, setFindWork] = useState(false);
+  const [myJobs, setMyJobs] = useState(false);
+  const [subReports, setSubReports] = useState(false);
 
   //Notification Dropdown
   const [notification, setNotification] = useState(false);
@@ -46,16 +57,18 @@ const NavBar = (props) => {
   //scroll navbar
   const [navClass, setnavClass] = useState(false);
 
+  const currentUser = JSON.parse(localStorage.getItem("user"));
+
   useEffect(() => {
     window.addEventListener("scroll", scrollNavigation, true);
   });
 
-  // authentication
+  // Auth
   useEffect(() => {
     if (isError) {
       toast.error(message);
     } else if (isLogoutSuccess) {
-      window.location.reload();
+      history.push("/signin");
     }
     dispatch(authReset());
   }, [isLogoutSuccess, isError, message, history, dispatch]);
@@ -63,10 +76,13 @@ const NavBar = (props) => {
   //menu activation
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+
     var matchingMenuItem = null;
     var ul = document.getElementById("navbarCollapse");
     var items = ul.getElementsByTagName("a");
+
     removeActivation(items);
+
     for (var i = 0; i < items.length; ++i) {
       if (props.location.pathname === items[i].pathname) {
         matchingMenuItem = items[i];
@@ -79,19 +95,30 @@ const NavBar = (props) => {
     }
   });
 
-  // Logout
-  const logoutHandler = (e) => {
-    dispatch(logoutUser());
+  const switchAccount = (e) => {
+    const accountToSwitch = e.target.name;
+
+    localStorage.setItem("role", accountToSwitch);
+
+    accountToSwitch === "sub"
+      ? history.push("/job-list")
+      : history.push("/job-post");
   };
 
-  function scrollNavigation() {
+  const logoutHandler = (e) => {
+    dispatch(logoutUser());
+    history.push("/signout");
+  };
+
+  const scrollNavigation = () => {
     var scrollup = window.pageYOffset;
+
     if (scrollup > 0) {
       setnavClass("nav-sticky");
     } else {
       setnavClass("");
     }
-  }
+  };
 
   const removeActivation = (items) => {
     for (var i = 0; i < items.length; ++i) {
@@ -108,7 +135,7 @@ const NavBar = (props) => {
     }
   };
 
-  function activateParentDropdown(item) {
+  const activateParentDropdown = (item) => {
     item.classList.add("active");
     const parent = item.parentElement.parentElement.parentElement;
 
@@ -134,7 +161,7 @@ const NavBar = (props) => {
       }
     }
     return false;
-  }
+  };
 
   return (
     <React.Fragment>
@@ -148,7 +175,11 @@ const NavBar = (props) => {
             <img src={lightLogo} height="22" alt="" className="logo-light" />
           </Link>
           <div>
-            <NavbarToggler className="me-3" type="button">
+            <NavbarToggler
+              className="me-3"
+              type="button"
+              onClick={() => toggle()}
+            >
               <i className="mdi mdi-menu"></i>
             </NavbarToggler>
           </div>
@@ -158,34 +189,202 @@ const NavBar = (props) => {
             id="navbarCollapse"
           >
             <ul className="navbar-nav mx-auto navbar-center">
-              {Role == "owner" ? (
+              {Role === "owner" ? (
                 <>
-                  {" "}
-                  <NavItem>
-                    <Link className="nav-link" to="/jobpost">
-                      Job post
-                    </Link>
+                  <NavItem className="dropdown dropdown-hover">
+                    <NavLink
+                      to="#"
+                      id="ownerJobs"
+                      className="arrow-none"
+                      onClick={() => setJobs(!jobs)}
+                    >
+                      Jobs <div className="arrow-down"></div>
+                    </NavLink>
+                    <ul
+                      className={classname(
+                        "dropdown-menu dropdown-menu-center",
+                        {
+                          show: jobs,
+                        }
+                      )}
+                      aria-labelledby="ownerJobs"
+                    >
+                      <li>
+                        <Link className="dropdown-item" to="/job-post">
+                          Post a Job
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/my-jobs">
+                          My Jobs
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/all-jobs">
+                          All Job Posts
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="#">
+                          All Contracts
+                        </Link>
+                      </li>
+                    </ul>
                   </NavItem>
-                  <NavItem>
-                    <Link className="nav-link" to="/candidatelist">
-                      candidate list
-                    </Link>
+                  <NavItem className="dropdown dropdown-hover">
+                    <NavLink
+                      to="#"
+                      id="ownerTalent"
+                      role="button"
+                      onClick={() => setCandidates(!candidates)}
+                    >
+                      Talent <div className="arrow-down"></div>
+                    </NavLink>
+                    <ul
+                      className={classname(
+                        "dropdown-menu dropdown-menu-center",
+                        {
+                          show: candidates,
+                        }
+                      )}
+                      aria-labelledby="ownerTalent"
+                    >
+                      <li>
+                        <Link className="dropdown-item" to="/candidate-list">
+                          Discover
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="#">
+                          Your hires
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/saved-talents">
+                          Saved Talent
+                        </Link>
+                      </li>
+                    </ul>
                   </NavItem>
+                  <NavItem className="dropdown dropdown-hover">
+                    <NavLink
+                      to="#"
+                      id="ownerReporst"
+                      role="button"
+                      onClick={() => setOwnerReports(!ownerReports)}
+                    >
+                      Reports <div className="arrow-down"></div>
+                    </NavLink>
+                    <ul
+                      className={classname(
+                        "dropdown-menu dropdown-menu-center",
+                        {
+                          show: ownerReports,
+                        }
+                      )}
+                      aria-labelledby="ownerReporst"
+                    ></ul>
+                  </NavItem>
+
                   <NavItem>
-                    <Link className="nav-link" to="/joblist">
-                      job list
+                    <Link className="nav-link" to="#">
+                      Messages
                     </Link>
                   </NavItem>
                 </>
               ) : (
                 ""
               )}
-              {Role == "subcontractor" ? (
+              {Role === "sub" ? (
                 <>
-                  {" "}
+                  <NavItem className="dropdown dropdown-hover">
+                    <NavLink
+                      to="/job-list"
+                      id="subFindWork"
+                      className="arrow-none"
+                      onClick={() => setFindWork(!findWork)}
+                    >
+                      Find Work <div className="arrow-down"></div>
+                    </NavLink>
+                    <ul
+                      className={classname(
+                        "dropdown-menu dropdown-menu-center",
+                        {
+                          show: findWork,
+                        }
+                      )}
+                      aria-labelledby="subFindWork"
+                    >
+                      <li>
+                        <Link className="dropdown-item" to="/job-list">
+                          Find Work
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/saved-jobs">
+                          Saved Jobs
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/proposals">
+                          Proposals
+                        </Link>
+                      </li>
+                    </ul>
+                  </NavItem>
+                  <NavItem className="dropdown dropdown-hover">
+                    <NavLink
+                      to="/active-contracts"
+                      id="subMyJobs"
+                      role="button"
+                      onClick={() => setMyJobs(!myJobs)}
+                    >
+                      My Jobs <div className="arrow-down"></div>
+                    </NavLink>
+                    <ul
+                      className={classname(
+                        "dropdown-menu dropdown-menu-center",
+                        {
+                          show: myJobs,
+                        }
+                      )}
+                      aria-labelledby="subMyJobs"
+                    >
+                      <li>
+                        <Link className="dropdown-item" to="/active-contracts">
+                          My Jobs
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="#">
+                          All Contracts
+                        </Link>
+                      </li>
+                    </ul>
+                  </NavItem>
+                  <NavItem className="dropdown dropdown-hover">
+                    <NavLink
+                      to="#"
+                      id="subReports"
+                      role="button"
+                      onClick={() => setSubReports(!subReports)}
+                    >
+                      Reports <div className="arrow-down"></div>
+                    </NavLink>
+                    <ul
+                      className={classname(
+                        "dropdown-menu dropdown-menu-center",
+                        {
+                          show: subReports,
+                        }
+                      )}
+                      aria-labelledby="subReports"
+                    ></ul>
+                  </NavItem>
+
                   <NavItem>
-                    <Link className="nav-link" to="/joblist">
-                      Job list
+                    <Link className="nav-link" to="#">
+                      Messages
                     </Link>
                   </NavItem>
                 </>
@@ -195,30 +394,106 @@ const NavBar = (props) => {
             </ul>
           </Collapse>
 
-          <ul className="navbar-nav mx-auto navbar-center">
-            {Token ? (
-              <>
-                <NavItem>
-                  <Link className="nav-link" onClick={logoutHandler} to="/">
-                    log out
-                  </Link>
-                </NavItem>
-              </>
-            ) : (
-              <>
-                <NavItem>
-                  <Link className="nav-link" to="/signin">
-                    log in
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <Link className="nav-link" to="/chooseOption">
-                    sign up
-                  </Link>
-                </NavItem>
-              </>
-            )}
-          </ul>
+          {Token ? (
+            <ul className="header-menu list-inline d-flex align-items-center mb-0">
+              <Dropdown
+                onClick={() => setUserProfile(!userProfile)}
+                isOpen={userProfile}
+                toggle={dropDownuserprofile}
+                className="list-inline-item"
+              >
+                <DropdownToggle
+                  to="#"
+                  className="header-item"
+                  id="userdropdown"
+                  type="button"
+                  tag="a"
+                  aria-expanded="false"
+                >
+                  <img
+                    src={
+                      currentUser?.avatar == null
+                        ? userImage2
+                        : currentUser?.avatar
+                    }
+                    alt="mdo"
+                    width="35"
+                    height="35"
+                    className="rounded-circle me-1"
+                  />{" "}
+                  <span className="d-none d-md-inline-block fw-medium">
+                    {currentUser?.first_name + " " + currentUser?.last_name}
+                  </span>
+                </DropdownToggle>
+                <DropdownMenu
+                  className="dropdown-menu-end"
+                  aria-labelledby="userdropdown"
+                  end
+                >
+                  <li>
+                    <Link className="dropdown-item" to="/profile">
+                      My Profile
+                    </Link>
+                  </li>
+                  {both === "true" && Role == "sub" ? (
+                    <li>
+                      <Link
+                        className="dropdown-item"
+                        to="#"
+                        name="owner"
+                        onClick={switchAccount}
+                      >
+                        Owner
+                      </Link>
+                    </li>
+                  ) : (
+                    ""
+                  )}
+                  {both === "true" && Role == "owner" ? (
+                    <li>
+                      <Link
+                        className="dropdown-item"
+                        to="#"
+                        name="sub"
+                        onClick={switchAccount}
+                      >
+                        SubContractor
+                      </Link>
+                    </li>
+                  ) : (
+                    ""
+                  )}
+                  <li>
+                    <Link className="dropdown-item" to="/settings">
+                      Settings
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="dropdown-item"
+                      to="#"
+                      onClick={logoutHandler}
+                    >
+                      Log out
+                    </Link>
+                  </li>
+                </DropdownMenu>
+              </Dropdown>
+            </ul>
+          ) : (
+            <ul className="navbar-nav mx-auto navbar-center">
+              <NavItem>
+                <Link className="nav-link" to="/signin">
+                  Log In
+                </Link>
+              </NavItem>
+              <NavItem>
+                <Link className="nav-link" to="/choose-option">
+                  Sign Up
+                </Link>
+              </NavItem>
+            </ul>
+          )}
         </Container>
       </nav>
     </React.Fragment>

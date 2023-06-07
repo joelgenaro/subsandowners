@@ -5,18 +5,16 @@ import { Card, Col, Container, Row } from "reactstrap";
 import { Link } from "react-router-dom";
 
 const ChooseOption = () => {
-    const subDiv = {
-        backgroundColor:"green"
-      };
+  const subDiv = {
+    backgroundColor: "green",
+  };
   return (
     <React.Fragment>
       <div>
         <div className="">
           <div className="">
             <MetaTags>
-              <title>
-                Sign Out | Jobcy - Job Listing Template | Themesdesign
-              </title>
+              <title>User Sign Up | Bidderbadger</title>
             </MetaTags>
             <section className="bg-auth">
               <Container>
@@ -24,7 +22,7 @@ const ChooseOption = () => {
                   <Col xl={10} lg={12}>
                     <Card className="auth-box">
                       <Row>
-                      <Col lg={6}>
+                        <Col lg={6}>
                           <div className="auth-content card-body p-5 text-white">
                             <div className="w-100">
                               <div className="text-center mb-4">
@@ -34,19 +32,20 @@ const ChooseOption = () => {
                                 </p>
                               </div>
                               <Link
-                                to="/signupForOwner"
+                                to="/signup-owner"
                                 className="btn btn-white btn-hover w-100"
                               >
                                 LOOKING FOR AMAIZNG HIRES
                               </Link>
-                              <div className="mt-3 text-center">
-                               
-                              </div>
+                              <div className="mt-3 text-center"></div>
                             </div>
                           </div>
                         </Col>
                         <Col lg={6}>
-                          <div style={subDiv} className="auth-content card-body p-5 text-white">
+                          <div
+                            style={subDiv}
+                            className="auth-content card-body p-5 text-white"
+                          >
                             <div className="w-100">
                               <div className="text-center mb-4">
                                 <h5>I'm a worker</h5>
@@ -55,14 +54,12 @@ const ChooseOption = () => {
                                 </p>
                               </div>
                               <Link
-                                to="/signupForSub"
+                                to="/signup-sub"
                                 className="btn btn-white btn-hover w-100"
                               >
                                 CREATE AN ACCOUNT
                               </Link>
-                              <div className="mt-3 text-center">
-                               
-                              </div>
+                              <div className="mt-3 text-center"></div>
                             </div>
                           </div>
                         </Col>

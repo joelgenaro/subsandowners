@@ -1,17 +1,25 @@
 {
-  "name": "server",
+  "name": "subsandowners",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "some description",
+  "main": "./server/server.js",
   "scripts": {
+<<<<<<< HEAD
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "cd client && yarn start",
     "clientinstall": "cd client && npm install",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
+=======
+>>>>>>> dev
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "cd client && yarn install && yarn build"
+    "start": "cd ./server && node server.js",
+    "server": "cd ./server && nodemon server.js",
+    "client": "cd ./client && yarn start",
+    "install-all": "concurrently \"cd client && yarn install\" \"cd server && npm install\"",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
+<<<<<<< HEAD
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -36,4 +44,14 @@
     "node": "16.x",
     "yarn":"1.22.19"
   }
+=======
+  "engines": {
+    "node": "16.x",
+    "yarn": "1.22.19"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {}
+>>>>>>> dev
 }

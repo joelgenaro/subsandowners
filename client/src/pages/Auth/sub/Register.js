@@ -4,10 +4,13 @@ import { Form } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import MetaTags from "react-meta-tags";
 import userImage2 from "../../../assets/images/user/img-02.jpg";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
-import { profileUpdate, authReset } from "../../../redux/authSlice";
-import $ from "jquery";
+import { profileUpdate, authReset } from "../../../redux/Extra/authSlice";
+import useGeoLocation from "react-ipgeolocation";
+import toBase64 from "../../../helper/toBase64";
+import countries from "../../../helper/countries";
+import LoadingButton from "../../../components/LoadingButton";
 
 const RegisterForSub = () => {
   //Get the whole state from currentAuth
@@ -15,41 +18,61 @@ const RegisterForSub = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { isSuccess, isError, message } = useSelector((state) => state.auth);
+  const geo = useGeoLocation();
+
+  const [isLoading, setIsLoading] = useState(false);
   const [subcontractor, setSubcontractor] = useState({
-    identifier: "sub",
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     profile: "",
     phone: "",
-    salary: "",
-    location: "",
-    country: "indonesia",
+    company: "",
+    country: "",
+    city: "",
+    address: "",
     avatar: null,
   });
 
   useEffect(() => {
     if (isError) {
       toast.error(message);
+      if (message === "Not authorized!") {
+        history.push("/signin");
+      }
     } else if (isSuccess) {
       toast.success("Profile Registered Successfully");
-      history.push("/joblist");
+      history.push("/job-list");
     }
     dispatch(authReset());
+    setIsLoading(false);
   }, [isSuccess, isError, message, history, dispatch]);
 
-  // declare subcontractor's country
-  // useEffect(() => {
-  //   $.ajax({
-  //     url: "http://ip-api.com/json",
-  //     type: "GET",
-  //     success: function (json) {
-  //       setSubcontractor((data) => ({ ...data, country: json.country }));
-  //     },
-  //     error: function (err) {
-  //       console.log("Request failed, error= " + err);
-  //     },
-  //   });
-  // }, []);
+  useEffect(() => {
+    initAutocomplete();
+    setSubcontractor((data) => ({ ...data, country: countries[geo.country] }));
+  }, [geo.country]);
+
+  // Location Autocomplete
+  const initAutocomplete = () => {
+    const cityOption = {
+      types: ["(cities)"],
+      componentRestrictions: { country: geo.country },
+    };
+
+    let cityInput = document.getElementById("city");
+
+    let searchBoxCity = new window.google.maps.places.Autocomplete(
+      cityInput,
+      cityOption
+    );
+
+    searchBoxCity.addListener("place_changed", function () {
+      setSubcontractor((data) => ({
+        ...data,
+        city: document.getElementById("city").value,
+      }));
+    });
+  };
 
   const handleChange = (e) => {
     setSubcontractor((data) => ({ ...data, [e.target.name]: e.target.value }));
@@ -58,17 +81,9 @@ const RegisterForSub = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
     dispatch(profileUpdate(subcontractor));
   };
-
-  // avatar upload
-  const toBase64 = (file) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
 
   const handlePhoto = async (e) => {
     const file = e.target.files[0];
@@ -85,9 +100,7 @@ const RegisterForSub = () => {
         <div className="main-content">
           <div className="page-content">
             <MetaTags>
-              <title>
-                Sign Up | Jobcy - Job Listing Template | Themesdesign
-              </title>
+              <title>User Register | Bidderbadger</title>
             </MetaTags>
             <section className="bg-auth">
               <Container>
@@ -129,17 +142,17 @@ const RegisterForSub = () => {
                                   <Col lg={6}>
                                     <div className="mb-3">
                                       <label
-                                        htmlFor="firstName"
+                                        htmlFor="first_name"
                                         className="form-label"
                                       >
-                                        First Name (*)
+                                        First Name
                                       </label>
                                       <Input
                                         type="text"
-                                        id="firstName"
-                                        name="firstName"
+                                        id="first_name"
+                                        name="first_name"
                                         required
-                                        value={subcontractor.firstName}
+                                        value={subcontractor.first_name}
                                         onChange={handleChange}
                                       />
                                     </div>
@@ -147,17 +160,17 @@ const RegisterForSub = () => {
                                   <Col lg={6}>
                                     <div className="mb-3">
                                       <Label
-                                        htmlFor="lastName"
+                                        htmlFor="last_name"
                                         className="form-label"
                                       >
-                                        Last Name (*)
+                                        Last Name
                                       </Label>
                                       <Input
                                         type="text"
-                                        id="lastName"
-                                        name="lastName"
+                                        id="last_name"
+                                        name="last_name"
                                         required
-                                        value={subcontractor.lastName}
+                                        value={subcontractor.last_name}
                                         onChange={handleChange}
                                       />
                                     </div>
@@ -167,7 +180,7 @@ const RegisterForSub = () => {
 
                               <div className="mt-4">
                                 <h5 className="fs-17 fw-semibold mb-3">
-                                  Profile (*)
+                                  Profile
                                 </h5>
                                 <Row>
                                   <Col lg={12}>
@@ -213,43 +226,34 @@ const RegisterForSub = () => {
                                   <Col lg={6}>
                                     <div className="mb-3">
                                       <Label
-                                        htmlFor="salary"
+                                        htmlFor="company"
                                         className="form-label"
                                       >
-                                        Salary
+                                        Company
                                       </Label>
                                       <Input
                                         type="text"
                                         className="form-control"
-                                        id="salary"
-                                        name="salary"
-                                        value={subcontractor.salary}
-                                        onChange={handleChange}
-                                      />
-                                    </div>
-                                  </Col>
-                                  <Col lg={6}>
-                                    <div className="mb-3">
-                                      <label
-                                        htmlFor="location"
-                                        className="form-label"
-                                      >
-                                        Location (*)
-                                      </label>
-                                      <Input
-                                        type="text"
-                                        id="location"
-                                        name="location"
+                                        id="company"
                                         required
-                                        value={subcontractor.location}
+                                        name="company"
+                                        value={subcontractor.company}
                                         onChange={handleChange}
                                       />
                                     </div>
                                   </Col>
+                                </Row>
+                              </div>
+
+                              <div className="mt-4">
+                                <h5 className="fs-17 fw-semibold mb-3">
+                                  Where are you located?
+                                </h5>
+                                <Row>
                                   <Col lg={6}>
                                     <div className="mb-3">
                                       <label
-                                        htmlFor="location"
+                                        htmlFor="country"
                                         className="form-label"
                                       >
                                         Country
@@ -259,7 +263,46 @@ const RegisterForSub = () => {
                                         id="country"
                                         name="country"
                                         disabled
+                                        onChange={handleChange}
                                         value={subcontractor.country}
+                                      />
+                                    </div>
+                                  </Col>
+                                  <Col lg={6}>
+                                    <div className="mb-3">
+                                      <label
+                                        htmlFor="city"
+                                        className="form-label"
+                                      >
+                                        City
+                                      </label>
+                                      <Input
+                                        className="form-control"
+                                        name="city"
+                                        required
+                                        defaultValue={subcontractor.city}
+                                        id="city"
+                                        type="search"
+                                      />
+                                    </div>
+                                  </Col>
+
+                                  <Col lg={12}>
+                                    <div className="mb-3">
+                                      <label
+                                        htmlFor="address"
+                                        className="form-label"
+                                      >
+                                        Street Address
+                                      </label>
+                                      <Input
+                                        className="form-control"
+                                        id="address"
+                                        name="address"
+                                        required
+                                        onChange={handleChange}
+                                        defaultValue={subcontractor.address}
+                                        type="search"
                                       />
                                     </div>
                                   </Col>
@@ -267,12 +310,12 @@ const RegisterForSub = () => {
                               </div>
 
                               <div className="mt-4 text-end">
-                                <button
-                                  type="submit"
-                                  className="btn btn-primary"
-                                >
-                                  Submit
-                                </button>
+                                <LoadingButton
+                                  disabled={isLoading}
+                                  className={"btn btn-primary"}
+                                  isLoading={isLoading}
+                                  title={"Submit"}
+                                />
                               </div>
                             </Form>
                           </CardBody>

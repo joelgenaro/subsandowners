@@ -3,7 +3,7 @@ import { useCookies } from "react-cookie";
 import { Route, Redirect } from "react-router-dom";
 
 function PrivateRoute({ children, ...rest }) {
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [cookies] = useCookies(["token"]);
 
   return (
     <Route

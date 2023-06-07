@@ -1,0 +1,46 @@
+.myProposal {
+  border-style: none;
+  border-bottom: 1px solid #eff0f2;
+  border-radius: 0px;
+}
+
+.moreLink:hover {
+  text-decoration: underline;
+}
+
+.retractBtn {
+  margin-right: 10px;
+}
+
+.acceptance {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.show-more-icon {
+  position: absolute;
+  right: 22px;
+  /* top: 22px; */
+  bottom: 10px;
+}
+
+.moreLink {
+  text-decoration: underline;
+}
+.linkSubProfile {
+  text-decoration: none;
+}
+.mbutton {
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  appearance: button;
+
+  text-decoration: underline;
+  color: initial;
+  border: aliceblue;
+  background-color: white;
+}
+.acceptBtn {
+  margin-top: 50px;
+}

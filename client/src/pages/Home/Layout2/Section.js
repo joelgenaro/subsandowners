@@ -1,13 +1,12 @@
 import React from "react";
 import { Col, Container, Row, Form } from "reactstrap";
-// import {Link} from "react-router-dom";
 import processImage2 from "../../../assets/images/process-02.png";
 import JobSearch from "../SubSection/JobSearch";
 
 const section = () => {
-    const lookingforTalent = {
-        marginTop:'50px'
-    }
+  const lookingforTalent = {
+    marginTop: "50px",
+  };
 
   return (
     <React.Fragment>
@@ -24,15 +23,18 @@ const section = () => {
               </div>
               <Form action="#">
                 <div className="registration-form">
-                    <h2>Looking for <span className="text-success fw-bold">Talent?</span></h2>
+                  <h2>
+                    Looking for{" "}
+                    <span className="text-success fw-bold">Talent?</span>
+                  </h2>
                   <Row className="g-0">
                     <Col md={8}>
                       <div className="filter-search-form filter-border mt-3 mt-md-0">
                         <i className="uil uil-briefcase-alt"></i>
-                        <JobSearch title={'Search subcontractors'}/>
+                        <JobSearch title={"Search subcontractors"} />
                       </div>
                     </Col>
-                    
+
                     <Col md={4}>
                       <div className="mt-3 mt-md-0 h-100">
                         <button
@@ -48,15 +50,18 @@ const section = () => {
               </Form>
               <Form action="#" style={lookingforTalent}>
                 <div className="registration-form">
-                <h2>Looking for <span className="text-success fw-bold">Work?</span></h2>
+                  <h2>
+                    Looking for{" "}
+                    <span className="text-success fw-bold">Work?</span>
+                  </h2>
                   <Row className="g-0">
                     <Col md={8}>
                       <div className="filter-search-form filter-border mt-3 mt-md-0">
                         <i className="uil uil-briefcase-alt"></i>
-                        <JobSearch title={'Search jobs'}/>
+                        <JobSearch title={"Search jobs"} />
                       </div>
                     </Col>
-                    
+
                     <Col md={4}>
                       <div className="mt-3 mt-md-0 h-100">
                         <button

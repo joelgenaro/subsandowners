@@ -1,21 +1,29 @@
 import React, { Suspense } from "react";
-import { publicRoutes, authRoutes, privateRoutes } from "./allRoutes";
 import {
-  Route,
-  Redirect,
-  Switch,
-  BrowserRouter as Router,
-} from "react-router-dom";
-import { useSelector } from "react-redux";
+  authLayoutForPublicRoutes,
+  authLayoutForPrivateRoutes,
+  commonLayoutForPublicRoutes,
+  commonLayoutForPrivateRoutes,
+} from "./allRoutes";
+import PrivateRoute from "./ProtectedRoute";
+import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 
 /* Layout */
 import CommonLayout from "../Layout/CommonLayout/index";
 import AuthLayout from "../Layout/AuthLayout";
-import PrivateRoute from "./ProtectedRoute";
 
 const Index = () => {
-  const availableAuthRoutesPath = authRoutes.map((r) => r["path"]);
-  const availablePublicRoutesPaths = publicRoutes.map((r) => r["path"]);
+  const availableAuthLayoutForPublicRoutes = authLayoutForPublicRoutes.map(
+    (r) => r["path"]
+  );
+  const availableAuthLayoutForPrivateRoutes = authLayoutForPrivateRoutes.map(
+    (r) => r["path"]
+  );
+  const availableCommonLayoutForPublicRoutes = commonLayoutForPublicRoutes.map(
+    (r) => r["path"]
+  );
+  const availableCommonLayoutForPrivateRoutes =
+    commonLayoutForPrivateRoutes.map((r) => r["path"]);
 
   const Loader = () => {
     return (
@@ -39,27 +47,53 @@ const Index = () => {
       <Router>
         <Suspense fallback={Loader()}>
           <Switch>
-            <Route path={availableAuthRoutesPath}>
+            <Route path={availableAuthLayoutForPublicRoutes}>
               <AuthLayout>
-                {authRoutes.map((route, idx) => (
+                {authLayoutForPublicRoutes.map((route, idx) => (
                   <Route
+                    exact={true}
                     path={route.path}
                     component={route.component}
                     key={idx}
-                    exact={true}
                   />
                 ))}
               </AuthLayout>
             </Route>
 
-            <Route path={availablePublicRoutesPaths}>
-              <CommonLayout>
-                {publicRoutes.map((route, idx) => (
+            <PrivateRoute path={availableAuthLayoutForPrivateRoutes}>
+              <AuthLayout>
+                {authLayoutForPrivateRoutes.map((route, idx) => (
                   <Route
+                    exact={true}
                     path={route.path}
                     component={route.component}
                     key={idx}
+                  />
+                ))}
+              </AuthLayout>
+            </PrivateRoute>
+
+            <PrivateRoute path={availableCommonLayoutForPrivateRoutes}>
+              <CommonLayout>
+                {commonLayoutForPrivateRoutes.map((route, idx) => (
+                  <Route
                     exact={true}
+                    path={route.path}
+                    component={route.component}
+                    key={idx}
+                  />
+                ))}
+              </CommonLayout>
+            </PrivateRoute>
+
+            <Route path={availableCommonLayoutForPublicRoutes}>
+              <CommonLayout>
+                {commonLayoutForPublicRoutes.map((route, idx) => (
+                  <Route
+                    exact={true}
+                    path={route.path}
+                    component={route.component}
+                    key={idx}
                   />
                 ))}
               </CommonLayout>
