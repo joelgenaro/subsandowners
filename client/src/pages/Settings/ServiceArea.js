@@ -11,7 +11,7 @@ import { updateServiceArea } from "../../redux/Extra/settingsSlice";
 
 const ServiceArea = () => {
   const [state, setState] = useState(null);
-  const [county, setCounty] = useState([]);
+  const [county, setCounty] = useState(null);
   const [counties, setCounties] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(null);
@@ -34,6 +34,9 @@ const ServiceArea = () => {
 
       setCounty(value.county);
       setCounties(convertArrToSelect(zcta.getCountiesByState(state.value)));
+    } else{
+      setCounty([])
+      setCounties([])
     }
   }, [state]);
 
@@ -58,13 +61,14 @@ const ServiceArea = () => {
                     State
                   </label>
                   <Select
-                    defaultValue={state}
-                    onChange={setState}
                     name="state"
-                    isClearable={true}
-                    options={states}
                     className="basic-multi-select"
                     classNamePrefix="select"
+                    defaultValue={state}
+                    value={state}
+                    onChange={setState}
+                    isClearable={true}
+                    options={states}
                   />
                 </div>
               </Col>
