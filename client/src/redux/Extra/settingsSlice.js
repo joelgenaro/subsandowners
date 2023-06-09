@@ -4,6 +4,7 @@ import { settingsService } from "../../services/Extra/settingsService";
 const initialState = {
   email: null,
   serviceArea: null,
+  services: [],
   membership: null,
   isLoading: false,
   isSuccess: false,
@@ -52,6 +53,18 @@ export const updateServiceArea = createAsyncThunk(
   }
 );
 
+export const updateServices = createAsyncThunk(
+  "settings/updateServices",
+  async (data, thunkAPI) => {
+    try {
+      return await settingsService.updateServices(data);
+    } catch (error) {
+      const message = errorMessageHandler(error);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const reset_password = createAsyncThunk(
   "settings/reset_password",
   async (data, thunkAPI) => {
@@ -84,6 +97,7 @@ export const settingsSlice = createSlice({
       state.isSuccess = true;
       state.email = action.payload.email;
       state.serviceArea = action.payload.service_area;
+      state.services = action.payload.services ? action.payload.services : [];
     });
     builder.addCase(getData.rejected, (state, action) => {
       state.isLoading = false;
@@ -117,6 +131,21 @@ export const settingsSlice = createSlice({
       state.serviceArea = action.payload.service_area;
     });
     builder.addCase(updateServiceArea.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.message = action.payload;
+    });
+
+    builder.addCase(updateServices.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(updateServices.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.message = action.payload.message;
+      state.services = action.payload.services;
+    });
+    builder.addCase(updateServices.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.message = action.payload;

@@ -109,6 +109,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: undefined,
     },
+    services: {
+      type: Array,
+      default: undefined,
+    },
     service_area: {
       type: Array,
       default: states,

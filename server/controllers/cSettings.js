@@ -4,12 +4,37 @@ const states = require("../utils/states");
 const getData = async (req, res, next) => {
   try {
     const userId = req.user["_id"];
-    const { email, service_area } = await User.findOne({ _id: userId });
+    const { email, service_area, services } = await User.findOne({
+      _id: userId,
+    });
 
     res.status(201).json({
       success: true,
       email,
       service_area,
+      services,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const updateServices = async (req, res, next) => {
+  try {
+    const { services } = await User.findOneAndUpdate(
+      { _id: req.user["_id"] },
+      { ...req.body },
+      {
+        returnOriginal: false,
+      }
+    );
+
+    console.log(services);
+
+    res.status(201).json({
+      success: true,
+      message: "Services Update Success",
+      services,
     });
   } catch (error) {
     next(error);
@@ -87,5 +112,6 @@ module.exports = {
   getData,
   updateEmail,
   updateServiceArea,
+  updateServices,
   reset_password,
 };

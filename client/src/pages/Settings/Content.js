@@ -14,6 +14,7 @@ import classnames from "classnames";
 import Email from "./Email";
 import Password from "./Password";
 import ServiceArea from "./ServiceArea";
+import Services from "./Services";
 
 const Content = () => {
   const [activeTab, setActiveTab] = useState("1");
@@ -25,7 +26,7 @@ const Content = () => {
   return (
     <React.Fragment>
       <Row>
-        <Col lg={4}>
+        <Col lg={3}>
           <Card className="profile-sidebar me-lg-4">
             <CardBody className="p-4">
               <Nav
@@ -59,26 +60,40 @@ const Content = () => {
                   </NavLink>
                 </NavItem>
                 {role == "sub" ? (
-                  <NavItem role="presentation">
-                    <NavLink
-                      to="#"
-                      className={classnames({ active: activeTab === "3" })}
-                      onClick={() => {
-                        tabChange("3");
-                      }}
-                      type="button"
-                    >
-                      Service Area
-                    </NavLink>
-                  </NavItem>
+                  <>
+                    <NavItem role="presentation">
+                      <NavLink
+                        to="#"
+                        className={classnames({ active: activeTab === "3" })}
+                        onClick={() => {
+                          tabChange("3");
+                        }}
+                        type="button"
+                      >
+                        Services
+                      </NavLink>
+                    </NavItem>
+                    <NavItem role="presentation">
+                      <NavLink
+                        to="#"
+                        className={classnames({ active: activeTab === "4" })}
+                        onClick={() => {
+                          tabChange("4");
+                        }}
+                        type="button"
+                      >
+                        Service Area
+                      </NavLink>
+                    </NavItem>
+                  </>
                 ) : null}
 
                 <NavItem role="presentation">
                   <NavLink
                     to="#"
-                    className={classnames({ active: activeTab === "4" })}
+                    className={classnames({ active: activeTab === "5" })}
                     onClick={() => {
-                      tabChange("4");
+                      tabChange("5");
                     }}
                     type="button"
                   >
@@ -89,7 +104,7 @@ const Content = () => {
             </CardBody>
           </Card>
         </Col>
-        <Col lg={8}>
+        <Col lg={9}>
           <Card className="profile-content-page mt-4 mt-lg-0">
             <CardBody className="p-4">
               <TabContent activeTab={activeTab}>
@@ -107,12 +122,18 @@ const Content = () => {
                 </TabPane>
                 <TabPane tabId="3">
                   <div>
+                    <h5 className="fs-18 fw-bold">Services</h5>
+                    <Services />
+                  </div>
+                </TabPane>
+                <TabPane tabId="4">
+                  <div>
                     <h5 className="fs-18 fw-bold">Service Area</h5>
                     <ServiceArea />
                   </div>
                 </TabPane>
                 {role == "sub" ? (
-                  <TabPane tabId="4">
+                  <TabPane tabId="5">
                     <div>
                       <h5 className="fs-18 fw-bold">Memebership</h5>
                       <p className="text-muted mt-4"></p>
