@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, CardBody } from "reactstrap";
+import { Link } from "react-router-dom";
+import { Card, CardBody, Col, Row } from "reactstrap";
 import { Form } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { updateServices } from "../../redux/Extra/settingsSlice";
@@ -56,52 +57,76 @@ const Services = () => {
           <div>
             <Row>
               <Col lg={4}>
-                <div>
-                  <p>Select service</p>
-                  <ul>
-                    {categories.map((cat, index) => (
-                      <li
-                        key={cat.name}
-                        onClick={() => handleCategorySelect(index)}
-                      >
-                        {cat.name}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </Col>
-              <Col lg={4}>
-                {selectedCategory ? (
-                  <div>
-                    <p>{selectedCategory.name} Subcategories</p>
-                    <ul>
-                      {selectedCategory.subcategories.map((subcat) => (
+                <Card className="job-Categories-box bg-light border-0">
+                  <CardBody className="p-4">
+                    <ul className="list-unstyled job-Categories-list mb-0">
+                      <h6 className="mb-3">Select service</h6>
+                      {(categories || []).map((cat, index) => (
                         <li
-                          key={subcat}
-                          onClick={() => handleSubcategorySelect(subcat)}
+                          key={index}
+                          onClick={() => handleCategorySelect(index)}
                         >
-                          {subcat}
+                          <div className="primary-link mainSet">
+                            {cat.name}{" "}
+                          </div>
                         </li>
                       ))}
                     </ul>
-                  </div>
-                ) : (
-                  <div>
-                    <p> No service selected</p>
-                  </div>
-                )}
+                  </CardBody>
+                </Card>
               </Col>
               <Col lg={4}>
-                <div>
-                  <p>{selectedSubcategories.length} services selected</p>
-                  <ul>
-                    {selectedSubcategories.map((subcat) => (
-                      <li onClick={() => onDelete(subcat)} key={subcat}>
-                        {subcat}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                <Card className="job-Categories-box bg-light border-0">
+                  <CardBody className="p-4">
+                    <ul className="list-unstyled job-Categories-list mb-0">
+                      <h6 className="mb-3">
+                        {selectedCategory
+                          ? selectedCategory.name
+                          : "No service selected"}
+                      </h6>
+                      {(selectedCategory?.subcategories || []).map(
+                        (subcat, index) => (
+                          <li
+                            key={index}
+                            onClick={() => handleSubcategorySelect(subcat)}
+                          >
+                            <div className="primary-link mainSet">
+                              {subcat}{" "}
+                            </div>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </CardBody>
+                </Card>
+              </Col>
+
+              <Col lg={4}>
+                <Card className="job-Categories-box bg-light border-0">
+                  <CardBody className="p-4">
+                    <ul className="list-unstyled job-Categories-list mb-0">
+                      <h6 className="mb-3">
+                        {selectedSubcategories.length} services selected
+                      </h6>
+                      <div className="d-flex flex-wrap align-items-start gap-1">
+                        {(selectedSubcategories || []).map((subcat, index) => (
+                          <div
+                            key={index}
+                            className="badge rounded-pill bg-soft-primary subSet"
+                          >
+                            {subcat}
+                            <button
+                              onClick={() => onDelete(subcat)}
+                              class="choice__button"
+                            >
+                              Remove item
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </ul>
+                  </CardBody>
+                </Card>
               </Col>
             </Row>
           </div>
