@@ -51,6 +51,10 @@ const jobSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    service: {
+      type: String,
+      required: undefined,
+    },
     attachments: {
       type: [],
       default: undefined,
