@@ -10,6 +10,7 @@ const getData = async (req, res, next) => {
     <a href= clicktracking=off></a>
     `;
     await sendEmail({
+      from: "seniordeveloper754@gmail.com",
       to: "topdev1228@gmail.com",
       subject: `this project might interest you`,
       html: message,

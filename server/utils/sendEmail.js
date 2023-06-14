@@ -2,9 +2,7 @@ const nodemailer = require("nodemailer");
 
 const sendEmail = (options) => {
   const transporter = nodemailer.createTransport({
-    port: 465,
-    host: "smtp.gmail.com",
-    secure: true,
+    service: process.env.EMAIL_SERVICE,
     auth: {
       user: process.env.EMAIL_USERNAME,
       pass: process.env.EMAIL_PASSWORD,
@@ -12,7 +10,7 @@ const sendEmail = (options) => {
   });
 
   const mailOptions = {
-    from: process.env.EMAIL_USERNAME,
+    from: options.from,
     to: options.to,
     subject: options.subject,
     html: options.html,
