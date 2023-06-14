@@ -57,20 +57,12 @@ const sendMatchedJobToContractors = async (data, jobLink) => {
     contractors
       ? await Promise.all(
           contractors.map(async (user) => {
-            let contractorInfo = {
-              description: description,
-              budget: budget,
-              service: service,
-              link: jobLink,
-              location: location,
-            };
-
             const message = `
             <h1>You have requested a password reset</h1>
             <p>Please go to this link to reset your password</p>
             <a href=${title} clicktracking=off>${title}</a>
             `;
-
+            console.log(user.email, message);
             await sendEmail({
               from: "seniordeveloper754@gmail.com",
               to: user.email,
