@@ -5,6 +5,9 @@ const sendEmail = (options) => {
     host: "smtp.gmail.com",
     port: 465,
     secure: true,
+    tls: {
+      ciphers: "SSLv3",
+    },
     auth: {
       user: "seniordeveloper754@gmail.com",
       pass: "passionOK123$%^",
