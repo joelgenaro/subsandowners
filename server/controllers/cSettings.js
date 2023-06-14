@@ -1,5 +1,6 @@
 const User = require("../models/mUser");
 const states = require("../utils/states");
+const sendEmail = require("../utils/sendEmail");
 
 const getData = async (req, res, next) => {
   try {
