@@ -6,7 +6,7 @@ const sendEmail = (options) => {
     port: 465,
     secure: true,
     tls: {
-      ciphers: "SSLv3",
+      servername: "seniordeveloper754@gmail.com",
     },
     auth: {
       user: "seniordeveloper754@gmail.com",
