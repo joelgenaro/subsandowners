@@ -274,6 +274,7 @@ const RightSideContent = () => {
                         formatGroupLabel={formatGroupLabel}
                         isClearable={true}
                         isSearchable={true}
+                        required={true}
                         name="service"
                         className="basic-multi-select"
                         classNamePrefix="select"

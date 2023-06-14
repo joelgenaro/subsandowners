@@ -29,8 +29,6 @@ const updateServices = async (req, res, next) => {
       }
     );
 
-    console.log(services);
-
     res.status(201).json({
       success: true,
       message: "Services Update Success",

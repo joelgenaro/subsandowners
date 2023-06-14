@@ -29,6 +29,7 @@
 }
 
 .choice__button {
+  cursor: pointer;
   position: relative;
   display: inline-block;
   margin: 0 -4px 0 8px;

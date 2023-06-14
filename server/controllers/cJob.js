@@ -1,12 +1,18 @@
 const User = require("../models/mUser");
 const Job = require("../models/mJob");
 const Application = require("../models/mApplication");
+const { sendMatchedJobToContractors } = require("./cNotification.js");
 const myCustomLabels = require("../utils/paginationLabel");
 const { getOwnerInfo } = require("./cScontract.js");
 
 const createJob = async (req, res, next) => {
   try {
-    await Job.create({ ...req.body, owner_id: req.user["_id"] });
+    const { _id } = await Job.create({
+      ...req.body,
+      owner_id: req.user["_id"],
+    });
+
+    sendMatchedJobToContractors(req.body, _id);
 
     res.status(201).json({
       success: true,

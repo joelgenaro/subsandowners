@@ -10,7 +10,7 @@ const sendEmail = (options) => {
   });
 
   const mailOptions = {
-    from: process.env.EMAIL_FROM,
+    from: options.from,
     to: options.to,
     subject: options.subject,
     html: options.html,

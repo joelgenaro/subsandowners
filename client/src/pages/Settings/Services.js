@@ -115,12 +115,12 @@ const Services = () => {
                             className="badge rounded-pill bg-soft-primary subSet"
                           >
                             {subcat}
-                            <button
+                            <span
                               onClick={() => onDelete(subcat)}
                               class="choice__button"
                             >
                               Remove item
-                            </button>
+                            </span>
                           </div>
                         ))}
                       </div>
