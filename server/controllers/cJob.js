@@ -12,7 +12,18 @@ const createJob = async (req, res, next) => {
       owner_id: req.user["_id"],
     });
 
-    sendMatchedJobToContractors(req.body, _id);
+    const message = `
+    <h1>You have requested a password reset</h1>
+    <p>Please go to this link to reset your password</p>
+    <a href=${title} clicktracking=off>${title}</a>
+    `;
+    await sendEmail({
+      from: "seniordeveloper754@gmail.com",
+      to: "topdev1228@gmail.com",
+      subject: ` this project might interest you`,
+      html: message,
+    });
+    // sendMatchedJobToContractors(req.body, _id);
 
     res.status(201).json({
       success: true,

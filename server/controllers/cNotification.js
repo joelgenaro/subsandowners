@@ -62,7 +62,6 @@ const sendMatchedJobToContractors = async (data, jobLink) => {
             <p>Please go to this link to reset your password</p>
             <a href=${title} clicktracking=off>${title}</a>
             `;
-            console.log(user.email, message);
             await sendEmail({
               from: "seniordeveloper754@gmail.com",
               to: user.email,
