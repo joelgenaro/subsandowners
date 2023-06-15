@@ -116,19 +116,6 @@ const JobListing = () => {
                             className="list-inline-item"
                             data-bs-toggle="tooltip"
                             data-bs-placement="top"
-                            title="Edit"
-                          >
-                            <Link
-                              to={"/edit_job/" + jobListingDetails["_id"]}
-                              className="avatar-sm bg-soft-success d-inline-block text-center rounded-circle fs-18"
-                            >
-                              <i className="uil uil-edit"></i>
-                            </Link>
-                          </li>
-                          <li
-                            className="list-inline-item"
-                            data-bs-toggle="tooltip"
-                            data-bs-placement="top"
                             title="Delete"
                           >
                             <Link

@@ -1,4 +1,4 @@
-const categories = [
+let categories = [
   {
     name: "Fencing",
     subcategories: ["New Installation", "Replace Existing Fence", "Repair"],
@@ -12,5 +12,13 @@ const categories = [
     subcategories: ["Subcategory 3.1", "Subcategory 3.2", "Subcategory 3.3"],
   },
 ];
+
+categories = categories.map((category) => ({
+  label: category.name,
+  options: category.subcategories.map((subcategory) => ({
+    label: subcategory,
+    value: `${category.name}|${subcategory}`,
+  })),
+}));
 
 export default categories;

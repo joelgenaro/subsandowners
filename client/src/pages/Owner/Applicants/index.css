@@ -4,6 +4,7 @@
   border-radius: 10px;
   margin-bottom: 50px;
 }
+
 .category {
   width: 25%;
   text-align: center;
@@ -11,6 +12,7 @@
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
+
 .category a {
   padding: 20px;
 }
@@ -43,9 +45,11 @@
   width: 80%;
   border-radius: 25px;
 }
+
 .searchBtn {
   width: 50px;
 }
+
 .searchBtn .btn {
   border-radius: 0px;
   border-top-right-radius: 10px;
@@ -59,6 +63,7 @@
 .filter-search-form {
   width: 80%;
 }
+
 .filler-job-input-box {
   border-radius: 0px;
   border-top-left-radius: 10px;
@@ -69,6 +74,7 @@
   display: flex;
   justify-content: end;
 }
+
 .proposalBtn .btn {
   border-radius: 25px;
   padding: 5px;
@@ -80,6 +86,7 @@
   right: 22px;
   bottom: 10px;
 }
+
 .moreLink {
   text-decoration: underline;
 }
@@ -109,8 +116,8 @@
 }
 
 .editJobContent {
-  display: flex;
-  justify-content: center;
+  display: flex !important;
+  justify-content: center !important;
 }
 
 .retractBtn {
@@ -134,6 +141,7 @@
   height: 100%;
   align-items: center;
 }
+
 .feedbackStatus {
   margin-bottom: 0px;
 }

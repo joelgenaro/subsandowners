@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Col, Row, Card, Input, Form, CardBody, Label } from "reactstrap";
-import Select from "react-select";
 import DropZone from "../../../../components/Uploader";
+import GroupSelect from "../../../../components/GroupSelect";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -20,40 +20,6 @@ import { storage } from "../../../../config/firebase";
 import SelectOptions from "../../../../components/SelectOptions";
 import LoadingButton from "../../../../components/LoadingButton";
 import categories from "../../../../helper/services";
-
-const options = categories.map((category) => ({
-  label: category.name,
-  options: category.subcategories.map((subcategory) => ({
-    label: subcategory,
-    value: `${category.name}|${subcategory}`,
-  })),
-}));
-
-const groupStyles = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-};
-
-const groupBadgeStyles = {
-  backgroundColor: "#EBECF0",
-  borderRadius: "2em",
-  color: "#172B4D",
-  display: "inline-block",
-  fontSize: 12,
-  fontWeight: "normal",
-  lineHeight: "1",
-  minWidth: 1,
-  padding: "0.16666666666667em 0.5em",
-  textAlign: "center",
-};
-
-const formatGroupLabel = (data) => (
-  <div style={groupStyles}>
-    <span>{data.label}</span>
-    <span style={groupBadgeStyles}>{data.options.length}</span>
-  </div>
-);
 
 const RightSideContent = () => {
   const history = useHistory();
@@ -267,18 +233,12 @@ const RightSideContent = () => {
                       <Label htmlFor="description" className="form-label">
                         What service is required?
                       </Label>
-                      <Select
-                        options={options}
+                      <GroupSelect
+                        options={categories}
                         value={service}
                         onChange={setService}
-                        formatGroupLabel={formatGroupLabel}
-                        isClearable={true}
-                        isSearchable={true}
-                        required={true}
-                        name="service"
-                        className="basic-multi-select"
-                        classNamePrefix="select"
-                        placeholder="Enter service here..."
+                        name={"service"}
+                        placeholder={"Enter service here..."}
                       />
                     </div>
                   </Col>

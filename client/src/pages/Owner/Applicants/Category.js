@@ -43,7 +43,7 @@ const Category = () => {
             // }}
             type="button"
           >
-            <span>INVITE FREELANCERS</span>
+            <span>INVITE FREELANCERS </span>
           </NavLink>
         </NavItem>
         <NavItem className="waves-effect waves-light category">

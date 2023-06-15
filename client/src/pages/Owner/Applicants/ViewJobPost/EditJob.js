@@ -173,6 +173,27 @@ const EditJob = () => {
 
                     <Col lg={6}>
                       <div className="mb-3">
+                        <Label htmlFor="description" className="form-label">
+                          What service is required?
+                        </Label>
+                        {/* <Select
+                          options={options}
+                          value={service}
+                          onChange={setService}
+                          formatGroupLabel={formatGroupLabel}
+                          isClearable={true}
+                          isSearchable={true}
+                          required={true}
+                          name="service"
+                          className="basic-multi-select"
+                          classNamePrefix="select"
+                          placeholder="Enter service here..."
+                        /> */}
+                      </div>
+                    </Col>
+
+                    <Col lg={6}>
+                      <div className="mb-3">
                         <Label htmlFor="pac_input" className="form-label">
                           Location
                         </Label>
