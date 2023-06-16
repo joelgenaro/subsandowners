@@ -22,7 +22,9 @@ const Applicants = ({ match }) => {
 
   const history = useHistory();
   const dispatch = useDispatch();
-  const { isSuccess, isError, message } = useSelector((state) => state.job);
+  const { isSuccess, isError, message } = useSelector(
+    (state) => state.applicants
+  );
   const { jobDetails } = useSelector((state) => state.applicants);
 
   // Check message

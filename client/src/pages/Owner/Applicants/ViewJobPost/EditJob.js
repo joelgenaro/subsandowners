@@ -127,9 +127,13 @@ const EditJob = () => {
     e.preventDefault();
 
     setIsLoading(true);
+
     dispatch(updateJob(project));
     dispatch(setJobDetails(project));
-    dispatch(setJobEdit(false));
+
+    setInterval(() => {
+      dispatch(setJobEdit(false));
+    }, 1000);
   };
 
   return (

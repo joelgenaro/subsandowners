@@ -184,6 +184,7 @@ export const applicants = createSlice({
     builder.addCase(updateJob.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
+      state.message = action.payload.message;
     });
     builder.addCase(updateJob.rejected, (state, action) => {
       state.isLoading = false;
