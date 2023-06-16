@@ -19,7 +19,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "@firebase/storage";
 import { storage } from "../../../../config/firebase";
 import SelectOptions from "../../../../components/SelectOptions";
 import LoadingButton from "../../../../components/LoadingButton";
-import categories from "../../../../helper/services";
+import services from "../../../../helper/services";
 
 const RightSideContent = () => {
   const history = useHistory();
@@ -234,7 +234,7 @@ const RightSideContent = () => {
                         What service is required?
                       </Label>
                       <GroupSelect
-                        options={categories}
+                        options={services}
                         value={service}
                         onChange={setService}
                         name={"service"}

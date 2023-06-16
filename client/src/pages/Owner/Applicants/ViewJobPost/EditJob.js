@@ -18,6 +18,9 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import SelectOptions from "../../../../components/SelectOptions";
 import LoadingButton from "../../../../components/LoadingButton";
+import GroupSelect from "../../../../components/GroupSelect";
+import categories from "../../../../helper/services";
+import convertServiceLabelToValue from "../../../../helper/convertServiceLabelToValue";
 
 const EditJob = () => {
   const dispatch = useDispatch();
@@ -28,15 +31,21 @@ const EditJob = () => {
   const [isShowRadioForRemoval, setIsShowRadioForRemoval] = useState("no");
   const [styleOptions, setStyleOptions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [service, setService] = useState(null);
 
   useEffect(() => {
     setProject({ ...jobDetails });
+    setService(convertServiceLabelToValue(jobDetails.service));
     styleOptionsToSwitch(jobDetails.materialCategory);
   }, []);
 
   useEffect(() => {
     setIsLoading(false);
   }, [isSuccess, isError]);
+
+  useEffect(() => {
+    setProject((data) => ({ ...data, service: service?.label }));
+  }, [service]);
 
   // Google map Input
   useEffect(() => {
@@ -176,19 +185,13 @@ const EditJob = () => {
                         <Label htmlFor="description" className="form-label">
                           What service is required?
                         </Label>
-                        {/* <Select
-                          options={options}
+                        <GroupSelect
+                          options={categories}
                           value={service}
                           onChange={setService}
-                          formatGroupLabel={formatGroupLabel}
-                          isClearable={true}
-                          isSearchable={true}
-                          required={true}
-                          name="service"
-                          className="basic-multi-select"
-                          classNamePrefix="select"
-                          placeholder="Enter service here..."
-                        /> */}
+                          name={"service"}
+                          placeholder={"Enter service here..."}
+                        />
                       </div>
                     </Col>
 

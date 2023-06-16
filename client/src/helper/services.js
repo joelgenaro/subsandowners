@@ -1,19 +1,6 @@
-let categories = [
-  {
-    name: "Fencing",
-    subcategories: ["New Installation", "Replace Existing Fence", "Repair"],
-  },
-  {
-    name: "Category 2",
-    subcategories: ["Subcategory 2.1", "Subcategory 2.2", "Subcategory 2.3"],
-  },
-  {
-    name: "Category 3",
-    subcategories: ["Subcategory 3.1", "Subcategory 3.2", "Subcategory 3.3"],
-  },
-];
+import categories from "./categories";
 
-categories = categories.map((category) => ({
+const services = categories.map((category) => ({
   label: category.name,
   options: category.subcategories.map((subcategory) => ({
     label: subcategory,
@@ -21,4 +8,4 @@ categories = categories.map((category) => ({
   })),
 }));
 
-export default categories;
+export default services;
