@@ -9,7 +9,14 @@ const sendEmail = (options) => {
     html: options.html,
   };
 
-  sgMail.send(mailOptions);
+  sgMail
+    .send(mailOptions)
+    .then(() => {
+      console.log("Email sent successfully");
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 };
 
 module.exports = sendEmail;
