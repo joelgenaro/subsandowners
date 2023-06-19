@@ -15,7 +15,7 @@ const sendEmail = (options) => {
       console.log("Email sent successfully");
     })
     .catch((error) => {
-      console.error(error);
+      console.error("=========== Email error ====================", error);
     });
 };
 
