@@ -5,7 +5,7 @@ import Filters from "./Filters";
 import { useSelector } from "react-redux";
 
 const ReviewProposals = () => {
-  const { isLoading, reviewProposals,jobDetails } = useSelector(
+  const { isLoading, reviewProposals, jobDetails } = useSelector(
     (state) => state.applicants
   );
 
@@ -18,16 +18,22 @@ const ReviewProposals = () => {
             {!isLoading ? (
               reviewProposals.data && jobDetails ? (
                 reviewProposals.data.map((proposal, key) => (
-                  <CandidateDetails key={key} jobDetails={jobDetails} details={proposal} />
+                  <CandidateDetails
+                    key={key}
+                    jobDetails={jobDetails}
+                    details={proposal}
+                  />
                 ))
               ) : (
                 "No results matched your search"
               )
             ) : (
-              <div
-                className="spinner-border text-primary m-1"
-                role="status"
-              ></div>
+              <Row className="justify-content-center">
+                <div
+                  className="spinner-border text-primary m-1"
+                  role="status"
+                ></div>
+              </Row>
             )}
           </div>
         </Col>

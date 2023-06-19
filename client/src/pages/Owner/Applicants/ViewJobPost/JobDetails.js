@@ -139,7 +139,9 @@ const JobDetails = () => {
           "No results"
         )
       ) : (
-        <div className="spinner-border text-primary m-1" role="status"></div>
+        <Row className="justify-content-center">
+          <div className="spinner-border text-primary m-1" role="status"></div>
+        </Row>
       )}
     </React.Fragment>
   );

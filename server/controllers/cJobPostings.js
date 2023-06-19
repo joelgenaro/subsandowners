@@ -5,7 +5,7 @@ const myCustomLabels = require("../utils/paginationLabel");
 const getData = async (req, res, next) => {
   const options = {
     page: req.query.page,
-    limit: 5,
+    limit: 2,
     customLabels: myCustomLabels,
     allowDiskUse: true,
   };
@@ -13,7 +13,9 @@ const getData = async (req, res, next) => {
   const query = {
     $and: [
       { owner_id: { $eq: req.user["_id"] } },
-      { status: { $ne: "closed" } },
+      {
+        $or: [{ status: { $ne: "closed" } }, { status: { $ne: "end" } }],
+      },
     ],
   };
 

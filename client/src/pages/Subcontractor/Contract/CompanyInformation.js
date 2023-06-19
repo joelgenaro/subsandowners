@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardBody } from "reactstrap";
+import { Card, CardBody, Row } from "reactstrap";
 import { useSelector } from "react-redux";
 import Stars from "../../../components/Stars";
 import Clock from "../../../components/Clock";
@@ -14,10 +14,12 @@ const CompanyInformation = () => {
         <Card className="job-detail overflow-hidden mt-4">
           <CardBody className="p-4">
             {isLoading ? (
-              <div
-                className="spinner-border text-primary m-1"
-                role="status"
-              ></div>
+              <Row className="justify-content-center">
+                <div
+                  className="spinner-border text-primary m-1"
+                  role="status"
+                ></div>
+              </Row>
             ) : (
               <>
                 <h6 className="fs-17 mb-3">About the Client</h6>

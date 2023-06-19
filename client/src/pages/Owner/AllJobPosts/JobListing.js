@@ -36,7 +36,7 @@ const JobListing = () => {
       const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(jobPostingsReset());
-  }, [isSuccess, isError, message, dispatch]);
+  }, [isSuccess, isError, message, dispatch, history]);
 
   const onDeleteJob = async (id) => {
     if (await Confirm("Are you sure you want to delete your job?")) {
@@ -139,10 +139,12 @@ const JobListing = () => {
               "No results matched your search"
             )
           ) : (
-            <div
-              className="spinner-border text-primary m-1"
-              role="status"
-            ></div>
+            <Row className="justify-content-center">
+              <div
+                className="spinner-border text-primary m-1"
+                role="status"
+              ></div>
+            </Row>
           )}
         </Col>
       </Row>
