@@ -17,7 +17,7 @@ const section = () => {
               <div className="mb-4 pb-3 me-lg-5">
                 <h6 className="sub-title">We have 150,000+ live jobs</h6>
                 <h1 className="display-5 fw-semibold mb-3">
-                  Find your dream jobs with{" "}
+                  Find your dream fence jobs with{" "}
                   <span className="text-primary fw-bold">Jobcy</span>
                 </h1>
               </div>

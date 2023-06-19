@@ -19,6 +19,7 @@ const JobListing = () => {
   const { isSuccess, isError, isLoading, message, data } = useSelector(
     (state) => state.jobPostings
   );
+
   // Get Data
   useEffect(() => {
     dispatch(getData({ page: 1 }));
