@@ -4,18 +4,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { setFilterOptions } from "../../../../redux/Subcontractor/jobSlice";
 import GroupSelect from "../../../../components/GroupSelect";
 import services from "../../../../helper/services";
-import Select from "react-select";
-import zcta from "us-zcta-counties";
-import convertArrToSelect from "../../../../helper/convertArrToSelect";
-import states from "../../../../helper/states";
 
 const FilterOptions = () => {
   const dispatch = useDispatch();
   const { filterOptions } = useSelector((state) => state.job);
 
-  const [state, setState] = useState(null);
-  const [county, setCounty] = useState(null);
-  const [counties, setCounties] = useState(null);
   const [toggleFirst, setToggleFirst] = useState(true);
   const [toggleSecond, setToggleSecond] = useState(true);
   const [toggleThird, setToggleThird] = useState(true);
@@ -23,19 +16,22 @@ const FilterOptions = () => {
   const [toggleFifth, setToggleFifth] = useState(true);
 
   useEffect(() => {
-    if (state) {
-      setCounty([]);
-      setCounties(convertArrToSelect(zcta.getCountiesByState(state.value)));
-    } else {
-      setCounty([]);
-      setCounties([]);
-    }
-    dispatch(setFilterOptions({ ...filterOptions, state: state }));
-  }, [state]);
+    // Google map Input
+    const initAutocomplete = () => {
+      let input = document.getElementById("pac-input");
+      let searchBox = new window.google.maps.places.SearchBox(input);
 
-  useEffect(() => {
-    dispatch(setFilterOptions({ ...filterOptions, county: county }));
-  }, [county]);
+      searchBox.addListener("places_changed", function () {
+        dispatch(
+          setFilterOptions({
+            ...filterOptions,
+            location: document.getElementById("pac-input").value,
+          })
+        );
+      });
+    };
+    initAutocomplete();
+  }, [dispatch, filterOptions]);
 
   const filterChange = (e) => {
     e.preventDefault();
@@ -67,6 +63,17 @@ const FilterOptions = () => {
     dispatch(setFilterOptions({ ...filterOptions, isRemoval: e.target.value }));
   };
 
+  const checkNullForLocation = (e) => {
+    if (e.target.value === "") {
+      dispatch(
+        setFilterOptions({
+          ...filterOptions,
+          location: "",
+        })
+      );
+    }
+  };
+
   return (
     <React.Fragment>
       <Col lg={3}>
@@ -89,35 +96,15 @@ const FilterOptions = () => {
               <Collapse isOpen={toggleFirst}>
                 <div className="accordion-body">
                   <div className="side-title">
-                    <div className="mb-3 justify-center">
-                      <label htmlFor="state" className="form-label">
-                        State
-                      </label>
-                      <Select
-                        name="state"
-                        className="basic-multi-select"
-                        classNamePrefix="select"
-                        defaultValue={state}
-                        value={state}
-                        onChange={setState}
-                        isClearable={true}
-                        options={states}
-                      />
-                    </div>
-                    <div className="mb-3 justify-center">
-                      <label htmlFor="county" className="form-label">
-                        County
-                      </label>
-                      <Select
-                        name="county"
-                        className="basic-multi-select"
-                        classNamePrefix="select"
-                        isMulti
-                        isClearable
-                        defaultValue={county}
-                        value={county}
-                        onChange={setCounty}
-                        options={counties}
+                    <div className="mb-3">
+                      <Input
+                        className="form-control"
+                        name="location"
+                        required
+                        onChange={checkNullForLocation}
+                        defaultValue={filterOptions.location}
+                        id="pac-input"
+                        type="text"
                       />
                     </div>
                   </div>

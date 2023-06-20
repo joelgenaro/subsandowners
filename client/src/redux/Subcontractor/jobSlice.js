@@ -15,8 +15,7 @@ const initialState = {
   filterOptions: {
     text: "",
     service: [],
-    state: null,
-    county: [],
+    location: "",
     minPrice: "",
     maxPrice: "",
     category: [],

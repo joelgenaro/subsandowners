@@ -72,6 +72,11 @@ const getAllJobs = async (req, res, next) => {
         ],
       },
       {
+        ...(filterOptions.location && {
+          location: { $regex: filterOptions.location, $options: "i" },
+        }),
+      },
+      {
         ...(filterOptions.service.length > 0 && {
           service: { $in: services },
         }),
