@@ -190,6 +190,7 @@ const EditJob = () => {
                           What service is required?
                         </Label>
                         <GroupSelect
+                          isMulti={false}
                           options={categories}
                           value={service}
                           onChange={setService}

@@ -234,6 +234,7 @@ const RightSideContent = () => {
                         What service is required?
                       </Label>
                       <GroupSelect
+                        isMulti={false}
                         options={services}
                         value={service}
                         onChange={setService}

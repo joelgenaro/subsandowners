@@ -27,7 +27,14 @@ const formatGroupLabel = (data) => (
   </div>
 );
 
-const GroupSelect = ({ options, value, onChange, name, placeholder }) => {
+const GroupSelect = ({
+  options,
+  value,
+  onChange,
+  name,
+  placeholder,
+  isMulti,
+}) => {
   return (
     <React.Fragment>
       <Select
@@ -39,6 +46,7 @@ const GroupSelect = ({ options, value, onChange, name, placeholder }) => {
         isSearchable={true}
         required={true}
         name={name}
+        isMulti={isMulti}
         className="basic-multi-select"
         classNamePrefix="select"
         placeholder={placeholder}

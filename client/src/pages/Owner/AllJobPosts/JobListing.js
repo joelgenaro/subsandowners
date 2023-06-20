@@ -20,12 +20,6 @@ const JobListing = () => {
     (state) => state.jobPostings
   );
 
-  // Get Data
-  useEffect(() => {
-    dispatch(getData({ page: 1 }));
-  }, [dispatch]);
-
-  // Message
   useEffect(() => {
     if (isError) {
       toast.error(message);
@@ -36,7 +30,11 @@ const JobListing = () => {
       const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(jobPostingsReset());
-  }, [isSuccess, isError, message, dispatch, history]);
+  }, [isSuccess, isError, message, history]);
+
+  useEffect(() => {
+    dispatch(getData({ page: 1 }));
+  }, []);
 
   const onDeleteJob = async (id) => {
     if (await Confirm("Are you sure you want to delete your job?")) {
@@ -136,7 +134,9 @@ const JobListing = () => {
                 </Card>
               ))
             ) : (
-              "No results matched your search"
+              <Row className="justify-content-center">
+                "No results matched your search"
+              </Row>
             )
           ) : (
             <Row className="justify-content-center">

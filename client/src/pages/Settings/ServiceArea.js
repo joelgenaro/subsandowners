@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Row, CardBody } from "reactstrap";
 import { Form } from "react-bootstrap";
 import Select from "react-select";
@@ -34,9 +34,9 @@ const ServiceArea = () => {
 
       setCounty(value.county);
       setCounties(convertArrToSelect(zcta.getCountiesByState(state.value)));
-    } else{
-      setCounty([])
-      setCounties([])
+    } else {
+      setCounty([]);
+      setCounties([]);
     }
   }, [state]);
 

@@ -24,11 +24,6 @@ const JobVacancyList = () => {
     filterOptions,
   } = useSelector((state) => state.job);
 
-  // Get Data
-  useEffect(() => {
-    dispatch(getAllJobs({ page: 1, size: size, filterOptions: filterOptions }));
-  }, [size, filterOptions, dispatch]);
-
   // Message
   useEffect(() => {
     if (isError) {
@@ -42,6 +37,11 @@ const JobVacancyList = () => {
     dispatch(jobReset());
   }, [isSuccess, isError, message, dispatch]);
 
+  // Get Data
+  useEffect(() => {
+    dispatch(getAllJobs({ page: 1, size: size, filterOptions: filterOptions }));
+  }, [size, filterOptions, dispatch]);
+
   // Get Size
   const itemsPerPage = (e) => {
     dispatch(setSize(e.target.value));
@@ -54,7 +54,6 @@ const JobVacancyList = () => {
           <div className="mb-3 mb-lg-0">
             {paginator ? (
               <h6 className="fs-16 mb-0">
-                {" "}
                 Showing {paginator.slNo} –{" "}
                 {paginator.currentPage * paginator.perPage > paginator.itemCount
                   ? paginator.itemCount
@@ -97,7 +96,9 @@ const JobVacancyList = () => {
           data ? (
             data.map((project, key) => <JobCard key={key} project={project} />)
           ) : (
-            "No results matched your search"
+            <Row className="justify-content-center">
+              "No results matched your search"
+            </Row>
           )
         ) : (
           <Row className="justify-content-center">

@@ -78,7 +78,7 @@ const JobCard = ({ project }) => {
                     {description}
                   </p>
                 </div>
-                <ul className="list-inline text-muted mb-0 clientStatus">
+                <ul className="list-inline text-muted mb-0 clientStatus align-items-center">
                   <Stars score={project.feedback} />
                   <li className="list-inline-item">
                     <p className="text-muted fs-14 mb-0">
@@ -90,6 +90,11 @@ const JobCard = ({ project }) => {
                       <i className="mdi mdi-map-marker"></i>
                       {project.location}
                     </p>
+                  </li>
+                  <li className="list-inline-item">
+                    <span className={`badge bg-soft-blue fs-13 mt-1`}>
+                      {project.service}
+                    </span>
                   </li>
                   {isMore ? (
                     <div className="show-more-icon">

@@ -5,7 +5,7 @@ import { Form } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { updateServices } from "../../redux/Extra/settingsSlice";
 import LoadingButton from "../../components/LoadingButton";
-import categories from "../../helper/services";
+import categories from "../../helper/categories";
 
 const Services = () => {
   const [isLoading, setIsLoading] = useState(false);

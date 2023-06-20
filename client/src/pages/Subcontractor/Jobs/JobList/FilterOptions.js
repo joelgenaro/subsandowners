@@ -2,41 +2,50 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, Collapse, Input, Label } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { setFilterOptions } from "../../../../redux/Subcontractor/jobSlice";
+import GroupSelect from "../../../../components/GroupSelect";
+import services from "../../../../helper/services";
+import Select from "react-select";
+import zcta from "us-zcta-counties";
+import convertArrToSelect from "../../../../helper/convertArrToSelect";
+import states from "../../../../helper/states";
 
 const FilterOptions = () => {
   const dispatch = useDispatch();
   const { filterOptions } = useSelector((state) => state.job);
 
-  // Parent state
+  const [state, setState] = useState(null);
+  const [county, setCounty] = useState(null);
+  const [counties, setCounties] = useState(null);
   const [toggleFirst, setToggleFirst] = useState(true);
   const [toggleSecond, setToggleSecond] = useState(true);
   const [toggleThird, setToggleThird] = useState(true);
   const [toggleFourth, setToggleFourth] = useState(true);
+  const [toggleFifth, setToggleFifth] = useState(true);
 
   useEffect(() => {
-    // Google map Input
-    const initAutocomplete = () => {
-      let input = document.getElementById("pac-input");
-      let searchBox = new window.google.maps.places.SearchBox(input);
+    if (state) {
+      setCounty([]);
+      setCounties(convertArrToSelect(zcta.getCountiesByState(state.value)));
+    } else {
+      setCounty([]);
+      setCounties([]);
+    }
+    dispatch(setFilterOptions({ ...filterOptions, state: state }));
+  }, [state]);
 
-      searchBox.addListener("places_changed", function () {
-        dispatch(
-          setFilterOptions({
-            ...filterOptions,
-            location: document.getElementById("pac-input").value,
-          })
-        );
-      });
-    };
-    initAutocomplete();
-  }, [dispatch, filterOptions]);
+  useEffect(() => {
+    dispatch(setFilterOptions({ ...filterOptions, county: county }));
+  }, [county]);
 
   const filterChange = (e) => {
     e.preventDefault();
-
     dispatch(
       setFilterOptions({ ...filterOptions, [e.target.name]: e.target.value })
     );
+  };
+
+  const serviceChange = (service) => {
+    dispatch(setFilterOptions({ ...filterOptions, service: service }));
   };
 
   // Material category
@@ -58,23 +67,12 @@ const FilterOptions = () => {
     dispatch(setFilterOptions({ ...filterOptions, isRemoval: e.target.value }));
   };
 
-  const checkNullForLocation = (e) => {
-    if (e.target.value === "") {
-      dispatch(
-        setFilterOptions({
-          ...filterOptions,
-          location: "",
-        })
-      );
-    }
-  };
-
   return (
     <React.Fragment>
       <Col lg={3}>
         <div className="side-bar mt-5 mt-lg-0">
           <div className="accordion" id="accordionExample">
-            <div className="accordion-item">
+            <div className="accordion-item mb-3">
               <h2 className="accordion-header" id="locationOne">
                 <Button
                   className="accordion-button"
@@ -91,15 +89,66 @@ const FilterOptions = () => {
               <Collapse isOpen={toggleFirst}>
                 <div className="accordion-body">
                   <div className="side-title">
+                    <div className="mb-3 justify-center">
+                      <label htmlFor="state" className="form-label">
+                        State
+                      </label>
+                      <Select
+                        name="state"
+                        className="basic-multi-select"
+                        classNamePrefix="select"
+                        defaultValue={state}
+                        value={state}
+                        onChange={setState}
+                        isClearable={true}
+                        options={states}
+                      />
+                    </div>
+                    <div className="mb-3 justify-center">
+                      <label htmlFor="county" className="form-label">
+                        County
+                      </label>
+                      <Select
+                        name="county"
+                        className="basic-multi-select"
+                        classNamePrefix="select"
+                        isMulti
+                        isClearable
+                        defaultValue={county}
+                        value={county}
+                        onChange={setCounty}
+                        options={counties}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </Collapse>
+            </div>
+
+            <div className="accordion-item">
+              <h2 className="accordion-header" id="serviceOne">
+                <Button
+                  className="accordion-button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setToggleFifth(!toggleFifth);
+                  }}
+                  role="button"
+                  id="collapseExample"
+                >
+                  Service Type
+                </Button>
+              </h2>
+              <Collapse isOpen={toggleFifth}>
+                <div className="accordion-body">
+                  <div className="side-title">
                     <div className="mb-3">
-                      <Input
-                        className="form-control"
-                        name="location"
-                        required
-                        onChange={checkNullForLocation}
-                        defaultValue={filterOptions.location}
-                        id="pac-input"
-                        type="text"
+                      <GroupSelect
+                        isMulti={true}
+                        options={services}
+                        value={filterOptions.service}
+                        onChange={serviceChange}
+                        name={"service"}
                       />
                     </div>
                   </div>

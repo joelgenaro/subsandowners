@@ -38,8 +38,9 @@ const getJobDetails = async (req, res, next) => {
 };
 
 const getAllJobs = async (req, res, next) => {
-  const filterOptions = req.body.filterOptions;
   const owner_id = req.user["_id"];
+  const filterOptions = req.body.filterOptions;
+  const services = req.body.filterOptions.service.map((item) => item.label);
 
   const options = {
     page: req.body.page,
@@ -53,7 +54,9 @@ const getAllJobs = async (req, res, next) => {
       {
         owner_id: { $ne: owner_id },
       },
-      { status: { $ne: "closed" } },
+      {
+        $or: [{ status: { $ne: "closed" } }, { status: { $ne: "end" } }],
+      },
       {
         $or: [
           { title: { $regex: filterOptions.text, $options: "i" } },
@@ -69,8 +72,8 @@ const getAllJobs = async (req, res, next) => {
         ],
       },
       {
-        ...(filterOptions.location && {
-          location: { $regex: filterOptions.location, $options: "i" },
+        ...(filterOptions.service.length > 0 && {
+          service: { $in: services },
         }),
       },
       {

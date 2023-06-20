@@ -2,12 +2,23 @@ const Job = require("../models/mJob");
 const Application = require("../models/mApplication");
 const myCustomLabels = require("../utils/paginationLabel");
 
+const queryDB = async (options, query) => {
+  const data = await Job.paginate(query, options);
+
+  const itemsListToCountProposals = data.itemsList;
+  const paginator = data.paginator;
+  const promises = itemsListToCountProposals.map((item) => getStatus(item));
+
+  const itemsList = await Promise.all(promises);
+
+  return { itemsList, paginator };
+};
+
 const getData = async (req, res, next) => {
   const options = {
     page: req.query.page,
-    limit: 2,
+    limit: 15,
     customLabels: myCustomLabels,
-    allowDiskUse: true,
   };
 
   const query = {
@@ -20,12 +31,7 @@ const getData = async (req, res, next) => {
   };
 
   try {
-    const data = await Job.paginate(query, options);
-    const itemsListToCountProposals = data.itemsList;
-    const paginator = data.paginator;
-
-    const promises = itemsListToCountProposals.map((item) => getStatus(item));
-    const itemsList = await Promise.all(promises);
+    const { itemsList, paginator } = await queryDB(options, query);
 
     res.status(201).json({
       success: true,
@@ -66,7 +72,7 @@ const getStatus = async (item) => {
 const filter = async (req, res, next) => {
   const options = {
     page: 1,
-    limit: 5,
+    limit: 15,
     customLabels: myCustomLabels,
   };
 
@@ -74,13 +80,14 @@ const filter = async (req, res, next) => {
     $and: [
       { title: { $regex: req.body.filter, $options: "i" } },
       { owner_id: { $eq: req.user["_id"] } },
+      {
+        $or: [{ status: { $ne: "closed" } }, { status: { $ne: "end" } }],
+      },
     ],
   };
 
   try {
-    const data = await Job.paginate(query, options);
-    const itemsList = data.itemsList;
-    const paginator = data.paginator;
+    const { itemsList, paginator } = await queryDB(options, query);
 
     res.status(201).json({
       success: true,
