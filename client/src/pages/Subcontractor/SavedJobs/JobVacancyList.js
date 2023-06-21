@@ -24,11 +24,6 @@ const JobVacancyList = () => {
     filterOptions,
   } = useSelector((state) => state.savedJob);
 
-  // Get Data
-  useEffect(() => {
-    dispatch(getData({ page: 1, size: size, filterOptions: filterOptions }));
-  }, [size, filterOptions, dispatch]);
-
   // Message
   useEffect(() => {
     if (isError) {
@@ -41,6 +36,11 @@ const JobVacancyList = () => {
     }
     dispatch(savedJobReset());
   }, [isSuccess, isError, message, dispatch]);
+
+  // Get Data
+  useEffect(() => {
+    dispatch(getData({ page: 1, size: size, filterOptions: filterOptions }));
+  }, [size, filterOptions, dispatch]);
 
   // Get Size
   const itemsPerPage = (e) => {

@@ -6,7 +6,7 @@ const initialState = {
   isSuccess: false,
   isError: false,
   message: null,
-  contracts: null,
+  contracts: [],
 };
 
 const errorMessageHandler = (error) => {

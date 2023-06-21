@@ -20,7 +20,7 @@ const Offer = () => {
             <Row>
               <Col lg={12}>
                 {!isLoading ? (
-                  offers ? (
+                  offers.length > 0 ? (
                     offers.map((offerDetails, key) => (
                       <Card className="myProposal card" key={key}>
                         <CardBody className="p-4">
@@ -64,7 +64,7 @@ const Offer = () => {
                       </Card>
                     ))
                   ) : (
-                    "No offers"
+                    <Row className="justify-content-center">No offers</Row>
                   )
                 ) : (
                   <Row className="justify-content-center">

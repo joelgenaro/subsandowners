@@ -25,7 +25,7 @@ const Submitted = () => {
             <Row>
               <Col lg={12}>
                 {!isLoading ? (
-                  submittedProposals ? (
+                  submittedProposals.length > 0 ? (
                     submittedProposals.map((myProposalDetails, key) => (
                       <Card className="myProposal card" key={key}>
                         <CardBody className="p-4">
@@ -71,7 +71,7 @@ const Submitted = () => {
                       </Card>
                     ))
                   ) : (
-                    "No proposals"
+                    <Row className="justify-content-center">No proposals</Row>
                   )
                 ) : (
                   <Row className="justify-content-center">

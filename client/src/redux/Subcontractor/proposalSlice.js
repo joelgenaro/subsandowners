@@ -9,8 +9,8 @@ const initialState = {
   jobId: null,
   proposal: null,
   isEdit: false,
-  offers: null,
-  submittedProposals: null,
+  offers: [],
+  submittedProposals: [],
 };
 
 const errorMessageHandler = (error) => {

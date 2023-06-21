@@ -53,8 +53,8 @@ const JobDetailsDescription = ({ data }) => {
               </Col>
               <Col lg={3}>
                 <div className="border p-3">
-                  <p className="text-muted fs-13 mb-0">Material type</p>
-                  <p className="fw-medium mb-0">{data.materialCategory}</p>
+                  <p className="text-muted fs-13 mb-0">Service type</p>
+                  <p className="fw-medium mb-0">{data.service}</p>
                 </div>
               </Col>
               <Col lg={3}>

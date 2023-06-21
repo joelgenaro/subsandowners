@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardBody, Col, Row, Input } from "reactstrap";
-import calculateTimePosted from "../../../helper/calculateTimePosted";
 import capitalize from "../../../helper/capitalize";
 import formattedDate from "../../../helper/formattedDate";
 import { useSelector, useDispatch } from "react-redux";
@@ -20,10 +19,6 @@ const Contracts = () => {
   );
 
   useEffect(() => {
-    dispatch(getData());
-  }, []);
-
-  useEffect(() => {
     if (isError) {
       toast.error(message);
       if (message === "Not authorized!") {
@@ -34,6 +29,10 @@ const Contracts = () => {
     }
     dispatch(activeContactsReset());
   }, [isSuccess, isError, message, history, dispatch]);
+
+  useEffect(() => {
+    dispatch(getData());
+  }, []);
 
   return (
     <React.Fragment>
@@ -66,7 +65,7 @@ const Contracts = () => {
             <Row>
               <Col lg={12}>
                 {!isLoading ? (
-                  contracts ? (
+                  contracts.length > 0 ? (
                     contracts.map((contract, key) => (
                       <Card className="myProposal card">
                         <CardBody className="p-4">
@@ -116,7 +115,7 @@ const Contracts = () => {
                       </Card>
                     ))
                   ) : (
-                    "No proposals"
+                    <Row className="justify-content-center">No contracts</Row>
                   )
                 ) : (
                   <Row className="justify-content-center">

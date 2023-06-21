@@ -19,11 +19,6 @@ const Proposals = () => {
   const { isSuccess, isError, message } = useSelector(
     (state) => state.proposal
   );
-
-  useEffect(() => {
-    dispatch(myProposal());
-  }, []);
-
   // Check message
   useEffect(() => {
     if (isError) {
@@ -36,6 +31,10 @@ const Proposals = () => {
     }
     dispatch(proposalReset());
   }, [isSuccess, isError, message, history, dispatch]);
+
+  useEffect(() => {
+    dispatch(myProposal());
+  }, []);
 
   return (
     <React.Fragment>
