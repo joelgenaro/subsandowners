@@ -25,12 +25,16 @@ import LoadingButton from "../../components/LoadingButton";
 const RightSideContent = () => {
   const imageRef = useRef();
   const dispatch = useDispatch();
-  const { data, isSuccess, isError } = useSelector((state) => state.profile);
+  const { data, isSuccess, isError, isLoading } = useSelector(
+    (state) => state.profile
+  );
   const geo = useGeoLocation();
 
   const [profile, setProfile] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  const [isBtLoading, setIsBtLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("1");
+  const [serviceArea, setServiceArea] = useState([]);
+
   const tabChange = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
   };
@@ -47,6 +51,12 @@ const RightSideContent = () => {
       address: data?.address,
       avatar: data?.avatar != null ? data?.avatar : userImage2,
     });
+
+    const countyValues = data?.service_area.flatMap((item) => {
+      return item.county.map((c) => c.value);
+    });
+    console.log(countyValues);
+    setServiceArea(countyValues);
   }, [data]);
 
   useEffect(() => {
@@ -55,7 +65,7 @@ const RightSideContent = () => {
   }, [geo.country]);
 
   useEffect(() => {
-    setIsLoading(false);
+    setIsBtLoading(false);
     setActiveTab("1");
   }, [isSuccess, isError]);
 
@@ -88,7 +98,7 @@ const RightSideContent = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setIsLoading(true);
+    setIsBtLoading(true);
     dispatch(profileUpdate(profile));
   };
 
@@ -139,239 +149,272 @@ const RightSideContent = () => {
           <CardBody className="p-4">
             <TabContent activeTab={activeTab}>
               <TabPane tabId="1">
-                <div>
-                  <h5 className="fs-18 fw-bold">About</h5>
-                  <p className="text-muted mt-4">{data?.profile}</p>
-                </div>
-                <div className="candidate-education-details mt-4">
-                  <h6 className="fs-18 fw-bold mb-0">Service Area</h6>
-                  <div className="candidate-education-content mt-4 d-flex">
-                    <div className="circle flex-shrink-0 bg-soft-primary">
-                      {" "}
-                      W{" "}
+                {!isLoading ? (
+                  <>
+                    <div>
+                      <h5 className="fs-18 fw-bold">About</h5>
+                      <p className="text-muted mt-4">{data?.profile}</p>
                     </div>
-                    <div className="ms-4">
-                      <h6 className="fs-16 mb-1">
-                        Web Design & Development Team Leader
-                      </h6>
-                      <p className="mb-2 text-muted">
-                        Creative Agency - (2013 - 2016)
-                      </p>
-                      <p className="text-muted">
-                        There are many variations of passages of available, but
-                        the majority alteration in some form. As a highly
-                        skilled and successfull product development and design
-                        specialist with more than 4 Years of My experience.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="candidate-education-content mt-4 d-flex">
-                    <div className="circle flex-shrink-0 bg-soft-primary">
-                      {" "}
-                      P{" "}
-                    </div>
-                    <div className="ms-4">
-                      <h6 className="fs-16 mb-1">Project Manager</h6>
-                      <p className="mb-2 text-muted">
-                        Jobcy Technology Pvt.Ltd - (Pressent)
-                      </p>
-                      <p className="text-muted mb-0">
-                        There are many variations of passages of available, but
-                        the majority alteration in some form. As a highly
-                        skilled and successfull product development and design
-                        specialist with more than 4 Years of My experience.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </TabPane>
-              <TabPane tabId="2">
-                <Form action="#" onSubmit={handleSubmit}>
-                  <div>
-                    <h5 className="fs-17 fw-semibold mb-3 mb-0">My Account</h5>
-                    <div className="text-center">
-                      <div className="mb-4 profile-user">
-                        <img
-                          src={data?.avatar != null ? data?.avatar : userImage2}
-                          className="rounded-circle img-thumbnail profile-img"
-                          id="profile-img"
-                          alt=""
-                          ref={imageRef}
-                        />
-                        <div className="p-0 rounded-circle profile-photo-edit">
-                          <Input
-                            id="profile-img-file-input"
-                            type="file"
-                            className="profile-img-file-input"
-                            onChange={handlePhoto}
-                          />
-                          <Label
-                            htmlFor="profile-img-file-input"
-                            className="profile-photo-edit avatar-xs"
-                          >
-                            <i className="uil uil-edit"></i>
-                          </Label>
+                    <div className="candidate-education-details mt-4">
+                      <div className="candidate-education-content mt-4 d-flex">
+                        <div className="circle flex-shrink-0 bg-soft-primary">
+                          {" "}
+                        </div>
+                        <div className="ms-4">
+                          <h6 className="fs-16 mb-1">Services</h6>
+                          <Card className="job-Categories-box bg-light border-0">
+                            <CardBody className="p-4">
+                              <ul className="list-unstyled job-Categories-list mb-0">
+                                <div className="d-flex flex-wrap align-items-start gap-2">
+                                  {data?.services?.map((item) => (
+                                    <div
+                                      key={item}
+                                      className="badge rounded-pill bg-soft-primary subSet"
+                                    >
+                                      {item}
+                                    </div>
+                                  ))}
+                                </div>
+                              </ul>
+                            </CardBody>
+                          </Card>
+                        </div>
+                      </div>
+                      <div className="candidate-education-content mt-4 d-flex">
+                        <div className="circle flex-shrink-0 bg-soft-primary">
+                          {" "}
+                        </div>
+                        <div className="ms-4">
+                          <h6 className="fs-16 mb-1">Service Area</h6>
+                          <Card className="job-Categories-box bg-light border-0">
+                            <CardBody className="p-4">
+                              <ul className="list-unstyled job-Categories-list mb-0">
+                                <div className="d-flex flex-wrap align-items-start gap-2">
+                                  {serviceArea?.map((item) => (
+                                    <div
+                                      key={item}
+                                      className="badge rounded-pill bg-soft-primary subSet"
+                                    >
+                                      {item}
+                                    </div>
+                                  ))}
+                                </div>
+                              </ul>
+                            </CardBody>
+                          </Card>
                         </div>
                       </div>
                     </div>
-                    <Row>
-                      <Col lg={6}>
-                        <div className="mb-3">
-                          <label htmlFor="firstName" className="form-label">
-                            First Name
-                          </label>
-                          <Input
-                            type="text"
-                            className="form-control"
-                            id="first_name"
-                            name="first_name"
-                            required
-                            value={profile.first_name}
-                            onChange={handleChange}
+                  </>
+                ) : (
+                  <Row className="justify-content-center">
+                    <div
+                      className="spinner-border text-primary m-1"
+                      role="status"
+                    ></div>
+                  </Row>
+                )}
+              </TabPane>
+              <TabPane tabId="2">
+                {!isLoading ? (
+                  <Form action="#" onSubmit={handleSubmit}>
+                    <div>
+                      <h5 className="fs-17 fw-semibold mb-3 mb-0">
+                        My Account
+                      </h5>
+                      <div className="text-center">
+                        <div className="mb-4 profile-user">
+                          <img
+                            src={
+                              data?.avatar != null ? data?.avatar : userImage2
+                            }
+                            className="rounded-circle img-thumbnail profile-img"
+                            id="profile-img"
+                            alt=""
+                            ref={imageRef}
                           />
+                          <div className="p-0 rounded-circle profile-photo-edit">
+                            <Input
+                              id="profile-img-file-input"
+                              type="file"
+                              className="profile-img-file-input"
+                              onChange={handlePhoto}
+                            />
+                            <Label
+                              htmlFor="profile-img-file-input"
+                              className="profile-photo-edit avatar-xs"
+                            >
+                              <i className="uil uil-edit"></i>
+                            </Label>
+                          </div>
                         </div>
-                      </Col>
-                      <Col lg={6}>
-                        <div className="mb-3">
-                          <Label htmlFor="lastName" className="form-label">
-                            Last Name
-                          </Label>
-                          <Input
-                            type="text"
-                            className="form-control"
-                            id="lastName"
-                            name="last_name"
-                            required
-                            value={profile.last_name}
-                            onChange={handleChange}
-                          />
-                        </div>
-                      </Col>
+                      </div>
+                      <Row>
+                        <Col lg={6}>
+                          <div className="mb-3">
+                            <label htmlFor="firstName" className="form-label">
+                              First Name
+                            </label>
+                            <Input
+                              type="text"
+                              className="form-control"
+                              id="first_name"
+                              name="first_name"
+                              required
+                              value={profile.first_name}
+                              onChange={handleChange}
+                            />
+                          </div>
+                        </Col>
+                        <Col lg={6}>
+                          <div className="mb-3">
+                            <Label htmlFor="lastName" className="form-label">
+                              Last Name
+                            </Label>
+                            <Input
+                              type="text"
+                              className="form-control"
+                              id="lastName"
+                              name="last_name"
+                              required
+                              value={profile.last_name}
+                              onChange={handleChange}
+                            />
+                          </div>
+                        </Col>
 
-                      <Col lg={6}>
-                        <div className="mb-3">
-                          <Label htmlFor="phone" className="form-label">
-                            Phone
-                          </Label>
-                          <Input
-                            type="text"
-                            className="form-control"
-                            id="phone"
-                            name="phone"
-                            value={profile.phone}
-                            onChange={handleChange}
-                          />
-                        </div>
-                      </Col>
+                        <Col lg={6}>
+                          <div className="mb-3">
+                            <Label htmlFor="phone" className="form-label">
+                              Phone
+                            </Label>
+                            <Input
+                              type="text"
+                              className="form-control"
+                              id="phone"
+                              name="phone"
+                              value={profile.phone}
+                              onChange={handleChange}
+                            />
+                          </div>
+                        </Col>
 
-                      <Col lg={6}>
-                        <div className="mb-3">
-                          <Label htmlFor="company" className="form-label">
-                            Company
-                          </Label>
-                          <Input
-                            type="text"
-                            className="form-control"
-                            id="company"
-                            name="company"
-                            required
-                            value={profile.company}
-                            onChange={handleChange}
-                          />
-                        </div>
-                      </Col>
-                    </Row>
-                  </div>
+                        <Col lg={6}>
+                          <div className="mb-3">
+                            <Label htmlFor="company" className="form-label">
+                              Company
+                            </Label>
+                            <Input
+                              type="text"
+                              className="form-control"
+                              id="company"
+                              name="company"
+                              required
+                              value={profile.company}
+                              onChange={handleChange}
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+                    </div>
 
-                  <div className="mt-4">
-                    <h5 className="fs-17 fw-semibold mb-3">Profile</h5>
-                    <Row>
-                      <Col lg={12}>
-                        <div className="mb-3">
-                          <Label
-                            htmlFor="exampleFormControlTextarea1"
-                            className="form-label"
-                          >
-                            Introduce Yourself
-                          </Label>
-                          <textarea
-                            className="form-control"
-                            rows="5"
-                            id="profile"
-                            name="profile"
-                            required
-                            value={profile.profile}
-                            onChange={handleChange}
-                          ></textarea>
-                        </div>
-                      </Col>
-                    </Row>
-                  </div>
+                    <div className="mt-4">
+                      <h5 className="fs-17 fw-semibold mb-3">Profile</h5>
+                      <Row>
+                        <Col lg={12}>
+                          <div className="mb-3">
+                            <Label
+                              htmlFor="exampleFormControlTextarea1"
+                              className="form-label"
+                            >
+                              Introduce Yourself
+                            </Label>
+                            <textarea
+                              className="form-control"
+                              rows="5"
+                              id="profile"
+                              name="profile"
+                              required
+                              value={profile.profile}
+                              onChange={handleChange}
+                            ></textarea>
+                          </div>
+                        </Col>
+                      </Row>
+                    </div>
 
-                  <div className="mt-4">
-                    <h5 className="fs-17 fw-semibold mb-3">
-                      Where are you located?
-                    </h5>
-                    <Row>
-                      <Col lg={6}>
-                        <div className="mb-3">
-                          <label htmlFor="country" className="form-label">
-                            Country
-                          </label>
-                          <Input
-                            type="text"
-                            id="country"
-                            name="country"
-                            disabled
-                            onChange={handleChange}
-                            value={profile.country}
-                          />
-                        </div>
-                      </Col>
-                      <Col lg={6}>
-                        <div className="mb-3">
-                          <label htmlFor="city" className="form-label">
-                            City
-                          </label>
-                          <Input
-                            className="form-control"
-                            name="city"
-                            required
-                            defaultValue={profile.city}
-                            id="city"
-                            type="search"
-                          />
-                        </div>
-                      </Col>
+                    <div className="mt-4">
+                      <h5 className="fs-17 fw-semibold mb-3">
+                        Where are you located?
+                      </h5>
+                      <Row>
+                        <Col lg={6}>
+                          <div className="mb-3">
+                            <label htmlFor="country" className="form-label">
+                              Country
+                            </label>
+                            <Input
+                              type="text"
+                              id="country"
+                              name="country"
+                              disabled
+                              onChange={handleChange}
+                              value={profile.country}
+                            />
+                          </div>
+                        </Col>
+                        <Col lg={6}>
+                          <div className="mb-3">
+                            <label htmlFor="city" className="form-label">
+                              City
+                            </label>
+                            <Input
+                              className="form-control"
+                              name="city"
+                              required
+                              defaultValue={profile.city}
+                              id="city"
+                              type="search"
+                            />
+                          </div>
+                        </Col>
 
-                      <Col lg={12}>
-                        <div className="mb-3">
-                          <label htmlFor="address" className="form-label">
-                            Street Address
-                          </label>
-                          <Input
-                            className="form-control"
-                            id="address"
-                            name="address"
-                            required
-                            onChange={handleChange}
-                            defaultValue={profile.address}
-                            type="search"
-                          />
-                        </div>
-                      </Col>
-                    </Row>
-                  </div>
+                        <Col lg={12}>
+                          <div className="mb-3">
+                            <label htmlFor="address" className="form-label">
+                              Street Address
+                            </label>
+                            <Input
+                              className="form-control"
+                              id="address"
+                              name="address"
+                              required
+                              onChange={handleChange}
+                              defaultValue={profile.address}
+                              type="search"
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+                    </div>
 
-                  <div className="mt-4 text-end">
-                    <LoadingButton
-                      className={"btn btn-primary"}
-                      disabled={isLoading}
-                      isLoading={isLoading}
-                      title={"Update"}
-                    />
-                  </div>
-                </Form>
+                    <div className="mt-4 text-end">
+                      <LoadingButton
+                        className={"btn btn-primary"}
+                        disabled={isBtLoading}
+                        isLoading={isBtLoading}
+                        title={"Update"}
+                      />
+                    </div>
+                  </Form>
+                ) : (
+                  <Row className="justify-content-center">
+                    <div
+                      className="spinner-border text-primary m-1"
+                      role="status"
+                    ></div>
+                  </Row>
+                )}
               </TabPane>
             </TabContent>
           </CardBody>

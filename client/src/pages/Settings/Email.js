@@ -7,16 +7,18 @@ import LoadingButton from "../../components/LoadingButton";
 
 const Email = () => {
   const dispatch = useDispatch();
-  const { email, isSuccess, isError } = useSelector((state) => state.settings);
+  const { email, isSuccess, isError, isLoading } = useSelector(
+    (state) => state.settings
+  );
   const [value, setValue] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isBtLoading, setIsBtLoading] = useState(false);
 
   useEffect(() => {
     setValue(email);
   }, [email]);
 
   useEffect(() => {
-    setIsLoading(false);
+    setIsBtLoading(false);
   }, [isSuccess, isError]);
 
   const valueChange = (e) => {
@@ -27,7 +29,7 @@ const Email = () => {
     e.preventDefault();
     if (value === null) return;
 
-    setIsLoading(true);
+    setIsBtLoading(true);
     dispatch(updateEmail({ email: value }));
   };
 
@@ -42,15 +44,24 @@ const Email = () => {
                   <label htmlFor="firstName" className="form-label">
                     Email
                   </label>
-                  <Input
-                    type="email"
-                    className="form-control"
-                    id="email"
-                    name="email"
-                    required
-                    value={value}
-                    onChange={valueChange}
-                  />
+                  {!isLoading ? (
+                    <Input
+                      type="email"
+                      className="form-control"
+                      id="email"
+                      name="email"
+                      required
+                      value={value}
+                      onChange={valueChange}
+                    />
+                  ) : (
+                    <Row className="justify-content-center">
+                      <div
+                        className="spinner-border text-primary m-1"
+                        role="status"
+                      ></div>
+                    </Row>
+                  )}
                 </div>
               </Col>
             </Row>
@@ -58,9 +69,9 @@ const Email = () => {
 
           <div className="mt-4 text-start">
             <LoadingButton
-              disabled={isLoading}
+              disabled={isBtLoading}
               className={"btn btn-primary"}
-              isLoading={isLoading}
+              isLoading={isBtLoading}
               title={"Update email address"}
             />
           </div>

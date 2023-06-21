@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { Card, CardBody, Col, Row } from "reactstrap";
 import { Form } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,16 +7,16 @@ import LoadingButton from "../../components/LoadingButton";
 import categories from "../../helper/categories";
 
 const Services = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isBtLoading, setIsBtLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedSubcategories, setSelectedSubcategories] = useState([]);
-  const { isSuccess, isError, services } = useSelector(
+  const { isSuccess, isError, services, isLoading } = useSelector(
     (state) => state.settings
   );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setIsLoading(false);
+    setIsBtLoading(false);
   }, [isSuccess, isError]);
 
   useEffect(() => {
@@ -46,7 +45,7 @@ const Services = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setIsLoading(true);
+    setIsBtLoading(true);
     dispatch(updateServices({ services: selectedSubcategories }));
   };
 
@@ -109,20 +108,29 @@ const Services = () => {
                         {selectedSubcategories.length} services selected
                       </h6>
                       <div className="d-flex flex-wrap align-items-start gap-1">
-                        {(selectedSubcategories || []).map((subcat, index) => (
-                          <div
-                            key={index}
-                            className="badge rounded-pill bg-soft-primary subSet"
-                          >
-                            {subcat}
-                            <span
-                              onClick={() => onDelete(subcat)}
-                              class="choice__button"
+                        {!isLoading ? (
+                          (selectedSubcategories || []).map((subcat, index) => (
+                            <div
+                              key={index}
+                              className="badge rounded-pill bg-soft-primary subSet"
                             >
-                              Remove item
-                            </span>
-                          </div>
-                        ))}
+                              {subcat}
+                              <span
+                                onClick={() => onDelete(subcat)}
+                                class="choice__button"
+                              >
+                                Remove item
+                              </span>
+                            </div>
+                          ))
+                        ) : (
+                          <Row className="justify-content-center">
+                            <div
+                              className="spinner-border text-primary m-1"
+                              role="status"
+                            ></div>
+                          </Row>
+                        )}
                       </div>
                     </ul>
                   </CardBody>
@@ -133,9 +141,9 @@ const Services = () => {
 
           <div className="mt-4 text-end">
             <LoadingButton
-              disabled={isLoading}
+              disabled={isBtLoading}
               className={"btn btn-primary"}
-              isLoading={isLoading}
+              isLoading={isBtLoading}
               title={"Save"}
             />
           </div>
