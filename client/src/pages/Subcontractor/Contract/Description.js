@@ -4,7 +4,7 @@ import { Card, CardBody, Row, Col } from "reactstrap";
 import { useSelector } from "react-redux";
 
 const Description = () => {
-  const { isLoading, data } = useSelector((state) => state.scontract);
+  const { data } = useSelector((state) => state.scontract);
 
   return (
     <React.Fragment>
@@ -19,18 +19,7 @@ const Description = () => {
           </div>
           <div className="mt-4">
             <div className="job-detail-desc">
-              {isLoading ? (
-                <Row className="justify-content-center">
-                  <div
-                    className="spinner-border text-primary m-1"
-                    role="status"
-                  ></div>
-                </Row>
-              ) : (
-                <p className="text-muted mb-0">
-                  {data?.jobDetails?.description}
-                </p>
-              )}
+              <p className="text-muted mb-0">{data?.jobDetails?.description}</p>
             </div>
           </div>
           <div className="mt-4">

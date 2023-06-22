@@ -50,20 +50,29 @@ const Contract = ({ match }) => {
       <Section />
       <section className="section mainSection">
         <Container>
-          <Row>
-            <Col lg={8}>
-              <Summary />
-              <Description />
-            </Col>
-            <Col lg={4} className="mt-4 mt-lg-0">
-              <CompanyInformation />
-              {data?.subFeedback?.stars.$numberDecimal == 0 ? (
-                ""
-              ) : (
-                <Feedback ID_Application={contractId} />
-              )}
-            </Col>
-          </Row>
+          {data ? (
+            <Row>
+              <Col lg={8}>
+                <Summary />
+                <Description />
+              </Col>
+              <Col lg={4} className="mt-4 mt-lg-0">
+                <CompanyInformation />
+                {data?.subFeedback?.stars.$numberDecimal == 0 ? (
+                  ""
+                ) : (
+                  <Feedback ID_Application={contractId} />
+                )}
+              </Col>
+            </Row>
+          ) : (
+            <Row className="justify-content-center">
+              <div
+                className="spinner-border text-primary m-1"
+                role="status"
+              ></div>
+            </Row>
+          )}
         </Container>
       </section>
     </React.Fragment>

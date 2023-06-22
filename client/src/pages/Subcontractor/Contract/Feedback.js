@@ -7,7 +7,7 @@ import { giveFeedback } from "../../../redux/Subcontractor/scontractSlice";
 
 const Feedback = ({ ID_Application }) => {
   const dispatch = useDispatch();
-  const { isLoading, data } = useSelector((state) => state.scontract);
+  const { data } = useSelector((state) => state.scontract);
   const [modal, setModal] = useState(false);
   const [feedback, setFeedback] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);

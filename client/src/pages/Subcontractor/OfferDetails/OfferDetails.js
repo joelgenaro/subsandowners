@@ -24,13 +24,7 @@ const OfferDetails = ({ match }) => {
 
   const history = useHistory();
   const dispatch = useDispatch();
-  const { job, ownerInfo, isLoading, isSuccess, isError, message } =
-    useSelector((state) => state.offer);
-
-  useEffect(() => {
-    dispatch(getData({ id: applicationId }));
-    dispatch(setApplicationId(applicationId));
-  }, []);
+  const { isSuccess, isError, message } = useSelector((state) => state.offer);
 
   useEffect(() => {
     if (isError) {
@@ -47,6 +41,11 @@ const OfferDetails = ({ match }) => {
     }
     dispatch(offerReset());
   }, [isSuccess, isError, message, history, dispatch]);
+
+  useEffect(() => {
+    dispatch(getData({ id: applicationId }));
+    dispatch(setApplicationId(applicationId));
+  }, []);
 
   const onAccept = () => {
     dispatch(acceptOffer({ id: applicationId }));
@@ -67,35 +66,13 @@ const OfferDetails = ({ match }) => {
       <section className="section">
         <Container>
           <Row>
-            {!isLoading ? (
-              job ? (
-                <Col lg={8}>
-                  <ContractDetails job={job} />
-                </Col>
-              ) : null
-            ) : (
-              <Row className="justify-content-center">
-                <div
-                  className="spinner-border text-primary m-1"
-                  role="status"
-                ></div>
-              </Row>
-            )}
+            <Col lg={8}>
+              <ContractDetails />
+            </Col>
 
-            {!isLoading ? (
-              ownerInfo ? (
-                <Col lg={4} className="mt-4 mt-lg-0">
-                  <ClientInfo data={ownerInfo} />
-                </Col>
-              ) : null
-            ) : (
-              <Row className="justify-content-center">
-                <div
-                  className="spinner-border text-primary m-1"
-                  role="status"
-                ></div>
-              </Row>
-            )}
+            <Col lg={4} className="mt-4 mt-lg-0">
+              <ClientInfo />
+            </Col>
           </Row>
           <Row>
             <Col lg={8} className="acceptBtn">
