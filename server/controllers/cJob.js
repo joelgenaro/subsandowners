@@ -12,7 +12,7 @@ const createJob = async (req, res, next) => {
       owner_id: req.user["_id"],
     });
 
-    // sendMatchedJobToContractors(req.body, _id);
+    sendMatchedJobToContractors(req.body, _id);
 
     res.status(201).json({
       success: true,

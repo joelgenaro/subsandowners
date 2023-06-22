@@ -3,10 +3,10 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const sendEmail = (options) => {
   const mailOptions = {
-    from: options.from,
+    from: process.env.MAILSENDER,
     to: options.to,
-    subject: options.subject,
-    html: options.html,
+    templateId: options.templateId,
+    dynamicTemplateData: options.data,
   };
 
   sgMail
