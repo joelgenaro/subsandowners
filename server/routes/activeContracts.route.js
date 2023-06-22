@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 const protect = require("../middlewares/auth");
 
-const { getData } = require("../controllers/cActiveContracts.js");
+const { getData, filter } = require("../controllers/cActiveContracts.js");
 
 router.post("/getData", protect, getData);
+router.post("/filter", protect, filter);
 
 module.exports = router;

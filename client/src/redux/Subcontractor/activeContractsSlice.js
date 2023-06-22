@@ -26,6 +26,18 @@ export const getData = createAsyncThunk(
   }
 );
 
+export const filter = createAsyncThunk(
+  "activeContacts/filter",
+  async (data, thunkAPI) => {
+    try {
+      return await activeContractsService.filter(data);
+    } catch (error) {
+      const message = errorMessageHandler(error);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const activeContactsSlice = createSlice({
   name: "activeContacts",
   initialState,
@@ -50,7 +62,22 @@ export const activeContactsSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
       state.message = action.payload;
-      state.contracts = null;
+      state.contracts = [];
+    });
+
+    builder.addCase(filter.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(filter.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.contracts = action.payload.contracts;
+    });
+    builder.addCase(filter.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.message = action.payload;
+      state.contracts = [];
     });
   },
 });

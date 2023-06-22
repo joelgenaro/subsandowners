@@ -14,6 +14,12 @@ const getData = async (data) => {
   return response.data;
 };
 
+const filter = async (data) => {
+  const response = await axios.post(`${API_URL}/filter`, data, config);
+  return response.data;
+};
+
 export const activeContractsService = {
   getData,
+  filter,
 };

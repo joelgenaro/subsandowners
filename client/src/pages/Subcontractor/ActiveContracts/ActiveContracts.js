@@ -1,8 +1,9 @@
 import React from "react";
 import { MetaTags } from "react-meta-tags";
-import { Container } from "reactstrap";
+import { Container, Card } from "reactstrap";
 import Contracts from "./Contracts";
 import Section from "./Section";
+import Search from "./Search";
 import "./index.css";
 
 const ActiveContracts = () => {
@@ -14,7 +15,10 @@ const ActiveContracts = () => {
       <Section />
       <section className="section">
         <Container>
-          <Contracts />
+          <Card className="mt-4" id="tabs">
+            <Search />
+            <Contracts />
+          </Card>
         </Container>
       </section>
     </React.Fragment>

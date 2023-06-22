@@ -6,7 +6,26 @@ const getData = async (req, res, next) => {
   try {
     const applications = await Application.find({
       candidateId: req.user["_id"],
-      $or: [{ status: { $eq: "hired" } }, { status: { $eq: "end" } }],
+      status: { $eq: "hired" },
+    });
+    const promises = applications.map((item) => migrationJobAndUser(item));
+    const contracts = await Promise.all(promises);
+
+    res.status(201).json({
+      success: true,
+      contracts,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const filter = async (req, res, next) => {
+  try {
+    const applications = await Application.find({
+      candidateId: req.user["_id"],
+      status: { $eq: "hired" },
+      jobTitle: { $regex: req.body.filter, $options: "i" },
     });
     const promises = applications.map((item) => migrationJobAndUser(item));
     const contracts = await Promise.all(promises);
@@ -37,4 +56,5 @@ const migrationJobAndUser = async (item) => {
 
 module.exports = {
   getData,
+  filter,
 };
