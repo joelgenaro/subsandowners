@@ -356,7 +356,7 @@ const NavBar = (props) => {
                         </Link>
                       </li>
                       <li>
-                        <Link className="dropdown-item" to="#">
+                        <Link className="dropdown-item" to="/all-contracts-sub">
                           All Contracts
                         </Link>
                       </li>

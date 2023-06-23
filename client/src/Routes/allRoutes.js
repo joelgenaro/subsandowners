@@ -54,6 +54,9 @@ const Proposals = React.lazy(() =>
 const SavedJobs = React.lazy(() =>
   import("../pages/Subcontractor/SavedJobs/SavedJobs")
 );
+const AllContractsSub = React.lazy(() =>
+  import("../pages/Subcontractor/AllContracts/AllContracts")
+);
 const ActiveContracts = React.lazy(() =>
   import("../pages/Subcontractor/ActiveContracts/ActiveContracts")
 );
@@ -99,6 +102,7 @@ const commonLayoutForPrivateRoutes = [
   { path: "/offer/:applicationId", component: OfferDetails },
   { path: "/candidate-list", component: CandidateList },
   { path: "/active-contracts", component: ActiveContracts },
+  { path: "/all-contracts-sub", component: AllContractsSub },
   { path: "/scontract/:contractId", component: SubContract },
   { path: "/applicants/:jobId", component: Applicants },
   { path: "/settings", component: Settings },

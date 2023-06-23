@@ -4,7 +4,7 @@ const getData = async (req, res, next) => {
   try {
     const contracts = await Job.find({
       owner_id: req.user["_id"],
-      $or: [{ status: { $eq: "a" } }, { status: { $eq: "b" } }],
+      status: { $eq: "hired" },
     });
 
     res.status(201).json({

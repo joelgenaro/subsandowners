@@ -10,6 +10,7 @@ import savedJobReducer from "./Subcontractor/savedJobSlice";
 import jobReducer from "./Subcontractor/jobSlice";
 import offerReducer from "./Subcontractor/offerSlice";
 import activeContractsReducer from "./Subcontractor/activeContractsSlice";
+import allContractsForSubReducer from "./Subcontractor/allContractsSlice";
 import scontractReducer from "./Subcontractor/scontractSlice";
 import profileReducer from "./Profile/profileSlice";
 import settingsReducer from "./Extra/settingsSlice";
@@ -30,5 +31,6 @@ export const store = configureStore({
     scontract: scontractReducer,
     profile: profileReducer,
     settings: settingsReducer,
+    allContractsForSub: allContractsForSubReducer,
   },
 });
