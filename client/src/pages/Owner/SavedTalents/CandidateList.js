@@ -16,11 +16,6 @@ const CandidateList = () => {
   const { isSuccess, isError, isLoading, message, size, paginator, data } =
     useSelector((state) => state.savedTalent);
 
-  // Get Data
-  useEffect(() => {
-    dispatch(getData({ page: 1, size: size, isSavedTalent: true }));
-  }, [size, dispatch]);
-
   // Message
   useEffect(() => {
     if (isError) {
@@ -34,6 +29,11 @@ const CandidateList = () => {
 
     dispatch(savedTalentReset());
   }, [isSuccess, isError]);
+
+  // Get Data
+  useEffect(() => {
+    dispatch(getData({ page: 1, size: size, isSavedTalent: true }));
+  }, [size, dispatch]);
 
   // Get Size
   const itemsPerPage = (e) => {

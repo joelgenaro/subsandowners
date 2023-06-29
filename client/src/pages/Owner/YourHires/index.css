@@ -1,0 +1,25 @@
+.show-more-icon{
+    position: absolute;
+    right: 22px;
+    /* top: 22px; */
+    bottom: 10px;
+}
+.moreLink{
+    text-decoration: underline;
+}
+.linkSubProfile{
+    text-decoration:none;
+}
+.mbutton{
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: underline;
+    color: initial;
+    border: aliceblue;
+    background-color: white;
+}
+.candidateProfile{
+    display: flex;
+}

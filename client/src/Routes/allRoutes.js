@@ -95,8 +95,6 @@ const commonLayoutForPrivateRoutes = [
   { path: "/my-jobs", component: MyJobs },
   { path: "/saved-jobs", component: SavedJobs },
   { path: "/saved-talents", component: SavedTalents },
-  { path: "/saved-talents", component: SavedTalents },
-  { path: "/saved-talents", component: SavedTalents },
   { path: "/proposals", component: Proposals },
   { path: "/profile", component: MyProfile },
   { path: "/offer/:applicationId", component: OfferDetails },

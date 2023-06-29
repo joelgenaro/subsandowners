@@ -18,7 +18,7 @@ const CandidateCard = ({ subcontractor }) => {
     : subcontractor.profile.slice(0, 200) + "...";
 
   useEffect(() => {
-    if (isRemoveFav == true) {
+    if (isRemoveFav === true) {
       dispatch(getData({ page: 1, size: size, isSavedTalent: true }));
     }
     dispatch(setIsRemoveFav());
@@ -57,12 +57,11 @@ const CandidateCard = ({ subcontractor }) => {
               <p className="text-muted mb-2"> </p>
               <ul className="list-inline mb-0 text-muted">
                 <li className="list-inline-item">
-                  <i className="mdi   mdi-map-marker"></i>{" "}
-                  {subcontractor.location}
+                  <i className="mdi mdi-map-marker"></i> {subcontractor.city}
                 </li>
-                <li className="list-inline-item">
+                {/* <li className="list-inline-item">
                   <i className="uil uil-wallet"></i> {subcontractor.earned}
-                </li>
+                </li> */}
               </ul>
             </div>
           </Col>

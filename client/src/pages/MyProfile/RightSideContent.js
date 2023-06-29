@@ -29,6 +29,7 @@ const RightSideContent = () => {
     (state) => state.profile
   );
   const geo = useGeoLocation();
+  const role = localStorage.getItem("role");
 
   const [profile, setProfile] = useState({});
   const [isBtLoading, setIsBtLoading] = useState(false);
@@ -155,56 +156,58 @@ const RightSideContent = () => {
                       <h5 className="fs-18 fw-bold">About</h5>
                       <p className="text-muted mt-4">{data?.profile}</p>
                     </div>
-                    <div className="candidate-education-details mt-4">
-                      <div className="candidate-education-content mt-4 d-flex">
-                        <div className="circle flex-shrink-0 bg-soft-primary">
-                          {" "}
+                    {role === "sub" ? (
+                      <div className="candidate-education-details mt-4">
+                        <div className="candidate-education-content mt-4 d-flex">
+                          <div className="circle flex-shrink-0 bg-soft-primary">
+                            {" "}
+                          </div>
+                          <div className="ms-4">
+                            <h6 className="fs-16 mb-1">Services</h6>
+                            <Card className="job-Categories-box bg-light border-0">
+                              <CardBody className="p-4">
+                                <ul className="list-unstyled job-Categories-list mb-0">
+                                  <div className="d-flex flex-wrap align-items-start gap-2">
+                                    {data?.services?.map((item) => (
+                                      <div
+                                        key={item}
+                                        className="badge rounded-pill bg-soft-primary subSet"
+                                      >
+                                        {item}
+                                      </div>
+                                    ))}
+                                  </div>
+                                </ul>
+                              </CardBody>
+                            </Card>
+                          </div>
                         </div>
-                        <div className="ms-4">
-                          <h6 className="fs-16 mb-1">Services</h6>
-                          <Card className="job-Categories-box bg-light border-0">
-                            <CardBody className="p-4">
-                              <ul className="list-unstyled job-Categories-list mb-0">
-                                <div className="d-flex flex-wrap align-items-start gap-2">
-                                  {data?.services?.map((item) => (
-                                    <div
-                                      key={item}
-                                      className="badge rounded-pill bg-soft-primary subSet"
-                                    >
-                                      {item}
-                                    </div>
-                                  ))}
-                                </div>
-                              </ul>
-                            </CardBody>
-                          </Card>
+                        <div className="candidate-education-content mt-4 d-flex">
+                          <div className="circle flex-shrink-0 bg-soft-primary">
+                            {" "}
+                          </div>
+                          <div className="ms-4">
+                            <h6 className="fs-16 mb-1">Service Area</h6>
+                            <Card className="job-Categories-box bg-light border-0">
+                              <CardBody className="p-4">
+                                <ul className="list-unstyled job-Categories-list mb-0">
+                                  <div className="d-flex flex-wrap align-items-start gap-2">
+                                    {serviceArea?.map((item) => (
+                                      <div
+                                        key={item}
+                                        className="badge rounded-pill bg-soft-primary subSet"
+                                      >
+                                        {item}
+                                      </div>
+                                    ))}
+                                  </div>
+                                </ul>
+                              </CardBody>
+                            </Card>
+                          </div>
                         </div>
                       </div>
-                      <div className="candidate-education-content mt-4 d-flex">
-                        <div className="circle flex-shrink-0 bg-soft-primary">
-                          {" "}
-                        </div>
-                        <div className="ms-4">
-                          <h6 className="fs-16 mb-1">Service Area</h6>
-                          <Card className="job-Categories-box bg-light border-0">
-                            <CardBody className="p-4">
-                              <ul className="list-unstyled job-Categories-list mb-0">
-                                <div className="d-flex flex-wrap align-items-start gap-2">
-                                  {serviceArea?.map((item) => (
-                                    <div
-                                      key={item}
-                                      className="badge rounded-pill bg-soft-primary subSet"
-                                    >
-                                      {item}
-                                    </div>
-                                  ))}
-                                </div>
-                              </ul>
-                            </CardBody>
-                          </Card>
-                        </div>
-                      </div>
-                    </div>
+                    ) : null}
                   </>
                 ) : (
                   <Row className="justify-content-center">

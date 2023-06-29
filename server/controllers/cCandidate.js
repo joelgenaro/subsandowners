@@ -34,7 +34,7 @@ const getData = async (req, res, next) => {
 
 const filter = async (req, res, next) => {
   try {
-    const filter = req.body.filter;
+    const filter = req.body.filter ? req.body.filter : "";
     const owner_id = req.user["_id"];
     const options = {
       page: 1,
@@ -55,8 +55,7 @@ const filter = async (req, res, next) => {
           $or: [
             { firstName: { $regex: filter, $options: "i" } },
             { lastName: { $regex: filter, $options: "i" } },
-            { earned: { $regex: filter, $options: "i" } },
-            { location: { $regex: filter, $options: "i" } },
+            { city: { $regex: filter, $options: "i" } },
           ],
         },
       ],
