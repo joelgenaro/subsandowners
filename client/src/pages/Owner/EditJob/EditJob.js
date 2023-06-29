@@ -32,7 +32,7 @@ const Applicants = ({ match }) => {
       const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(applicantsReset());
-  }, [isSuccess, isError, message, history, dispatch]);
+  }, [isSuccess, isError]);
 
   useEffect(() => {
     dispatch(setJobId(jobId));

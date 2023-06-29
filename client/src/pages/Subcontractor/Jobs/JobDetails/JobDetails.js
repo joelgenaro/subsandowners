@@ -37,7 +37,7 @@ const JobDetails = ({ match }) => {
       const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(jobReset());
-  }, [isSuccess, isError, message, history, dispatch]);
+  }, [isSuccess, isError]);
 
   // Get data
   useEffect(() => {

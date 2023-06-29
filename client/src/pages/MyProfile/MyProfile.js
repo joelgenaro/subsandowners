@@ -30,7 +30,7 @@ const MyProfile = () => {
       const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(profileReset());
-  }, [isSuccess, isError, message, history, dispatch]);
+  }, [isSuccess, isError]);
 
   useEffect(() => {
     dispatch(getProfile({ id: myParam, role: role }));

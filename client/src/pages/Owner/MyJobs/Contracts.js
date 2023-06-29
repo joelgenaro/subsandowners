@@ -16,10 +16,6 @@ const Contracts = () => {
   );
 
   useEffect(() => {
-    dispatch(getData());
-  }, []);
-
-  useEffect(() => {
     if (isError) {
       toast.error(message);
       if (message === "Not authorized!") {
@@ -29,7 +25,11 @@ const Contracts = () => {
       const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(myJobsReset());
-  }, [isSuccess, isError, message, history, dispatch]);
+  }, [isSuccess, isError]);
+
+  useEffect(() => {
+    dispatch(getData());
+  }, []);
 
   return (
     <React.Fragment>

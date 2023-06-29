@@ -33,7 +33,7 @@ const CandidateList = () => {
     }
 
     dispatch(savedTalentReset());
-  }, [isSuccess, isError, message, dispatch]);
+  }, [isSuccess, isError]);
 
   // Get Size
   const itemsPerPage = (e) => {

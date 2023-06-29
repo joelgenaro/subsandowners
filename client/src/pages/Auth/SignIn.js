@@ -31,7 +31,7 @@ const SignIn = () => {
     }
     dispatch(authReset());
     setIsLoading(false);
-  }, [isSuccess, isError, message, history, dispatch]);
+  }, [isSuccess, isError]);
 
   const handleChange = (e) => {
     setUserData((data) => ({ ...data, [e.target.name]: e.target.value }));

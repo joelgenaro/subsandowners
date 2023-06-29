@@ -40,7 +40,7 @@ const OfferDetails = ({ match }) => {
       }
     }
     dispatch(offerReset());
-  }, [isSuccess, isError, message, history, dispatch]);
+  }, [isSuccess, isError]);
 
   useEffect(() => {
     dispatch(getData({ id: applicationId }));

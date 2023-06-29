@@ -34,7 +34,7 @@ const ResetPassword = () => {
       history.push("/");
     }
     dispatch(authReset());
-  }, [isSuccess, isError, message, history, dispatch]);
+  }, [isSuccess, isError]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

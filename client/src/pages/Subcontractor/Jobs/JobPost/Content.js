@@ -62,7 +62,7 @@ const RightSideContent = () => {
     }
     dispatch(jobReset());
     setIsLoading(false);
-  }, [isSuccess, isError, message, history, dispatch]);
+  }, [isSuccess, isError]);
 
   // Google map Input
   useEffect(() => {

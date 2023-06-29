@@ -30,7 +30,7 @@ const JobListing = () => {
       const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(jobPostingsReset());
-  }, [isSuccess, isError, message, history]);
+  }, [isSuccess, isError]);
 
   useEffect(() => {
     dispatch(getData({ page: 1 }));

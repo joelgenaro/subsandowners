@@ -9,7 +9,7 @@ const Section = () => {
           <Row className="justify-content-center">
             <Col md={6}>
               <div className="text-center text-white">
-                <h3 className="mb-4">My Jobs</h3>
+                <h3 className="mb-4">All Contracts</h3>
               </div>
             </Col>
           </Row>

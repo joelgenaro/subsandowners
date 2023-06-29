@@ -31,7 +31,7 @@ const Proposal = () => {
     }
     dispatch(proposalReset());
     setIsLoading(false);
-  }, [isSuccess, isError, message, history, dispatch]);
+  }, [isSuccess, isError]);
 
   const handleRetract = async () => {
     if (await Confirm("Are you sure you want to retract your bid?")) {

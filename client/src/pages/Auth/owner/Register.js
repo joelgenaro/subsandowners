@@ -50,7 +50,7 @@ const RegisterForOwner = () => {
     }
     dispatch(authReset());
     setIsLoading(false);
-  }, [isSuccess, isError, message, history, dispatch]);
+  }, [isSuccess, isError]);
 
   useEffect(() => {
     initAutocomplete();

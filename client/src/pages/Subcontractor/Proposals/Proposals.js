@@ -30,7 +30,7 @@ const Proposals = () => {
       const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(proposalReset());
-  }, [isSuccess, isError, message, history, dispatch]);
+  }, [isSuccess, isError]);
 
   useEffect(() => {
     dispatch(myProposal());

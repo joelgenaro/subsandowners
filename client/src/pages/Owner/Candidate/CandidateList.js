@@ -32,7 +32,7 @@ const CandidateList = () => {
       const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(candidateListReset());
-  }, [isSuccess, isError, message, dispatch]);
+  }, [isSuccess, isError]);
 
   // Get Size
   const itemsPerPage = (e) => {

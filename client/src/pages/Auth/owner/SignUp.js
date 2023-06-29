@@ -35,7 +35,7 @@ const SignUpForOwner = () => {
     }
     dispatch(authReset());
     setIsLoading(false);
-  }, [isSuccess, isError, message, both, history, dispatch]);
+  }, [isSuccess, isError]);
 
   const onSubmit = (data) => {
     const userData = { ...data, identifier: "owner" };

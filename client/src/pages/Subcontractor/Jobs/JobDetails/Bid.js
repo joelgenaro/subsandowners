@@ -53,7 +53,7 @@ const Bid = ({ data }) => {
     }
     dispatch(proposalReset());
     setIsLoading(false);
-  }, [isSuccess, isError, message, history, dispatch]);
+  }, [isSuccess, isError]);
 
   const editCancel = () => {
     dispatch(setIsEdit(false));

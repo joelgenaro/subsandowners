@@ -35,7 +35,7 @@ const Contract = ({ match }) => {
       const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(scontractReset());
-  }, [isSuccess, isError, message, history, dispatch]);
+  }, [isSuccess, isError]);
 
   // Get data
   useEffect(() => {

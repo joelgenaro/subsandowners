@@ -28,7 +28,7 @@ const Settings = () => {
     }
 
     dispatch(settingsReset());
-  }, [isSuccess, isError, message, history, dispatch]);
+  }, [isSuccess, isError]);
 
   useEffect(() => {
     dispatch(getData());

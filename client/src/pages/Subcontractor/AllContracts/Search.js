@@ -17,8 +17,6 @@ const Search = () => {
   return (
     <React.Fragment>
       <div className="p-4 border-bottom filter">
-        <h5 className="mb-0">Active Contracts</h5>
-
         <div className="searchInput">
           <div className="filter-search-form  mt-3 mt-md-0">
             <i className="uil uil-briefcase-alt"></i>

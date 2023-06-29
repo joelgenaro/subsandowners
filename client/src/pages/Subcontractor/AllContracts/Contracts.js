@@ -28,7 +28,7 @@ const Contracts = () => {
       const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(allContractsReset());
-  }, [isSuccess, isError, message, history, dispatch]);
+  }, [isSuccess, isError]);
 
   useEffect(() => {
     dispatch(getData());

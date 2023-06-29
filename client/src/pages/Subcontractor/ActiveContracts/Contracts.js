@@ -28,7 +28,7 @@ const Contracts = () => {
       const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(activeContactsReset());
-  }, [isSuccess, isError, message, history, dispatch]);
+  }, [isSuccess, isError]);
 
   useEffect(() => {
     dispatch(getData());

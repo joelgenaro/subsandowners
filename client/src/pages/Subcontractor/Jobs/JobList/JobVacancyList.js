@@ -35,7 +35,7 @@ const JobVacancyList = () => {
       const result = message !== "" ? toast.success(message) : null;
     }
     dispatch(jobReset());
-  }, [isSuccess, isError, message, dispatch]);
+  }, [isSuccess, isError]);
 
   // Get Data
   useEffect(() => {
