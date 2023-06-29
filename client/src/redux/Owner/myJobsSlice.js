@@ -6,7 +6,7 @@ const initialState = {
   isSuccess: false,
   isError: false,
   message: null,
-  contracts: null,
+  contracts: [],
 };
 
 const errorMessageHandler = (error) => {
@@ -19,6 +19,18 @@ export const getData = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       return await myJobsService.getData(data);
+    } catch (error) {
+      const message = errorMessageHandler(error);
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const filter = createAsyncThunk(
+  "myJobs/filter",
+  async (data, thunkAPI) => {
+    try {
+      return await myJobsService.filter(data);
     } catch (error) {
       const message = errorMessageHandler(error);
       return thunkAPI.rejectWithValue(message);
@@ -50,7 +62,22 @@ export const myJobsSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
       state.message = action.payload;
-      state.contracts = null;
+      state.contracts = [];
+    });
+
+    builder.addCase(filter.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(filter.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.contracts = action.payload.contracts;
+    });
+    builder.addCase(filter.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.message = action.payload;
+      state.contracts = [];
     });
   },
 });
