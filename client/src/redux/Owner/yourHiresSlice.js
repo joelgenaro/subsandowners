@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { yourHiresService } from "../../services/Owner/yourHiresService";
 import { candidateListService } from "../../services/Owner/candidateListService";
 
 const initialState = {
@@ -38,7 +39,7 @@ export const getData = createAsyncThunk(
   "yourHires/getData",
   async (data, thunkAPI) => {
     try {
-      return await candidateListService.getData(data);
+      return await yourHiresService.getData(data);
     } catch (error) {
       const message = errorMessageHandler(error);
       return thunkAPI.rejectWithValue(message);
@@ -51,7 +52,7 @@ export const filter = createAsyncThunk(
   "yourHires/filter",
   async (data, thunkAPI) => {
     try {
-      return await candidateListService.filter(data);
+      return await yourHiresService.filter(data);
     } catch (error) {
       const message = errorMessageHandler(error);
 

@@ -31,7 +31,7 @@ const CandidateList = () => {
 
   // Get Data
   useEffect(() => {
-    dispatch(getData({ page: 1, size: size, isSavedTalent: false }));
+    dispatch(getData({ page: 1, size: size }));
   }, [size]);
 
   // Get Size

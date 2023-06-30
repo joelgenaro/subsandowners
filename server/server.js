@@ -21,6 +21,7 @@ const allContractsForSub = require("./routes/allContractsForSub.route.js");
 const scontract = require("./routes/scontract.route.js");
 const profile = require("./routes/profile.route.js");
 const settings = require("./routes/settings.route.js");
+const yourHires = require("./routes/yourHires.route.js");
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -55,6 +56,7 @@ app.use("/api/allContractsForSub", allContractsForSub);
 app.use("/api/scontract", scontract);
 app.use("/api/profile", profile);
 app.use("/api/settings", settings);
+app.use("/api/yourHires", yourHires);
 
 app.use(errorHandler);
 
