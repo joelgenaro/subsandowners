@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./Extra/authSlice";
 import candidateListReducer from "./Owner/candidateListSlice";
 import savedTalentReducer from "./Owner/savedTalentSlice";
+import yourHiresReducer from "./Owner/yourHiresSlice";
 import applicantsReducer from "./Owner/applicantsSlice";
 import jobPostingsReducer from "./Owner/jobPostingsSlice";
 import myJobsReducer from "./Owner/myJobsSlice";
@@ -20,6 +21,7 @@ export const store = configureStore({
     auth: authReducer,
     candidateList: candidateListReducer,
     savedTalent: savedTalentReducer,
+    yourHires: yourHiresReducer,
     applicants: applicantsReducer,
     myJobs: myJobsReducer,
     jobPostings: jobPostingsReducer,

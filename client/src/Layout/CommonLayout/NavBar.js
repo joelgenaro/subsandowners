@@ -255,7 +255,7 @@ const NavBar = (props) => {
                         </Link>
                       </li>
                       <li>
-                        <Link className="dropdown-item" to="#">
+                        <Link className="dropdown-item" to="/your-hires">
                           Your hires
                         </Link>
                       </li>

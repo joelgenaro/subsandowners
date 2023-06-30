@@ -2,10 +2,7 @@ import React, { memo, useState } from "react";
 import { Col, Row } from "reactstrap";
 import tempImage from "../../../assets/images/user/img-02.jpg";
 import { useDispatch } from "react-redux";
-import {
-  updateFav,
-  updateFavOfDB,
-} from "../../../redux/Owner/candidateListSlice";
+import { updateFav, updateFavOfDB } from "../../../redux/Owner/yourHiresSlice";
 
 const CandidateCard = ({ subcontractor }) => {
   const dispatch = useDispatch();

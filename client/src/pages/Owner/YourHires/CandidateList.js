@@ -6,15 +6,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import {
   getData,
-  candidateListReset,
+  yourHiresReset,
   setSize,
-} from "../../../redux/Owner/candidateListSlice";
+} from "../../../redux/Owner/yourHiresSlice";
 
 const CandidateList = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { isSuccess, isError, isLoading, message, size, paginator, data } =
-    useSelector((state) => state.candidateList);
+    useSelector((state) => state.yourHires);
 
   // Message
   useEffect(() => {
@@ -26,7 +26,7 @@ const CandidateList = () => {
     } else if (isSuccess) {
       const result = message !== "" ? toast.success(message) : null;
     }
-    dispatch(candidateListReset());
+    dispatch(yourHiresReset());
   }, [isSuccess, isError]);
 
   // Get Data

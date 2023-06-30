@@ -2,11 +2,11 @@ import React, { memo } from "react";
 import { Col, Row } from "reactstrap";
 import Pagination from "react-js-pagination";
 import { useSelector, useDispatch } from "react-redux";
-import { getData } from "../../../redux/Owner/candidateListSlice";
+import { getData } from "../../../redux/Owner/yourHiresSlice";
 
 const PaginationForSub = (props) => {
   const dispatch = useDispatch();
-  const { size, paginator } = useSelector((state) => state.candidateList);
+  const { size, paginator } = useSelector((state) => state.yourHires);
 
   // Initial Data
   const fetchData = (pageNumber) => {

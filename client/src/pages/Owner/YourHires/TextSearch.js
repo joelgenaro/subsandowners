@@ -1,11 +1,11 @@
 import React, { memo } from "react";
 import { Col, Input, Row } from "reactstrap";
 import { useSelector, useDispatch } from "react-redux";
-import { filter } from "../../../redux/Owner/candidateListSlice";
+import { filter } from "../../../redux/Owner/yourHiresSlice";
 
 const TextSearch = () => {
   const dispatch = useDispatch();
-  const { size } = useSelector((state) => state.candidateList);
+  const { size } = useSelector((state) => state.yourHires);
 
   const filterChange = (e) => {
     dispatch(

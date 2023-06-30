@@ -7,11 +7,11 @@ import Pagination from "./Pagination";
 import MetaTags from "react-meta-tags";
 import "./index.css";
 
-const Candidate = () => {
+const YourHires = () => {
   return (
     <React.Fragment>
       <MetaTags>
-        <title>Browse Labors | Bidderbadger</title>
+        <title>Your hires | Bidderbadger</title>
       </MetaTags>
       <Section />
       <section className="section">
@@ -29,4 +29,4 @@ const Candidate = () => {
   );
 };
 
-export default Candidate;
+export default YourHires;
