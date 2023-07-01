@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { savedJobService } from "../../services/Subcontractor/savedJobService";
+import { candidateListService } from "../../services/Owner/candidateListService";
 
 const initialState = {
   isLoading: false,
@@ -41,7 +42,7 @@ export const removeFav = createAsyncThunk(
   "savedJob/removeFav",
   async (data, thunkAPI) => {
     try {
-      return await savedJobService.removeFav(data);
+      return await candidateListService.removeFav(data);
     } catch (error) {
       const message = errorMessageHandler(error);
       return thunkAPI.rejectWithValue(message);

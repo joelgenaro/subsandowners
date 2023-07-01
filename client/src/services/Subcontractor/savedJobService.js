@@ -14,12 +14,6 @@ const getData = async (data) => {
   return response.data;
 };
 
-const removeFav = async (data) => {
-  const response = await axios.post(`${API_URL}/removeFav`, data, config);
-  return response.data;
-};
-
 export const savedJobService = {
   getData,
-  removeFav,
 };

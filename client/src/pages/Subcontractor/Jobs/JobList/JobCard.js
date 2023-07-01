@@ -86,7 +86,7 @@ const JobCard = ({ project }) => {
                     </p>
                   </li>{" "}
                   <li className="list-inline-item">
-                    <p className="text-muted fs-14 mb-0">
+                    <p className="text-muted fs-14 mb-0 addressMaxWidth">
                       <i className="mdi mdi-map-marker"></i>
                       {project.location}
                     </p>
