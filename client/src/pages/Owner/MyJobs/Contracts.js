@@ -49,7 +49,7 @@ const Contracts = () => {
                                 <p className="text-muted fs-14 mb-0">
                                   <h7 className="fs-17 mb-1">
                                     <Link
-                                      to={"/ocontract/" + contract._id}
+                                      to={"/applicants/" + contract._id}
                                       className="moreLink"
                                     >
                                       {capitalize(contract.title)}
@@ -68,7 +68,10 @@ const Contracts = () => {
 
                           <Col lg={4} className="contractPeriod">
                             <p className="text-muted fs-14 test-align-end">
-                              {formattedDate(contract.date_created)} - Present
+                              {formattedDate(contract.date_created)} -{" "}
+                              {contract.status === "end"
+                                ? formattedDate(contract.date_end)
+                                : "Present"}
                             </p>
                           </Col>
                         </Row>

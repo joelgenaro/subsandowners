@@ -2,36 +2,21 @@ const Job = require("../models/mJob");
 const Application = require("../models/mApplication");
 const myCustomLabels = require("../utils/paginationLabel");
 
-const queryDB = async (options, query) => {
-  const data = await Job.paginate(query, options);
-
-  const itemsListToCountProposals = data.itemsList;
-  const paginator = data.paginator;
-  const promises = itemsListToCountProposals.map((item) => getStatus(item));
-
-  const itemsList = await Promise.all(promises);
-
-  return { itemsList, paginator };
-};
-
-const getData = async (req, res, next) => {
+const queryDB = async (req, res, next, query) => {
   const options = {
-    page: req.query.page,
+    page: req.query.page || 1,
     limit: 15,
     customLabels: myCustomLabels,
   };
 
-  const query = {
-    $and: [
-      { owner_id: { $eq: req.user["_id"] } },
-      {
-        $or: [{ status: { $ne: "closed" } }, { status: { $ne: "end" } }],
-      },
-    ],
-  };
-
   try {
-    const { itemsList, paginator } = await queryDB(options, query);
+    const data = await Job.paginate(query, options);
+
+    const itemsListToCountProposals = data.itemsList;
+    const paginator = data.paginator;
+    const promises = itemsListToCountProposals.map((item) => getStatus(item));
+
+    const itemsList = await Promise.all(promises);
 
     res.status(201).json({
       success: true,
@@ -43,10 +28,38 @@ const getData = async (req, res, next) => {
   }
 };
 
+const getData = async (req, res, next) => {
+  const query = {
+    $and: [
+      { owner_id: { $eq: req.user["_id"] } },
+      {
+        status: { $ne: "end" },
+      },
+    ],
+  };
+
+  await queryDB(req, res, next, query);
+};
+
+const filter = async (req, res, next) => {
+  const query = {
+    $and: [
+      { title: { $regex: req.body.filter, $options: "i" } },
+      { owner_id: { $eq: req.user["_id"] } },
+      {
+        status: { $ne: "end" },
+      },
+    ],
+  };
+
+  await queryDB(req, res, next, query);
+};
+
 const getStatus = async (item) => {
   const applications = await Application.find({ jobId: item._id });
   let messaged = 0;
   let hired = 0;
+  let proposals = 0;
 
   applications.map((item) => {
     if (item.status === "interviewing") {
@@ -58,57 +71,31 @@ const getStatus = async (item) => {
       item.status === "requestFeedback"
     ) {
       ++hired;
+    } else {
+      ++proposals;
     }
   });
 
   return {
     ...item._doc,
-    proposals: applications.length,
+    proposals: proposals,
     messaged: messaged,
     hired: hired,
   };
 };
 
-const filter = async (req, res, next) => {
-  const options = {
-    page: 1,
-    limit: 15,
-    customLabels: myCustomLabels,
-  };
-
-  const query = {
-    $and: [
-      { title: { $regex: req.body.filter, $options: "i" } },
-      { owner_id: { $eq: req.user["_id"] } },
-      {
-        $or: [{ status: { $ne: "closed" } }, { status: { $ne: "end" } }],
-      },
-    ],
-  };
-
-  try {
-    const { itemsList, paginator } = await queryDB(options, query);
-
-    res.status(201).json({
-      success: true,
-      itemsList,
-      paginator,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
 const deleteJob = async (req, res, next) => {
+  const currentDate = new Date(Date.now());
   const ID_Delete = req.body.id;
-  const message = "Project Remove Success";
+  const message = "Project End Success";
 
   try {
     await Application.updateMany(
-      ({ jobId: ID_Delete }, { $set: { status: "closed" } })
+      ({ jobId: ID_Delete }, { $set: { status: "end" } })
     );
-
-    await Job.deleteOne({ _id: ID_Delete });
+    await Job.updateOne(
+      ({ _id: ID_Delete }, { $set: { status: "end", date_end: currentDate } })
+    );
 
     res.status(201).json({
       success: true,

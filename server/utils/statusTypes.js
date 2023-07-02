@@ -13,7 +13,6 @@
       "hired",
       "requestFeedback",
       "end",
-      "closed",
     ],
   },
 ];

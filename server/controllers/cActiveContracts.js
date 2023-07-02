@@ -21,7 +21,7 @@ const getContracts = async (req, res, next, filter) => {
   try {
     const applications = await Application.find({
       candidateId: req.user["_id"],
-      $or: [{ status: { $eq: "hired" } }, { status: { $eq: "end" } }],
+      status: { $eq: "hired" },
       ...(filter && { jobTitle: { $regex: filter, $options: "i" } }),
     });
     const promises = applications.map((item) => migrateJobAndUser(item));

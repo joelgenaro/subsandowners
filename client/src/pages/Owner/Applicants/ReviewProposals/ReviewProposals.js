@@ -13,10 +13,10 @@ const ReviewProposals = () => {
     <React.Fragment>
       <Row>
         <Col lg={12}>
-          <Filters />
+          {/* <Filters /> */}
           <div className="candidate-list">
             {!isLoading ? (
-              reviewProposals.data && jobDetails ? (
+              reviewProposals.data.length && jobDetails ? (
                 reviewProposals.data.map((proposal, key) => (
                   <CandidateDetails
                     key={key}
@@ -25,7 +25,7 @@ const ReviewProposals = () => {
                   />
                 ))
               ) : (
-                "No results matched your search"
+                <Row className="justify-content-center">No proposals</Row>
               )
             ) : (
               <Row className="justify-content-center">

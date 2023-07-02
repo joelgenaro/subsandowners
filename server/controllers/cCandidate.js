@@ -90,8 +90,6 @@ const removeFav = async (req, res, next) => {
   const filter = { _id: req.user["_id"] };
   const jobId = req.body["_id"];
 
-  console.log(filter);
-
   try {
     await User.findOneAndUpdate(filter, { $pull: { fav_subs: jobId } });
 

@@ -3,15 +3,32 @@ const Job = require("../models/mJob");
 const User = require("../models/mUser");
 const myCustomLabels = require("../utils/paginationLabel");
 
-const updateJob = async (req, res, next) => {
-  const message = "Project Update Success";
+const getApplications = async (req, res, next, status) => {
+  const options = {
+    page: req.body.page,
+    limit: 15,
+    customLabels: myCustomLabels,
+  };
+  const type = req.body.type;
+  const jobId = req.body.id;
+
+  const query = {
+    jobId: { $eq: jobId },
+    status: { $in: status },
+  };
 
   try {
-    await Job.updateOne({ _id: req.body["_id"] }, { $set: { ...req.body } });
+    const data = await Application.paginate(query, options);
+    const itemsListApplications = data.itemsList;
+    const paginator = data.paginator;
+    const promises = itemsListApplications.map((item) => getUserInfo(item));
+    const itemsList = await Promise.all(promises);
 
     res.status(201).json({
       success: true,
-      message,
+      itemsList,
+      paginator,
+      type,
     });
   } catch (error) {
     next(error);
@@ -19,75 +36,25 @@ const updateJob = async (req, res, next) => {
 };
 
 const getProposals = async (req, res, next) => {
-  const options = {
-    page: req.body.page,
-    limit: 10,
-    customLabels: myCustomLabels,
-  };
-  const type = req.body.type;
-  const jobId = req.body.id;
-
-  let query = null;
-
-  query = {
-    jobId: { $eq: jobId },
-    $or: [
-      { status: { $eq: "open" } },
-      { status: { $eq: "sendOffer" } },
-      { status: { $eq: "interviewing" } },
-    ],
-  };
-
-  try {
-    const data = await Application.paginate(query, options);
-    const itemsListApplications = data.itemsList;
-    const paginator = data.paginator;
-    const promises = itemsListApplications.map((item) => getUserInfo(item));
-    const itemsList = await Promise.all(promises);
-
-    res.status(201).json({
-      success: true,
-      itemsList,
-      paginator,
-      type,
-    });
-  } catch (error) {
-    next(error);
-  }
+  const status = ["open", "sendOffer", "interviewing"];
+  getApplications(req, res, next, status);
 };
 
 const getHiredCandidates = async (req, res, next) => {
-  const options = {
-    page: req.body.page,
-    limit: 10,
-    customLabels: myCustomLabels,
-  };
-  const type = req.body.type;
-  const jobId = req.body.id;
+  const status = ["hired", "end", "requestFeedback"];
+  getApplications(req, res, next, status);
+};
 
-  let query = null;
-
-  query = {
-    jobId: { $eq: jobId },
-    $or: [
-      { status: { $eq: "hired" } },
-      { status: { $eq: "end" } },
-      { status: { $eq: "requestFeedback" } },
-    ],
-  };
+const updateJob = async (req, res, next) => {
+  const { _id, ...updateParams } = req.body;
+  const message = "Project Update Success";
 
   try {
-    const data = await Application.paginate(query, options);
-    const itemsListApplications = data.itemsList;
-    const paginator = data.paginator;
-    const promises = itemsListApplications.map((item) => getUserInfo(item));
-    const itemsList = await Promise.all(promises);
+    await Job.updateOne({ _id }, { $set: updateParams });
 
     res.status(201).json({
       success: true,
-      itemsList,
-      paginator,
-      type,
+      message,
     });
   } catch (error) {
     next(error);

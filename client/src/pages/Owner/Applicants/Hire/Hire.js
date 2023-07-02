@@ -13,15 +13,15 @@ const Hire = () => {
     <React.Fragment>
       <Row>
         <Col lg={12}>
-          <Filters />
+          {/* <Filters /> */}
           <div className="candidate-list">
             {!isLoading ? (
-              hiredCandidates.data ? (
+              hiredCandidates.data.length ? (
                 hiredCandidates.data.map((candidate, key) => (
                   <CandidateDetails key={key} details={candidate} />
                 ))
               ) : (
-                "No results matched your search"
+                <Row className="justify-content-center">No hires</Row>
               )
             ) : (
               <Row className="justify-content-center">

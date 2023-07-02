@@ -214,18 +214,18 @@ const NavBar = (props) => {
                           Post a Job
                         </Link>
                       </li>
-                      <li>
+                      {/* <li>
                         <Link className="dropdown-item" to="/my-jobs">
                           My Jobs
                         </Link>
-                      </li>
+                      </li> */}
                       <li>
                         <Link className="dropdown-item" to="/all-jobs">
                           All Job Posts
                         </Link>
                       </li>
                       <li>
-                        <Link className="dropdown-item" to="#">
+                        <Link className="dropdown-item" to="/my-jobs">
                           All Contracts
                         </Link>
                       </li>

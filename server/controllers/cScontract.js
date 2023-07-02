@@ -3,10 +3,12 @@ const Job = require("../models/mJob");
 const User = require("../models/mUser");
 
 const giveFeedback = async (req, res, next) => {
+  const currentDate = new Date(Date.now());
   const id = req.body.id;
   const setParams = {
     $set: {
       status: "end",
+      date_completed: currentDate,
       "ownerFeedback.stars": req.body.score,
       "ownerFeedback.feedback": req.body.feedback,
     },
@@ -28,7 +30,21 @@ const giveFeedback = async (req, res, next) => {
 const getData = async (req, res, next) => {
   try {
     const application = await Application.findById(req.body.id);
-    const contractDetails = await migrationJobAndUser(application);
+    const jobInfo = await Job.findOne({ _id: application.jobId });
+    const ownerInfo = await getOwnerInfo(jobInfo.owner_id);
+
+    const contractDetails = {
+      subFeedback: application.subFeedback,
+      ownerFeedback: application.ownerFeedback,
+      jobDetails: {
+        title: jobInfo.title,
+        materialCategory: jobInfo.materialCategory,
+        startedDate: application.date_started,
+        description: jobInfo.description,
+        originalJobPostings: jobInfo._id,
+      },
+      ownerInfo: { ...ownerInfo },
+    };
 
     res.status(201).json({
       success: true,
@@ -37,26 +53,6 @@ const getData = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-
-const migrationJobAndUser = async (item) => {
-  const jobInfo = await Job.findOne({ _id: item.jobId });
-  const ownerInfo = await getOwnerInfo(jobInfo.owner_id);
-
-  return (contract = {
-    subFeedback: item.subFeedback,
-    ownerFeedback: item.ownerFeedback,
-    jobDetails: {
-      title: jobInfo.title,
-      materialCategory: jobInfo.materialCategory,
-      startedDate: item.date_started,
-      description: jobInfo.description,
-      originalJobPostings: jobInfo._id,
-    },
-    ownerInfo: {
-      ...ownerInfo,
-    },
-  });
 };
 
 const getOwnerInfo = async (id) => {

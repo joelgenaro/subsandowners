@@ -4,7 +4,6 @@ const getData = async (req, res, next) => {
   try {
     const contracts = await Job.find({
       owner_id: req.user["_id"],
-      status: "hired",
     });
 
     res.status(201).json({
@@ -20,7 +19,6 @@ const filter = async (req, res, next) => {
   try {
     const contracts = await Job.find({
       owner_id: req.user["_id"],
-      status: "hired",
       title: { $regex: req.body.filter, $options: "i" },
     });
 

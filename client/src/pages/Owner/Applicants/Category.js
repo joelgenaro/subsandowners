@@ -34,7 +34,7 @@ const Category = () => {
             <span>VIEW JOB POST</span>
           </NavLink>
         </NavItem>
-        <NavItem className="waves-effect waves-light category">
+        {/* <NavItem className="waves-effect waves-light category">
           <NavLink
             to="#"
             className={classnames({ active: basicActiveTab === "2" })}
@@ -45,7 +45,7 @@ const Category = () => {
           >
             <span>INVITE FREELANCERS </span>
           </NavLink>
-        </NavItem>
+        </NavItem> */}
         <NavItem className="waves-effect waves-light category">
           <NavLink
             to="#"
@@ -78,9 +78,9 @@ const Category = () => {
         <TabPane tabId="1">
           <ViewJobPost />
         </TabPane>
-        <TabPane tabId="2">
+        {/* <TabPane tabId="2">
           <InviteFreelancers />
-        </TabPane>
+        </TabPane> */}
         <TabPane tabId="3">
           <ReviewProposals />
         </TabPane>

@@ -5,6 +5,7 @@ const User = require("../models/mUser");
 const migrateJobAndUser = async (item) => {
   const jobInfo = await Job.findOne({ _id: item.jobId });
   const userInfo = await User.findOne({ _id: jobInfo.owner_id });
+  const status = item.status === "hired" ? "present" : item.date_completed;
 
   return {
     ID_Application: item._id,
@@ -12,8 +13,8 @@ const migrateJobAndUser = async (item) => {
     firstName: userInfo.first_name,
     lastName: userInfo.last_name,
     budget: jobInfo.budget,
-    date_updated: item.date_updated,
-    date_created: item.date_created,
+    status: status,
+    date_started: item.date_started,
   };
 };
 

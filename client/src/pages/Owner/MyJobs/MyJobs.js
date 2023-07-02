@@ -10,7 +10,7 @@ const MyJobs = () => {
   return (
     <React.Fragment>
       <MetaTags>
-        <title>My Jobs</title>
+        <title>All contracts</title>
       </MetaTags>
       <Section />
       <section className="section">

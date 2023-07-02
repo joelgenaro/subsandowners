@@ -11,15 +11,15 @@ const initialState = {
   jobDetails: null,
   isEditJob: false,
   reviewProposals: {
-    data: null,
+    data: [],
     paginator: null,
   },
   hiredCandidates: {
-    data: null,
+    data: [],
     paginator: null,
   },
   invite: {
-    data: null,
+    data: [],
     paginator: null,
   },
 };

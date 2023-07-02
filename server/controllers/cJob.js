@@ -55,7 +55,7 @@ const getAllJobs = async (req, res, next) => {
         owner_id: { $ne: owner_id },
       },
       {
-        $or: [{ status: { $ne: "closed" } }, { status: { $ne: "end" } }],
+        status: { $ne: "end" },
       },
       {
         $or: [

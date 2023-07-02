@@ -31,7 +31,7 @@ const Filters = () => {
                   </div>
                 </Col>
 
-                <Col lg={3}>
+                {/* <Col lg={3}>
                   <div className="flexCenter">
                     <Link to="#" className="btn btn-primary proposalFilter">
                       <i className="uil uil-filter"></i> Filter
@@ -51,7 +51,7 @@ const Filters = () => {
                       aria-label="Default select example"
                     ></select>
                   </div>
-                </Col>
+                </Col> */}
               </Row>
             </Form>
           </div>

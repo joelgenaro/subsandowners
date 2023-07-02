@@ -37,7 +37,7 @@ const JobListing = () => {
   }, []);
 
   const onDeleteJob = async (id) => {
-    if (await Confirm("Are you sure you want to delete your job?")) {
+    if (await Confirm("Are you sure you want to end your job?")) {
       dispatch(deleteJob({ id: id }));
     }
   };
@@ -115,16 +115,15 @@ const JobListing = () => {
                             className="list-inline-item"
                             data-bs-toggle="tooltip"
                             data-bs-placement="top"
-                            title="Delete"
                           >
                             <Link
                               to="#"
                               onClick={() => {
                                 onDeleteJob(jobListingDetails["_id"]);
                               }}
-                              className="avatar-sm bg-soft-danger d-inline-block text-center rounded-circle fs-18"
+                              className="avatar-sm bg-soft-danger d-inline-block text-center rounded-circle fs-18 p3"
                             >
-                              <i className="uil uil-trash-alt"></i>
+                              End
                             </Link>
                           </li>
                         </ul>
