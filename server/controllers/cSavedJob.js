@@ -78,4 +78,19 @@ const getData = async (req, res, next) => {
   }
 };
 
-module.exports = { getData };
+const removeFav = async (req, res, next) => {
+  const filter = { _id: req.user["_id"] };
+  const jobId = req.body["_id"];
+
+  try {
+    await User.findOneAndUpdate(filter, { $pull: { fav_jobs: jobId } });
+
+    res.status(201).json({
+      success: true,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getData, removeFav };

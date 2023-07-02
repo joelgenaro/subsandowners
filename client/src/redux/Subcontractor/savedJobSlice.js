@@ -41,8 +41,9 @@ export const getData = createAsyncThunk(
 export const removeFav = createAsyncThunk(
   "savedJob/removeFav",
   async (data, thunkAPI) => {
+    console.log(data);
     try {
-      return await candidateListService.removeFav(data);
+      return await savedJobService.removeFav(data);
     } catch (error) {
       const message = errorMessageHandler(error);
       return thunkAPI.rejectWithValue(message);

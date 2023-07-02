@@ -145,13 +145,12 @@ const updateFav = async (req, res, next) => {
   const filter = { _id: req.user["_id"] };
   const jobId = req.body["_id"];
   const is_fav = req.body.is_fav;
+  const update = is_fav
+    ? { $pull: { fav_jobs: jobId } }
+    : { $push: { fav_jobs: jobId } };
 
   try {
-    if (is_fav == true) {
-      await User.findOneAndUpdate(filter, { $pull: { fav_jobs: jobId } });
-    } else {
-      await User.findOneAndUpdate(filter, { $push: { fav_jobs: jobId } });
-    }
+    await User.findOneAndUpdate(filter, update);
 
     res.status(201).json({
       success: true,
