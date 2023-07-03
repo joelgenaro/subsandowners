@@ -72,6 +72,15 @@ const JobCard = ({ project }) => {
                       - Posted {calculateTimePosted(project.date_created)}
                     </p>
                   </li>
+                  {project.isApplied.length && (
+                    <li className="list-inline-item">
+                      <span
+                        className={`badge bg-soft-blue rounded-pill fs-13 mt-1`}
+                      >
+                        Applied
+                      </span>
+                    </li>
+                  )}
                 </ul>
                 <div className="mt-2">
                   <p className="text-dark" id="moreText">
@@ -92,7 +101,7 @@ const JobCard = ({ project }) => {
                     </p>
                   </li>
                   <li className="list-inline-item">
-                    <span className={`badge bg-soft-blue fs-13 mt-1`}>
+                    <span className={`badge bg-soft-dark fs-13 mt-1`}>
                       {project.service}
                     </span>
                   </li>

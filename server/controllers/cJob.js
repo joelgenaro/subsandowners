@@ -114,7 +114,7 @@ const getAllJobs = async (req, res, next) => {
     const fav_jobs = user.fav_jobs ? user.fav_jobs : [];
 
     const promises = itemsListToCountProposals.map((item) =>
-      countProposals(item)
+      countProposals(item, owner_id)
     );
     const itemsList = await Promise.all(promises);
 
@@ -129,8 +129,15 @@ const getAllJobs = async (req, res, next) => {
   }
 };
 
-const countProposals = async (item) => {
-  const proposals = await Application.find({ jobId: item._id });
+const countProposals = async (item, owner_id) => {
+  const proposals = await Application.find({
+    jobId: item._id,
+    $or: [{ status: { $eq: "open" } }, { status: { $eq: "sendOffer" } }],
+  });
+  const isApplied = await Application.find({
+    jobId: item._id,
+    candidateId: owner_id,
+  });
   const ownerInfo = await getOwnerInfo(item.owner_id);
 
   return {
@@ -138,6 +145,7 @@ const countProposals = async (item) => {
     proposals: proposals.length,
     feedback: ownerInfo.feedback,
     totalSpent: ownerInfo.totalSpent.totalSpent,
+    isApplied: isApplied,
   };
 };
 
