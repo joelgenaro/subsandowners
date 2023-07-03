@@ -4,12 +4,15 @@
   /* top: 22px; */
   bottom: 10px;
 }
+
 .moreLink {
   text-decoration: underline;
 }
+
 .linkSubProfile {
   text-decoration: none;
 }
+
 .mbutton {
   -webkit-appearance: button;
   -moz-appearance: button;
@@ -20,18 +23,23 @@
   border: aliceblue;
   background-color: white;
 }
+
 .candidateProfile {
   display: flex;
 }
+
 .job-description {
   font-weight: 500;
 }
+
 .perPage {
   min-width: 300px;
 }
+
 .perPageDiv {
   display: flex;
 }
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -42,4 +50,9 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+.clientStatus {
+  display: flex;
+  gap: 10px;
 }

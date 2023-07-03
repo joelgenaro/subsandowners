@@ -165,4 +165,5 @@ module.exports = {
   getJobDetails,
   getAllJobs,
   updateFav,
+  countProposals,
 };

@@ -9,6 +9,7 @@ import {
   getData,
   setIsRemoveFav,
 } from "../../../redux/Subcontractor/savedJobSlice";
+import Stars from "../../../components/Stars";
 
 const JobCard = ({ project }) => {
   const dispatch = useDispatch();
@@ -81,16 +82,13 @@ const JobCard = ({ project }) => {
                     {description}
                   </p>
                 </div>
-                <ul className="list-inline text-muted mb-0">
-                  <li className="list-inline-item text-warning review-rating">
-                    <i className="mdi mdi-star align-middle"></i>
-                    <i className="mdi mdi-star align-middle"></i>
-                    <i className="mdi mdi-star align-middle"></i>
-                    <i className="mdi mdi-star align-middle"></i>
-                    <i className="mdi mdi-star-half-full align-middle"></i>
-                  </li>
+                <ul className="list-inline text-muted mb-0 clientStatus align-items-center">
+                  <Stars score={project.feedback} />
                   <li className="list-inline-item">
-                    <p className="text-muted fs-14 mb-0">$1k+ spent</p>
+                    <p className="text-muted fs-14 mb-0">
+                      {" "}
+                      ${project.totalSpent}+ spent
+                    </p>
                   </li>{" "}
                   <li className="list-inline-item">
                     <p className="text-muted fs-14 mb-0">
@@ -127,7 +125,7 @@ const JobCard = ({ project }) => {
               <div>
                 <p className="text-muted mb-0">
                   <span className="text-dark">Proposals :</span>
-                  15
+                  {project.proposals}
                 </p>
               </div>
             </Col>

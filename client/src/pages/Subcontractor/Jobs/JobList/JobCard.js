@@ -40,7 +40,7 @@ const JobCard = ({ project }) => {
     <React.Fragment>
       <div
         className={
-          project.is_fav == true
+          project.is_fav === true
             ? "job-box bookmark-post card mt-4"
             : "job-box bookmark card mt-4"
         }

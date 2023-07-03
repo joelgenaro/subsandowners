@@ -154,9 +154,7 @@
   font-size: 25px;
 }
 
-.active-star {
-  color: rgba(247, 204, 83, 1) !important;
-}
+
 
 .mdi-star {
   cursor: pointer;

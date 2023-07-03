@@ -8,7 +8,7 @@ const initialState = {
   message: "",
   details: null,
   ownerInfo: null,
-  data: null,
+  data: [],
   paginator: null,
   fav_jobs: [],
   size: 5,
@@ -174,7 +174,7 @@ export const jobSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
       state.message = action.payload;
-      state.data = null;
+      state.data = [];
       state.paginator = null;
       state.fav_jobs = [];
     });

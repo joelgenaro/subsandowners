@@ -6,6 +6,7 @@ const migrateJobAndUser = async (item) => {
   const jobInfo = await Job.findOne({ _id: item.jobId });
   const userInfo = await User.findOne({ _id: jobInfo.owner_id });
   const status = item.status === "hired" ? "present" : item.date_completed;
+  console.log(item.status);
 
   return {
     ID_Application: item._id,

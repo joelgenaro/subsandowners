@@ -93,11 +93,11 @@ const JobVacancyList = () => {
       </Row>
       <div>
         {!isLoading ? (
-          data ? (
+          data.length ? (
             data.map((project, key) => <JobCard key={key} project={project} />)
           ) : (
             <Row className="justify-content-center">
-              "No results matched your search"
+              No results matched your search
             </Row>
           )
         ) : (

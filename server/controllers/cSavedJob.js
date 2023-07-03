@@ -1,6 +1,8 @@
 const User = require("../models/mUser");
 const Job = require("../models/mJob");
+const Application = require("../models/mApplication");
 const myCustomLabels = require("../utils/paginationLabel");
+const { countProposals } = require("./cJob");
 
 const getData = async (req, res, next) => {
   const filterOptions = req.body.filterOptions;
@@ -16,6 +18,7 @@ const getData = async (req, res, next) => {
 
   const query = {
     $and: [
+      { status: { $ne: "end" } },
       {
         _id: { $in: user.fav_jobs },
       },
@@ -65,8 +68,12 @@ const getData = async (req, res, next) => {
   try {
     const data = await Job.paginate(query, options);
 
-    const itemsList = data.itemsList;
     const paginator = data.paginator;
+    const itemsListToCountProposals = data.itemsList;
+    const promises = itemsListToCountProposals.map((item) =>
+      countProposals(item)
+    );
+    const itemsList = await Promise.all(promises);
 
     res.status(201).json({
       success: true,

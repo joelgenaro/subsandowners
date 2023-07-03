@@ -91,10 +91,12 @@ const deleteJob = async (req, res, next) => {
 
   try {
     await Application.updateMany(
-      ({ jobId: ID_Delete }, { $set: { status: "end" } })
+      { jobId: ID_Delete },
+      { $set: { status: "end" } }
     );
     await Job.updateOne(
-      ({ _id: ID_Delete }, { $set: { status: "end", date_end: currentDate } })
+      { _id: ID_Delete },
+      { $set: { status: "end", date_end: currentDate } }
     );
 
     res.status(201).json({
