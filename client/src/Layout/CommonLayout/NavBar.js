@@ -266,7 +266,7 @@ const NavBar = (props) => {
                       </li>
                     </ul>
                   </NavItem>
-                  <NavItem className="dropdown dropdown-hover">
+                  {/* <NavItem className="dropdown dropdown-hover">
                     <NavLink
                       to="#"
                       id="ownerReporst"
@@ -284,7 +284,7 @@ const NavBar = (props) => {
                       )}
                       aria-labelledby="ownerReporst"
                     ></ul>
-                  </NavItem>
+                  </NavItem> */}
 
                   <NavItem>
                     <Link className="nav-link" to="#">
@@ -362,7 +362,7 @@ const NavBar = (props) => {
                       </li>
                     </ul>
                   </NavItem>
-                  <NavItem className="dropdown dropdown-hover">
+                  {/* <NavItem className="dropdown dropdown-hover">
                     <NavLink
                       to="#"
                       id="subReports"
@@ -380,7 +380,7 @@ const NavBar = (props) => {
                       )}
                       aria-labelledby="subReports"
                     ></ul>
-                  </NavItem>
+                  </NavItem> */}
 
                   <NavItem>
                     <Link className="nav-link" to="#">
