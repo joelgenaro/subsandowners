@@ -8,7 +8,7 @@ const initialState = {
   isError: false,
   isRemoveFav: false,
   message: "",
-  data: null,
+  data: [],
   paginator: null,
   size: 5,
   filterOptions: {
@@ -85,7 +85,7 @@ export const savedJobSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
       state.message = action.payload;
-      state.data = null;
+      state.data = [];
       state.paginator = null;
     });
 

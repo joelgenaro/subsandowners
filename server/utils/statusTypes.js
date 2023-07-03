@@ -6,13 +6,6 @@
     application: ["open", "sendOffer", "hired"],
   },
   {
-    default: [
-      "open",
-      "interviewing",
-      "sendOffer",
-      "hired",
-      "requestFeedback",
-      "end",
-    ],
+    default: ["open", "interviewing", "sendOffer", "hired", "end"],
   },
 ];

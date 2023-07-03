@@ -85,12 +85,14 @@ const CandidateList = () => {
       </Row>
       <div className="candidate-list">
         {!isLoading ? (
-          data ? (
+          data.length ? (
             data.map((subcontractor, key) => (
               <CandidateCard key={key} subcontractor={subcontractor} />
             ))
           ) : (
-            "No results matched your search"
+            <Row className="justify-content-center">
+              No results matched your search
+            </Row>
           )
         ) : (
           <Row className="justify-content-center">
