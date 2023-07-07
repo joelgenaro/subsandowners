@@ -7,6 +7,7 @@ import Subscribe from "../CommonLayout/Subscribe";
 import Footer from "../CommonLayout/Footer";
 import StyleSwitcher from "../CommonLayout/StyleSwitcher";
 import ScrolltoTop from "../../components/ScrolltoTop";
+import "./index.css";
 
 const Layout = (props) => {
   return (

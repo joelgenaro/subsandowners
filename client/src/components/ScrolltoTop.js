@@ -6,6 +6,11 @@ const ScrolltoTop = () => {
 
   useEffect(() => {
     window.addEventListener("scroll", toggleVisible);
+
+    // Clean up the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("scroll", toggleVisible);
+    };
   }, []);
 
   const toggleVisible = () => {

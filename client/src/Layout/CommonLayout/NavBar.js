@@ -57,11 +57,23 @@ const NavBar = (props) => {
   //scroll navbar
   const [navClass, setnavClass] = useState(false);
 
+  const hideJobs = () => {
+    setJobs(false);
+  };
+  const hideCandidates = () => {
+    setCandidates(false);
+  };
+  const hideFindWork = () => {
+    setFindWork(false);
+  };
+  const hideMyJobs = () => {
+    setMyJobs(false);
+  };
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     window.addEventListener("scroll", scrollNavigation, true);
-  });
+  }, []);
 
   // Auth
   useEffect(() => {
@@ -93,7 +105,7 @@ const NavBar = (props) => {
     if (matchingMenuItem) {
       activateParentDropdown(matchingMenuItem);
     }
-  });
+  }, []);
 
   const switchAccount = (e) => {
     const accountToSwitch = e.target.name;
@@ -191,7 +203,10 @@ const NavBar = (props) => {
             <ul className="navbar-nav mx-auto navbar-center">
               {Token && Role === "owner" ? (
                 <>
-                  <NavItem className="dropdown dropdown-hover">
+                  <NavItem
+                    className="dropdown dropdown-hover"
+                    onMouseLeave={hideJobs}
+                  >
                     <NavLink
                       to="#"
                       id="ownerJobs"
@@ -214,11 +229,6 @@ const NavBar = (props) => {
                           Post a Job
                         </Link>
                       </li>
-                      {/* <li>
-                        <Link className="dropdown-item" to="/my-jobs">
-                          My Jobs
-                        </Link>
-                      </li> */}
                       <li>
                         <Link className="dropdown-item" to="/all-jobs">
                           All Job Posts
@@ -237,6 +247,7 @@ const NavBar = (props) => {
                       id="ownerTalent"
                       role="button"
                       onClick={() => setCandidates(!candidates)}
+                      onMouseLeave={hideCandidates}
                     >
                       Talent <div className="arrow-down"></div>
                     </NavLink>
@@ -303,6 +314,7 @@ const NavBar = (props) => {
                       id="subFindWork"
                       className="arrow-none"
                       onClick={() => setFindWork(!findWork)}
+                      onMouseLeave={hideFindWork}
                     >
                       Find Work <div className="arrow-down"></div>
                     </NavLink>
@@ -338,6 +350,7 @@ const NavBar = (props) => {
                       id="subMyJobs"
                       role="button"
                       onClick={() => setMyJobs(!myJobs)}
+                      onMouseLeave={hideMyJobs}
                     >
                       My Jobs <div className="arrow-down"></div>
                     </NavLink>
