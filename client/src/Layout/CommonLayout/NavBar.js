@@ -25,8 +25,8 @@ import { useCookies } from "react-cookie";
 
 const NavBar = (props) => {
   // Auth
-  const [cookies, setCookie] = useCookies();
-  const { isLogoutSuccess, isError, message, user } = useSelector(
+  const [cookies] = useCookies();
+  const { isLogoutSuccess, isError, message } = useSelector(
     (state) => state.auth
   );
   let Token = cookies.token;
@@ -41,14 +41,8 @@ const NavBar = (props) => {
   const toggle = () => setIsOpen(!isOpen);
   const [jobs, setJobs] = useState(false);
   const [candidates, setCandidates] = useState(false);
-  const [ownerReports, setOwnerReports] = useState(false);
   const [findWork, setFindWork] = useState(false);
   const [myJobs, setMyJobs] = useState(false);
-  const [subReports, setSubReports] = useState(false);
-
-  //Notification Dropdown
-  const [notification, setNotification] = useState(false);
-  const dropDownnotification = () => setNotification((prevState) => !prevState);
 
   //user Profile Dropdown
   const [userProfile, setUserProfile] = useState(false);

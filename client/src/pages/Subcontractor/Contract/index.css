@@ -4,6 +4,11 @@
   padding-bottom: 10px;
 }
 
+.contractStatus {
+  display: flex;
+  justify-content: end;
+}
+
 .clientName {
   display: flex;
   flex-direction: row;
@@ -50,4 +55,8 @@ button:disabled {
 
 .modal-dialog {
   max-width: 850px;
+}
+
+.statusBtn {
+  opacity: 1 !important;
 }

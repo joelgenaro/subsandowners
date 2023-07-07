@@ -12,36 +12,59 @@ const Section = () => {
         <Container>
           <Row className="justify-content-start">
             {data ? (
-              <Col md={6}>
-                <div className="clientName">
-                  <div className="candidate-list-images">
-                    <img
-                      src={data?.ownerInfo?.avatar}
-                      alt=""
-                      className="avatar-md img-thumbnail rounded-circle"
-                    />
+              <>
+                <Col md={6}>
+                  <div className="clientName">
+                    <div className="candidate-list-images">
+                      <img
+                        src={data?.ownerInfo?.avatar}
+                        alt=""
+                        className="avatar-md img-thumbnail rounded-circle"
+                      />
+                    </div>
+                    <div className="candidate-list-content mt-5 mt-lg-0">
+                      <h5 className="fs-19 mb-0">
+                        <p className="primary-link">{data?.ownerInfo?.name}</p>
+                      </h5>
+                      <p className="text-muted mb-2"> </p>
+                      <ul className="list-inline mb-0 text-muted">
+                        <li className="list-inline-item">
+                          <i className="mdi   mdi-map-marker"></i>{" "}
+                          {data?.ownerInfo?.city}
+                        </li>
+                        <li className="list-inline-item">
+                          <i className="uil uil-wallet"></i>{" "}
+                          <Clock city={data?.ownerInfo?.city} />
+                        </li>
+                      </ul>
+                    </div>
                   </div>
-                  <div className="candidate-list-content mt-5 mt-lg-0">
-                    <h5 className="fs-19 mb-0">
-                      <p className="primary-link">{data?.ownerInfo?.name}</p>
-                    </h5>
-                    <p className="text-muted mb-2"> </p>
-                    <ul className="list-inline mb-0 text-muted">
-                      <li className="list-inline-item">
-                        <i className="mdi   mdi-map-marker"></i>{" "}
-                        {data?.ownerInfo?.city}
-                      </li>
-                      <li className="list-inline-item">
-                        <i className="uil uil-wallet"></i>{" "}
-                        <Clock city={data?.ownerInfo?.city} />
-                      </li>
-                    </ul>
+                  <div className="text-start mt-5">
+                    <h3>{data?.jobDetails?.title}</h3>
                   </div>
-                </div>
-                <div className="text-start mt-5">
-                  <h3>{data?.jobDetails?.title}</h3>
-                </div>
-              </Col>
+                </Col>
+                <Col md={6}>
+                  <div className="contractStatus">
+                    {data?.jobDetails.status === "hired" ? (
+                      <button
+                        type="button"
+                        disabled
+                        class="btn btn-soft-success rounded-pill statusBtn"
+                      >
+                        Accepted
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        disabled
+                        class="btn btn-soft-info rounded-pill statusBtn"
+                      >
+                        Completed
+                      </button>
+                    )}
+                  </div>
+                </Col>
+              </>
             ) : null}
           </Row>
         </Container>

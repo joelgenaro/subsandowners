@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Row, Input, Form, CardBody, Label } from "reactstrap";
+import { Col, Row, Input, Form, CardBody, Label, Button } from "reactstrap";
 import {
   categoryOptions,
   aluminumOptions,
@@ -24,13 +24,10 @@ import convertServiceLabelToValue from "../../../../helper/convertServiceLabelTo
 
 const EditJob = () => {
   const dispatch = useDispatch();
-  const { jobDetails, isError, isSuccess } = useSelector(
-    (state) => state.applicants
-  );
+  const { jobDetails } = useSelector((state) => state.applicants);
   const [project, setProject] = useState({});
   const [isShowRadioForRemoval, setIsShowRadioForRemoval] = useState("no");
   const [styleOptions, setStyleOptions] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [service, setService] = useState(null);
 
   useEffect(() => {
@@ -38,10 +35,6 @@ const EditJob = () => {
     setService(convertServiceLabelToValue(jobDetails.service));
     styleOptionsToSwitch(jobDetails.materialCategory);
   }, []);
-
-  useEffect(() => {
-    setIsLoading(false);
-  }, [isSuccess, isError]);
 
   useEffect(() => {
     setProject((data) => ({ ...data, service: service?.label }));
@@ -126,14 +119,9 @@ const EditJob = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setIsLoading(true);
-
     dispatch(updateJob(project));
     dispatch(setJobDetails(project));
-
-    setInterval(() => {
-      dispatch(setJobEdit(false));
-    }, 1000);
+    dispatch(setJobEdit(false));
   };
 
   return (
@@ -459,12 +447,9 @@ const EditJob = () => {
                   >
                     Cancel
                   </Link>
-                  <LoadingButton
-                    disabled={isLoading}
-                    className={"btn btn-primary"}
-                    isLoading={isLoading}
-                    title={"Save"}
-                  />
+                  <button to="#" type="submit" className="btn btn-primary">
+                    Save
+                  </button>
                 </div>
               </Form>
             </CardBody>

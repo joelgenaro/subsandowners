@@ -25,9 +25,7 @@ const ClientInfo = () => {
                       <i className="uil uil-location-point icon bg-soft-primary"></i>
                       <div className="ms-3">
                         <h6 className="fs-14 mb-2">{ownerInfo?.country}</h6>
-                        <p className="text-muted mb-0">
-                          {ownerInfo?.city} <Clock city={ownerInfo?.city} />
-                        </p>
+                        <p className="text-muted mb-0">{ownerInfo?.city}</p>
                       </div>
                     </div>
                   </li>

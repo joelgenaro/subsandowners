@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { CardBody, Col, Row } from "reactstrap";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";

@@ -21,7 +21,7 @@ const Contract = ({ match }) => {
   } = match;
   const history = useHistory();
   const dispatch = useDispatch();
-  const { isLoading, data, isSuccess, isError, message } = useSelector(
+  const { data, isSuccess, isError, message } = useSelector(
     (state) => state.scontract
   );
   // Check message

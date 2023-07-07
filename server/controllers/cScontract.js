@@ -40,6 +40,7 @@ const getData = async (req, res, next) => {
         title: jobInfo.title,
         materialCategory: jobInfo.materialCategory,
         startedDate: application.date_started,
+        status: application.status,
         description: jobInfo.description,
         originalJobPostings: jobInfo._id,
       },

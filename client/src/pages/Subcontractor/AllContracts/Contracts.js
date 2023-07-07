@@ -82,7 +82,9 @@ const Contracts = () => {
                           <Col lg={4} className="contractPeriod">
                             <p className="text-muted fs-14 test-align-end">
                               {formattedDate(contract.date_started)} -{" "}
-                              {formattedDate(contract.status)}
+                              {contract.status === "hired"
+                                ? "present"
+                                : formattedDate(contract.status)}
                             </p>
                           </Col>
                         </Row>

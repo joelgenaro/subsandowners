@@ -72,7 +72,7 @@ const JobCard = ({ project }) => {
                       - Posted {calculateTimePosted(project.date_created)}
                     </p>
                   </li>
-                  {project.isApplied.length && (
+                  {project.isApplied.length > 0 && (
                     <li className="list-inline-item">
                       <span
                         className={`badge bg-soft-blue rounded-pill fs-13 mt-1`}

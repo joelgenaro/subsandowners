@@ -1,8 +1,7 @@
 import React from "react";
-import { Card, CardBody, Row } from "reactstrap";
+import { Card, CardBody } from "reactstrap";
 import { useSelector } from "react-redux";
 import Stars from "../../../components/Stars";
-import Clock from "../../../components/Clock";
 import formattedDate from "../../../helper/formattedDate";
 
 const CompanyInformation = () => {
@@ -25,7 +24,6 @@ const CompanyInformation = () => {
                       <h6 className="fs-14 mb-2">{data?.ownerInfo?.country}</h6>
                       <p className="text-muted mb-0">
                         {data?.ownerInfo?.city}{" "}
-                        <Clock city={data?.ownerInfo?.city} />
                       </p>
                     </div>
                   </div>

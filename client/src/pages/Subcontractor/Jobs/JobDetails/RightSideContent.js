@@ -19,9 +19,7 @@ const RightSideContent = ({ data }) => {
                   <i className="uil uil-location-point icon bg-soft-primary"></i>
                   <div className="ms-3">
                     <h6 className="fs-14 mb-2">{data?.country}</h6>
-                    <p className="text-muted mb-0">
-                      {data?.city} <Clock city={data?.city} />
-                    </p>
+                    <p className="text-muted mb-0">{data?.city}</p>
                   </div>
                 </div>
               </li>
