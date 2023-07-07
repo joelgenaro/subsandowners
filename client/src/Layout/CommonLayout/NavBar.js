@@ -189,7 +189,7 @@ const NavBar = (props) => {
             id="navbarCollapse"
           >
             <ul className="navbar-nav mx-auto navbar-center">
-              {Role === "owner" ? (
+              {Token && Role === "owner" ? (
                 <>
                   <NavItem className="dropdown dropdown-hover">
                     <NavLink
@@ -295,7 +295,7 @@ const NavBar = (props) => {
               ) : (
                 ""
               )}
-              {Role === "sub" ? (
+              {Token && Role === "sub" ? (
                 <>
                   <NavItem className="dropdown dropdown-hover">
                     <NavLink
@@ -435,7 +435,7 @@ const NavBar = (props) => {
                       My Profile
                     </Link>
                   </li>
-                  {both === "true" && Role == "sub" ? (
+                  {both === "true" && Role === "sub" ? (
                     <li>
                       <Link
                         className="dropdown-item"
@@ -449,7 +449,7 @@ const NavBar = (props) => {
                   ) : (
                     ""
                   )}
-                  {both === "true" && Role == "owner" ? (
+                  {both === "true" && Role === "owner" ? (
                     <li>
                       <Link
                         className="dropdown-item"

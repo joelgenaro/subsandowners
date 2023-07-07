@@ -123,7 +123,7 @@ const JobCard = ({ project }) => {
             </Col>
           </Row>
           <div className="favorite-icon">
-            <a href="javascript:;" onClick={changeFav}>
+            <a href="#" onClick={changeFav}>
               <i className="uil uil-heart-alt fs-18"></i>
             </a>
           </div>

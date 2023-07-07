@@ -7,7 +7,7 @@ const SelectOptions = ({ datas, defaultValue }) => {
         <option
           key={key}
           value={data.value}
-          selected={data.value === defaultValue ? true : false}
+          defaultValue={data.value === defaultValue ? true : false}
         >
           {data.value}
         </option>
